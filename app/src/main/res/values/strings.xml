@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name" translatable="false">Village To City Reseiling App</string>
+
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="image_url">Image URL</string>
+
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_now">Login Now</string>
+    <string name="signup_now">Sign Up Now</string>
+
+    <string name="google_login">Continue with Google</string>
+
+    <string name="no_account">Don’t have an account? <font color='#4CAF50'>Sign up</font></string>
+    <string name="have_account">Already have an account? <font color='#4CAF50'>Login</font></string>
+
+    <string name="home" translatable="false">Home</string>
+    <string name="menu" translatable="false">Menu</string>
+    <string name="orders" translatable="false">Orders</string>
+    <string name="dashboard" translatable="false">Dashboard</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

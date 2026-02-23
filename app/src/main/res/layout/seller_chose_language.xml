@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_gradient"
+    android:paddingTop="120dp">
+
+    <!-- Language Icon -->
+    <ImageView
+        android:id="@+id/imgLanguage"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_translate"
+        android:tint="#2DBE60" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Language"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_marginTop="16dp" />
+
+    <!-- Urdu Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUrdu"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="اردو"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:background="@drawable/btn_white_rounded"/>
+
+
+    <!-- English Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEnglish"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="English"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:background="@drawable/btn_white_rounded"/>
+
+
+</LinearLayout>

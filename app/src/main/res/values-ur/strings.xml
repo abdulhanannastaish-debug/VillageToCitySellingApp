@@ -1,0 +1,27 @@
+<resources>
+    <string name="login">لاگ ان</string>
+    <string name="signup">اکاؤنٹ بنائیں</string>
+
+    <string name="email">ای میل</string>
+    <string name="password">پاس ورڈ</string>
+    <string name="name">نام</string>
+    <string name="profile_image">پروفائل تصویر</string>
+    <string name="image_url">تصویر کا لنک</string>
+
+    <string name="forgot_password">پاس ورڈ بھول گئے؟</string>
+    <string name="login_now">لاگ ان کریں</string>
+    <string name="signup_now">سائن اپ کریں</string>
+
+    <string name="google_login">گوگل سے سائن ان کریں</string>
+
+
+
+    <string name="no_account"> اکاؤنٹ نہیں ہے؟ <font color='#4CAF50'>سائن اپ کریں</font></string>
+    <string name="have_account">پہلے سے اکاؤنٹ ہے؟ <font color='#4CAF50'>سائن ان کریں</font></string>
+
+
+    <string name="home">ہوم</string>
+    <string name="menu">مینو</string>
+    <string name="orders">آرڈرز</string>
+    <string name="dashboard">ڈیش بورڈ</string>
+</resources>
