@@ -20,6 +20,7 @@
         android:orientation="horizontal"
         android:background="@android:color/white"
         android:weightSum="4"
+        android:id="@+id/bottomnav"
         android:elevation="8dp">
 
         <!-- Home -->
@@ -102,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dashboard"
+                android:text="@string/profile"
                 android:textSize="12sp"/>
         </LinearLayout>
 

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         dashboardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new seller_fragment_dashboard());
+                loadFragment(new seller_fragment_profile());
             }
         });
     }

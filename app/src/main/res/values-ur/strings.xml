@@ -23,5 +23,39 @@
     <string name="home">ہوم</string>
     <string name="menu">مینو</string>
     <string name="orders">آرڈرز</string>
-    <string name="dashboard">ڈیش بورڈ</string>
+    <string name="profile"> پروفائل</string>
+
+    <string name="greeting">السلام علیکم</string>
+    <string name="user_name">احمد خان</string>
+
+    <string name="products">مصنوعات</string>
+    <string name="total_sales">کل فروخت</string>
+
+    <string name="add_new_product">نئی چیز اپ لوڈ کریں</string>
+
+    <string name="my_products">میری چیزیں</string>
+    <string name="balance">بیلنس</string>
+    <string name="messages">پیغامات</string>
+
+
+        <string name="user_status">بیچنے والا</string>
+        <string name="user_phone">0300-1234567</string>
+        <string name="user_address">گاؤں چک نمبر 123، ضلع قصور</string>
+        <string name="user_cnic">35202-1234567-1</string>
+
+
+        <string name="profile_edit">پروفائل میں ترمیم</string>
+        <string name="info_order">اطلاعات کی ترتیبات</string>
+        <string name="help_support">مدد اور معاونت</string>
+        <string name="terms_conditions">شرائط و ضوابط</string>
+
+
+        <string name="logout">لاگ آؤٹ</string>
+        <string name="version">ورژن 1.0.0</string>
+
+
+        <string name="phone">فون نمبر</string>
+        <string name="address">پتہ</string>
+        <string name="cnic">شناختی کارڈ</string>
+
 </resources>

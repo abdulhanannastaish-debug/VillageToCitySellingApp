@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile"
+
+            android:textColor="@color/black"
+            android:textSize="34sp"
+            android:textFontWeight="@integer/material_motion_duration_long_1"
+            />
+
+        <!-- Header -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/green"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/girl"
+                android:background="@android:color/darker_gray"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:contentDescription="@string/profile_image"
+                android:clipToOutline="true"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@android:color/darker_gray"
+                android:outlineProvider="background"
+                android:shape="oval"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_status"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <!-- Profile Info Card -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginTop="-50dp"
+            android:elevation="6dp"
+            android:clipToPadding="false"
+            android:backgroundTint="@android:color/white"
+            android:layout_marginBottom="16dp"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+
+            <!-- Info Item Template -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="8dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/baseline_menu_24"
+                    android:contentDescription="@string/name"
+                    android:tint="@color/green"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_name"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="8dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/baseline_snowshoeing_24"
+                    android:contentDescription="@string/phone"
+                    android:tint="@color/green"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_phone"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="8dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/baseline_menu_24"
+                    android:contentDescription="@string/address"
+                    android:tint="@color/green"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_address"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="8dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/baseline_snowshoeing_24"
+                    android:contentDescription="@string/cnic"
+                    android:tint="@color/green"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_cnic"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Options -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:layout_marginBottom="16dp"
+            android:clipToPadding="false"
+            android:backgroundTint="@android:color/white">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_edit"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/baseline_menu_24"
+                android:drawablePadding="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_order"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/baseline_menu_24"
+                android:drawablePadding="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_support"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/baseline_snowshoeing_24"
+                android:drawablePadding="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_conditions"
+                android:padding="16dp"
+                android:drawableEnd="@drawable/baseline_home_24"
+                android:drawablePadding="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Logout Button -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:textColor="@android:color/holo_red_dark"
+            android:gravity="center"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textSize="16sp"/>
+
+        <!-- Version -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:textColor="#757575"/>
+    </LinearLayout>
+</ScrollView>
+
+
+
+
+
