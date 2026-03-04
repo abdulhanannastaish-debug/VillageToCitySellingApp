@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="login">لاگ ان</string>
     <string name="signup">اکاؤنٹ بنائیں</string>
 
@@ -21,8 +21,7 @@
 
 
     <string name="home">ہوم</string>
-    <string name="menu">مینو</string>
-    <string name="orders">آرڈرز</string>
+<!--    <string name="menu">مینو</string>-->
     <string name="profile"> پروفائل</string>
 
     <string name="greeting">السلام علیکم</string>
@@ -33,9 +32,7 @@
 
     <string name="add_new_product">نئی چیز اپ لوڈ کریں</string>
 
-    <string name="my_products">میری چیزیں</string>
-    <string name="balance">بیلنس</string>
-    <string name="messages">پیغامات</string>
+
 
 
         <string name="user_status">بیچنے والا</string>
@@ -57,5 +54,34 @@
         <string name="phone">فون نمبر</string>
         <string name="address">پتہ</string>
         <string name="cnic">شناختی کارڈ</string>
+    <string name="wallet">والیٹ</string>
+
+    <string name="my_products">میری چیزیں</string>
+    <string name="orders">آرڈرز</string>
+    <string name="balance">بیلنس</string>
+    <string name="messages">پیغامات</string>
+    <string name="recent_notifications">حالیہ اطلاعات</string>
+    <string name="order_received">نیا آرڈر موصول ہوا</string>
+    <string name="order_desc">دیسی گھی کی منظوری مل گئی</string>
+    <string name="time_ago">2 گھنٹے پہلے</string>
+
+<!--    menu-->
+
+        <string name="menu" tools:ignore="DuplicateDefinition">میری مصنوعات</string>
+        <string name="add_new_item">نیا آئٹم شامل کریں </string>
+        <string name="item_image"> آئٹم تصویر</string>
+        <string name="active">فعال</string>
+        <string name="edit">ترمیم کریں </string>
+        <string name="delete">حذف کریں</string>
+
+<!--    menu item add-->
+
+    <string name="item_name">آئٹم کا نام</string>
+    <string name="item_price">قیمت</string>
+    <string name="item_quantity">مقدار</string>
+    <string name="item_description">تفصیل</string>
+    <string name="add_item">آئٹم شامل کریں</string>
+    <string name="upload_image">تصویر اپ لوڈ کریں</string>
+
 
 </resources>
