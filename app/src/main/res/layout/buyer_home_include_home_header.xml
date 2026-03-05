@@ -1,0 +1,50 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:background="#2F6BFF"
+    android:padding="20dp">
+
+    <!-- Cart Icon -->
+
+    <ImageView
+        android:id="@+id/cartIcon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/baseline_menu_24"
+        android:tint="#FFFFFF"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
+    <!-- Text Container -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Welcome Back!"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Ali Ahmad"
+            android:textSize="14sp"
+            android:textColor="#DDE6FF"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
+
+

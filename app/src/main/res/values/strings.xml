@@ -20,7 +20,6 @@
     <string name="have_account">Already have an account? <font color='#4CAF50'>Login</font></string>
 
 
-
     <string name="home" translatable="false">Home</string>
     <string name="menu" translatable="false">Menu</string>
     <string name="profile" translatable="false">Profile</string>
@@ -38,44 +37,40 @@
     <string name="messages">Messages</string>
     <string name="recent_notifications" translatable="false">Recent Notifications</string>
 
-<!--    menu -->
+    <!--    menu -->
 
 
+    <string name="user_status">Seller</string>
+    <string name="user_phone">0300-1234567</string>
+    <string name="user_address">Village Chak No. 123, District Kasur</string>
+    <string name="user_cnic">35202-1234567-1</string>
 
+    <!-- Options -->
+    <string name="profile_edit">Edit Profile</string>
+    <string name="info_order">Information Settings</string>
+    <string name="help_support">Help  Support</string>
+    <string name="terms_conditions">Terms  Conditions</string>
 
+    <!-- Misc -->
+    <string name="logout">Logout</string>
+    <string name="version">Version 1.0.0</string>
 
-
-        <string name="user_status">Seller</string>
-        <string name="user_phone">0300-1234567</string>
-        <string name="user_address">Village Chak No. 123, District Kasur</string>
-        <string name="user_cnic">35202-1234567-1</string>
-
-        <!-- Options -->
-        <string name="profile_edit">Edit Profile</string>
-        <string name="info_order">Information Settings</string>
-        <string name="help_support">Help  Support</string>
-        <string name="terms_conditions">Terms  Conditions</string>
-
-        <!-- Misc -->
-        <string name="logout">Logout</string>
-        <string name="version">Version 1.0.0</string>
-
-        <!-- Accessibility -->
-        <string name="phone">Phone Number</string>
-        <string name="address">Address</string>
-        <string name="cnic">National ID</string>
+    <!-- Accessibility -->
+    <string name="phone">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="cnic">National ID</string>
     <string name="wallet">Wallet</string>
 
 
-<!--    menu-->
+    <!--    menu-->
 
-        <string name="add_new_item" translatable="false">Add New Item</string>
-        <string name="item_image">Item Image</string>
-        <string name="active">Active</string>
-        <string name="edit">Edit</string>
-        <string name="delete">Delete</string>
+    <string name="add_new_item" translatable="false">Add New Item</string>
+    <string name="item_image">Item Image</string>
+    <string name="active">Active</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
-<!--    menu item add-->
+    <!--    menu item add-->
     <string name="item_name">Item Name</string>
     <string name="item_price">Price</string>
     <string name="item_quantity">Quantity</string>

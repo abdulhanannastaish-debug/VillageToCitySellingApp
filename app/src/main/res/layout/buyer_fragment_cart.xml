@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#F2F4F7"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Top Bar -->
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2F6BFF"
+        android:gravity="center"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:text="Cart"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!-- Cart Items -->
+
+    <ScrollView
+        android:layout_below="@id/topBar"
+        android:layout_above="@id/bottomnav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/buyer_cart_include_cart_item"/>
+            <include layout="@layout/buyer_cart_include_cart_item"/>
+            <include layout="@layout/buyer_cart_include_cart_item"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>
+

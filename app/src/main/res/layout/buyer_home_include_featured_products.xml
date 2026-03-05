@@ -1,0 +1,49 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Title -->
+
+    <TextView
+        android:text="Featured Products"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Row 1 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include layout="@layout/buyer_home_item_product"/>
+        <include layout="@layout/buyer_home_item_product"/>
+
+    </LinearLayout>
+
+    <!-- Row 2 -->
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include layout="@layout/buyer_home_item_product"/>
+        <include layout="@layout/buyer_home_item_product"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+

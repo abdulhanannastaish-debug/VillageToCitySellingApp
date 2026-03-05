@@ -1,0 +1,85 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:layout_marginBottom="12dp"
+    android:background="#FFFFFF"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <!-- Product Image -->
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="#C8D8F8"
+        android:src="@drawable/baseline_home_24"/>
+
+    <!-- Product Info -->
+
+    <LinearLayout
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Pure Desi Ghee"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Village Chak 123"
+            android:textSize="12sp"
+            android:textColor="#777"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Rs 1500"
+            android:textColor="#2F6BFF"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!-- Quantity -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="40dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="+"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="-"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+

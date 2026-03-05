@@ -1,0 +1,16 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Search for products..."
+        android:padding="14dp"
+        android:background="@drawable/search_bg"
+        android:drawableStart="@android:drawable/ic_menu_search"/>
+
+</LinearLayout>
+
