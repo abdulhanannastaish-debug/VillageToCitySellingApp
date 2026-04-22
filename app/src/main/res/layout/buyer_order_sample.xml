@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:text="Delete"
                             android:textColor="#FFFFFF"
-                            android:backgroundTint="#F44336"
+                            android:backgroundTint="#E91E63"
                             android:textStyle="bold"
                             android:layout_marginStart="8dp"/>
                     </LinearLayout>
