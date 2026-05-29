@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_splash_gradient"
@@ -18,7 +18,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/baseline_snowshoeing_24"
-            android:tint="#00C853"/>
+            app:tint="#00C853" />
     </LinearLayout>
 
     <!-- App Name -->
@@ -29,7 +29,7 @@
         android:textColor="#FFFFFF"
         android:textSize="26sp"
         android:textStyle="bold"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp" />
 
     <!-- Tagline -->
     <TextView
@@ -38,6 +38,6 @@
         android:text="Village Products to City Buyers"
         android:textColor="#E0F2F1"
         android:textSize="14sp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>

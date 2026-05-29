@@ -10,29 +10,94 @@
     <!-- Title -->
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Categories"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#222222"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textColor="#222222"/>
 
     <!-- Grid -->
 
     <GridLayout
         android:layout_marginTop="14dp"
-        android:columnCount="3"
+        android:columnCount="2"
         android:alignmentMode="alignMargins"
         android:useDefaultMargins="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/buyer_home_item_category"/>
-        <include layout="@layout/buyer_home_item_category"/>
-        <include layout="@layout/buyer_home_item_category"/>
-        <include layout="@layout/buyer_home_item_category"/>
-        <include layout="@layout/buyer_home_item_category"/>
-        <include layout="@layout/buyer_home_item_category"/>
+        <!-- Food Items -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="Food Items"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="#E8F5E9"
+            android:padding="10dp"/>
+
+        <!-- Handicrafts -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="Handicrafts"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="#FFF3E0"
+            android:padding="10dp"/>
+
+        <!-- Agri Products -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="Agri Products"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="#E3F2FD"
+            android:padding="10dp"/>
+
+        <!-- Dairy Products -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="Dairy Products"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="#F3E5F5"
+            android:padding="10dp"/>
+
+        <!-- Home & Living -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="herbal"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="#E0F2F1"
+            android:padding="10dp"/>
+
+        <!-- Seasonal Items -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="Seasonal Items"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="#FCE4EC"
+            android:padding="10dp"/>
 
     </GridLayout>
 

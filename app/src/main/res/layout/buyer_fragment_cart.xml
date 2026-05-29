@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#F2F4F7"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,24 +15,21 @@
         android:layout_height="56dp"
         android:background="#2F6BFF"
         android:gravity="center"
-
         android:orientation="vertical">
 
         <TextView
-            android:text="Cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add To Cart"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 
     <!-- Cart Items -->
 
     <ScrollView
         android:layout_below="@id/topBar"
-        android:layout_above="@id/bottomnav"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,15 +39,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/buyer_cart_include_cart_item"/>
-            <include layout="@layout/buyer_cart_include_cart_item"/>
-            <include layout="@layout/buyer_cart_include_cart_item"/>
+            <!-- ITEM 1 -->
+            <include
+                android:id="@+id/item1"
+                layout="@layout/buyer_cart_include_cart_item"/>
+
+            <!-- ITEM 2 -->
+            <include
+                android:id="@+id/item2"
+                layout="@layout/buyer_cart_include_cart_item"/>
+
+            <!-- ITEM 3 -->
+            <include
+                android:id="@+id/item3"
+                layout="@layout/buyer_cart_include_cart_item"/>
 
         </LinearLayout>
 
     </ScrollView>
-
-
 
 </RelativeLayout>
 

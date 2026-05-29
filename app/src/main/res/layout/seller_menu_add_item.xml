@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F4F7"
@@ -24,11 +24,12 @@
 
             <ImageButton
                 android:id="@+id/btn_back"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_media_previous"
-                android:tint="#000000"/>
+                android:contentDescription="Back Button"
+                app:tint="#000000"/>
 
             <TextView
                 android:id="@+id/tv_add_item_title"
@@ -56,7 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@android:drawable/ic_menu_camera"/>
+                android:src="@android:drawable/ic_menu_camera"
+                android:contentDescription="@string/upload_image"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,6 +87,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:hint="@string/item_name"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"/>
 
@@ -98,13 +101,13 @@
             android:layout_marginEnd="16dp"
             android:weightSum="2">
 
+            <!-- Price -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginEnd="8dp"
-                >
+                android:layout_marginEnd="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -117,14 +120,16 @@
                     android:id="@+id/et_item_price"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:hint="@string/item_price"
+                    android:inputType="numberDecimal"
                     android:background="@android:drawable/edit_text"
-                    android:padding="12dp"
-                    android:inputType="numberDecimal"/>
+                    android:padding="12dp"/>
             </LinearLayout>
 
+            <!-- Quantity -->
             <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_marginStart="8dp">
@@ -140,12 +145,13 @@
                     android:id="@+id/et_item_quantity"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:hint="@string/item_quantity"
                     android:background="@android:drawable/edit_text"
                     android:padding="12dp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ========== Description with Voice Mic ========== -->
+        <!-- ========== Description (FIXED) ========== -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,35 +161,20 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"/>
 
-        <RelativeLayout
+        <EditText
+            android:id="@+id/et_item_description"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:hint="Enter Your Description....."
+            android:background="@android:drawable/edit_text"
+            android:padding="12dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"/>
 
-            <EditText
-                android:id="@+id/et_item_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp"
-                android:gravity="top"
-                android:inputType="textMultiLine"/>
-
-            <ImageButton
-                android:id="@+id/btn_voice_description"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_btn_speak_now"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="#4CAF50"
-                android:layout_marginEnd="8dp"/>
-        </RelativeLayout>
-
-        <!-- ========== Add Item Button ========== -->
+        <!-- ========== Add Button ========== -->
         <Button
             android:id="@+id/btn_add_item"
             android:layout_width="match_parent"
@@ -192,8 +183,8 @@
             android:backgroundTint="#4CAF50"
             android:text="@string/add_item"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:textStyle="bold"/>
 
     </LinearLayout>
+
 </ScrollView>
