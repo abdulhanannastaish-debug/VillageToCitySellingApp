@@ -1,4 +1,4 @@
-package com.example.villagetocityreseilingapp;
+package com.example.villagetocityreseilingapp.ui.main.buyer;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.villagetocityreseilingapp.R;
 
 
 public class buyer_fragment_home extends Fragment {

@@ -9,6 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_home;
+import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_menu;
+import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_orders;
+import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_profile;
+
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout homeBtn, menuBtn, ordersBtn, dashboardBtn;

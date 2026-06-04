@@ -1,4 +1,4 @@
-package com.example.villagetocityreseilingapp;
+package com.example.villagetocityreseilingapp.ui.main.buyer;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.villagetocityreseilingapp.R;
 
 public class buyer_MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.villagetocityreseilingapp;
+package com.example.villagetocityreseilingapp.ui.main.seller;
 
 import android.os.Bundle;
 
@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class buyer_fragment_cart extends Fragment {
+import com.example.villagetocityreseilingapp.R;
+
+public class seller_fragment_menu extends Fragment {
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.buyer_fragment_cart, container, false);
+        return inflater.inflate(R.layout.seller_fragment_menu, container, false);
     }
 }

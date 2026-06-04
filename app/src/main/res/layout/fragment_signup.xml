@@ -79,6 +79,16 @@
                 android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="8dp"
                 android:paddingStart="12dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:hint="Confirm Password"
+                android:background="@drawable/bg_gradient"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"/>
 
             <!-- Signup Button -->
             <androidx.appcompat.widget.AppCompatButton
@@ -143,4 +153,4 @@
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
-<!--fdf-->
+    <!--fdf-->
