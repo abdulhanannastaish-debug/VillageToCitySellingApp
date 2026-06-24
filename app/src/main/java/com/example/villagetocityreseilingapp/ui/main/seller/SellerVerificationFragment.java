@@ -1,4 +1,4 @@
-package com.example.villagetocityreseilingapp.ui.main.seller.seller;
+package com.example.villagetocityreseilingapp.ui.main.seller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
