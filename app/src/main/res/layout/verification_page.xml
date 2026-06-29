@@ -107,6 +107,7 @@
             android:backgroundTint="#4FAF4C"/>
 
         <!-- LOGIN TEXT -->
+        <!-- LOGIN TEXT -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -117,7 +118,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"/>
-
 
 
     </LinearLayout>
