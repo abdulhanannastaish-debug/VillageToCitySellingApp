@@ -23,12 +23,20 @@ public class Login_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+        // Role check karke title change karo
+        SharedPreferences prefs = requireActivity().getSharedPreferences("role", 0);
+        String role = prefs.getString("user_role", "buyer");
+
+        TextView txtRoleTitle = view.findViewById(R.id.txtRoleTitle);
+        if (role.equals("seller")) {
+            txtRoleTitle.setText("Seller Login");
+        } else {
+            txtRoleTitle.setText("Buyer Login");
+        }
+
         // Login button
         AppCompatButton btnLogin = view.findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(v -> {
-            SharedPreferences prefs = requireActivity().getSharedPreferences("role", 0);
-            String role = prefs.getString("user_role", "buyer");
-
             if (role.equals("seller")) {
                 Navigation.findNavController(v)
                         .navigate(R.id.action_login_to_verification);

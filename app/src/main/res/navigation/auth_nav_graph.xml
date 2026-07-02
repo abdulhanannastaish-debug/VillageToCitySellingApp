@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/select_role_fragment">
+
+    <fragment
+        android:id="@+id/select_role_fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.auth.Select_Role_Fragment"
+        android:label="Select Role"
+        tools:layout="@layout/fragment_select_role_">
+        <action
+            android:id="@+id/action_role_to_login"
+            app:destination="@id/login_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.auth.Login_Fragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/signup_fragment" />
+        <action
+            android:id="@+id/action_login_to_buyer"
+            app:destination="@id/select_role_fragment" />
+        <action
+            android:id="@+id/action_login_to_verification"
+            app:destination="@id/seller_verification_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signup_fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.auth.SignUp_Fragment"
+        android:label="SignUp"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signup_to_login"
+            app:destination="@id/login_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/seller_verification_fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.main.seller.SellerVerificationFragment"        android:label="Seller Verification"
+        tools:layout="@layout/fragment_seller_verification"/>
+
+</navigation>
