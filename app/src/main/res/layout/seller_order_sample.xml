@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#F2F4F7"
     android:padding="16dp">
 
-
-    <!-- ================= Orders Content ================= -->
+    <!-- Orders Content -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="8dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <!-- ================= Sample Order Card ================= -->
+            <!-- ================= ORDER 1 ================= -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@android:color/white"
-                android:elevation="2dp"
+                android:background="#FFFFFF"
                 android:padding="12dp"
+                android:elevation="3dp"
                 android:layout_marginBottom="12dp">
 
-                <!-- Order ID -->
                 <TextView
-                    android:id="@+id/orderId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Order #1001"
@@ -40,98 +35,233 @@
                     android:textSize="16sp"
                     android:textColor="#000000"/>
 
-                <!-- Customer Name -->
                 <TextView
-                    android:id="@+id/customerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Customer: John Doe"
+                    android:text="Customer: Fahad Ahmad"
                     android:textSize="14sp"
                     android:textColor="#000000"
                     android:layout_marginTop="4dp"/>
 
-                <!-- Price -->
                 <TextView
-                    android:id="@+id/orderPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price: $25"
+                    android:text="Price:  2000"
                     android:textSize="14sp"
                     android:textColor="#000000"
                     android:layout_marginTop="2dp"/>
 
-                <!-- Picture + buttons row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical">
 
-                    <!-- Picture -->
                     <ImageView
-                        android:id="@+id/orderPicture"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:src="@android:drawable/ic_menu_gallery"
-                        android:contentDescription="Order Picture"/>
+                        android:contentDescription="Order Image"/>
 
-                    <!-- Buttons -->
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginStart="16dp">
 
-                        <!-- Accept Button (Green) -->
                         <Button
-                            android:id="@+id/btnAccept"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Accept"
                             android:textColor="#FFFFFF"
-                            android:backgroundTint="#4CAF50"
-                            android:textStyle="bold"/>
-
-                        <!-- Ready to Delivery Button (Visible for Accepted tab only) -->
-                        <Button
-                            android:id="@+id/btnReadyDelivery"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ready to Delivery"
-                            android:textColor="#FFFFFF"
-                            android:backgroundTint="#FF9800"
                             android:textStyle="bold"
-                            android:visibility="gone"
-                            android:layout_marginStart="8dp"/>
+                            android:backgroundTint="#4CAF50"/>
 
-                        <!-- Delete Button (Red) -->
                         <Button
-                            android:id="@+id/btnDelete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Delete"
                             android:textColor="#FFFFFF"
-                            android:backgroundTint="#F44336"
                             android:textStyle="bold"
+                            android:backgroundTint="#F44336"
                             android:layout_marginStart="8dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Status Tag -->
                 <TextView
-                    android:id="@+id/orderStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Status: Active"
-                    android:textStyle="bold"
                     android:textColor="#4CAF50"
+                    android:textStyle="bold"
                     android:layout_marginTop="8dp"/>
-
             </LinearLayout>
-            <!-- ================= End Sample Order Card ================= -->
+
+            <!-- ================= ORDER 2 ================= -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:padding="12dp"
+                android:elevation="3dp"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order #1002"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Customer: Fawad Safdar"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price: 1500"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="2dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:contentDescription="Order Image"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="16dp">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Accept"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#4CAF50"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#F44336"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status: Pending"
+                    android:textColor="#FF9800"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <!-- ================= ORDER 3 ================= -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:padding="12dp"
+                android:elevation="3dp"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order #1003"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Customer: Kanwal Iqbal"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price: 1800"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="2dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:contentDescription="Order Image"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="16dp">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Accept"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#4CAF50"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#F44336"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status: Delivered"
+                    android:textColor="#2196F3"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
 

@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/greeting"
+            android:text="Good Morning"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"/>
@@ -27,11 +27,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user_name"
+            android:text="Fahad Ahmad"
             android:textColor="@android:color/white"
             android:textSize="14sp"/>
 
-        <!-- ===== Stats Cards ===== -->
+        <!-- Stats Cards -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,16 +61,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12"
+                        android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/products"
+                        android:text="Products"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -102,7 +102,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/orders"
+                        android:text="Orders"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"/>
                 </LinearLayout>
@@ -136,7 +136,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_sales"
+                        android:text="Total Sales"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"/>
                 </LinearLayout>
@@ -151,248 +151,185 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headerLayout">
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="-82dp">
 
+        <!-- IMPORTANT FIX -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- ===== Add Product Button ===== -->
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:text="@string/add_new_product"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#0F9D58"
-                android:textStyle="bold"/>
-
             <!-- ===== GRID ===== -->
 
+            <!-- BUTTON FIXED -->
+
             <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:layout_marginTop="20dp">
+                android:layout_width="374dp"
+                android:layout_height="329dp"
+                android:layout_marginTop="20dp"
+                android:columnCount="2">
 
-                <!-- ===== DASHBOARD BOXES ===== -->
+                <!-- Card 1 -->
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="6dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="16dp">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Rs 12,500"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
                             android:textColor="#0F9D58"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:text="@string/balance"
-                            android:textSize="13sp"
-                            android:textColor="#555555"
-                            android:layout_marginTop="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="Balance"
+                            android:textColor="#555555"
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- Card 2 -->
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="6dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="16dp">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="24"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
                             android:textColor="#1EB980"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:text="@string/my_products"
-                            android:textSize="13sp"
-                            android:textColor="#555555"
-                            android:layout_marginTop="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="My Products"
+                            android:textColor="#555555"
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- Card 3 -->
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="6dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="16dp">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="8"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
                             android:textColor="#1EB980"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:text="@string/orders"
-                            android:textSize="13sp"
-                            android:textColor="#555555"
-                            android:layout_marginTop="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="Orders"
+                            android:textColor="#555555"
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- Card 4 -->
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="6dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="16dp">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="3"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
                             android:textColor="#1EB980"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:text="@string/messages"
-                            android:textSize="13sp"
-                            android:textColor="#555555"
-                            android:layout_marginTop="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="Messages"
+                            android:textColor="#555555"
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
             </GridLayout>
 
-            <!-- ===== Notifications ===== -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#0F9D58"
+                android:text="Add New Product"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <!-- Notifications -->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/recent_notifications"
+                android:layout_marginTop="24dp"
+                android:text="Recent Notifications"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="24dp"/>
-
-            <!-- Dummy Notification 1 -->
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="نیا آرڈر موصول ہوا"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="دیسی گھی کی منظوری مل گئی"
-                        android:textSize="12sp"
-                        android:textColor="#666666"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Dummy Notification 2 -->
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ادائیگی موصول ہوگئی"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rs 2,500 آپ کے اکاؤنٹ میں جمع ہوگئے"
-                        android:textSize="12sp"
-                        android:textColor="#666666"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:textStyle="bold" />
 
         </LinearLayout>
+
     </ScrollView>
 
 </RelativeLayout>

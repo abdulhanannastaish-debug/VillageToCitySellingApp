@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/bg_gradient">
-
+    <!-- SIGNUP CARD -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,83 +22,75 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <!-- Title -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign Up"
+                android:text="@string/signup"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
                 android:gravity="center"
                 android:layout_marginBottom="24dp"/>
 
+            <!-- Name -->
             <EditText
-                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Name"
-                android:background="@drawable/bg_edittext"
+                android:hint="@string/name"
+                android:background="@drawable/bg_gradient"
                 android:drawableStart="@drawable/baseline_snowshoeing_24"
                 android:drawablePadding="8dp"
                 android:paddingStart="12dp"/>
 
+            <!-- Profile Image Select -->
             <EditText
-                android:id="@+id/etProfileImage"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
-                android:hint="Profile Image"
+                android:hint="@string/profile_image"
                 android:focusable="false"
                 android:clickable="true"
-                android:background="@drawable/bg_edittext"
-                android:drawableStart="@drawable/camera_icon"
+                android:background="@drawable/bg_gradient"
+                android:drawableStart="@drawable/ic_google"
+                android:drawableEnd="@drawable/baseline_snowshoeing_24"
                 android:drawablePadding="8dp"
                 android:paddingStart="12dp"/>
 
+            <!-- Email -->
             <EditText
-                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
-                android:hint="Email"
-                android:background="@drawable/bg_edittext"
+                android:hint="@string/email"
+                android:background="@drawable/bg_gradient"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="8dp"
                 android:paddingStart="12dp"/>
 
+            <!-- Password -->
             <EditText
-                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
-                android:hint="Password"
-                android:background="@drawable/bg_edittext"
+                android:hint="@string/password"
+                android:background="@drawable/bg_gradient"
                 android:inputType="textPassword"
                 android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="8dp"
                 android:paddingStart="12dp"/>
 
-            <EditText
-                android:id="@+id/etConfirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:hint="Confirm Password"
-                android:background="@drawable/bg_edittext"
-                android:inputType="textPassword"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="8dp"
-                android:paddingStart="12dp"/>
-
+            <!-- Signup Button -->
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSignup"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="20dp"
-                android:text="Sign Up Now"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#4DB6AC"/>
+                android:text="@string/signup_now"
+                android:textColor="#000000"
+                android:background="@drawable/btn_white_rounded"
+                android:backgroundTint="@color/green"/>
 
+            <!-- OR Divider -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,8 +105,10 @@
                     android:background="#CCCCCC"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="OR"
                     android:layout_marginHorizontal="8dp"
                     android:textColor="#666666"/>
@@ -126,28 +120,27 @@
                     android:background="#CCCCCC"/>
             </LinearLayout>
 
+            <!-- Google Signup -->
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnGoogle"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:text="Continue with Google"
+                android:text="@string/google_login"
                 android:textColor="#000000"
                 android:background="@drawable/btn_white_rounded"
                 android:drawableStart="@drawable/ic_google"
                 android:drawablePadding="8dp"
                 android:paddingStart="16dp"/>
 
+            <!-- Already have account -->
             <TextView
-                android:id="@+id/txtLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Already have an account? Login"
-                android:textColor="#4DB6AC"
-                android:textStyle="bold"/>
+                android:text="@string/have_account"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
+<!--fdf-->

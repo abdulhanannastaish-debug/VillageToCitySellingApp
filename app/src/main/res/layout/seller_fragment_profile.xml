@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5">
@@ -10,6 +11,7 @@
         android:orientation="vertical">
 
         <!-- ================== HEADER ================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="260dp"
@@ -20,29 +22,29 @@
             <ImageView
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:src="@drawable/hanan"
-                android:scaleType="centerCrop"
                 android:background="@drawable/circle_image_bg"
                 android:clipToOutline="true"
-                android:padding="3dp"/>
+                android:padding="3dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/hanan" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/user_name"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_status"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"/>
-        </LinearLayout>
+                android:textSize="14sp" />
 
+        </LinearLayout>
 
         <!-- ================= Profile Card ================= -->
 
@@ -51,267 +53,321 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@drawable/card_bg"
+            android:elevation="6dp"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:elevation="6dp">
+            android:padding="16dp">
 
             <!-- NAME -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="14dp"
-                android:gravity="center_vertical">
+                android:padding="14dp">
 
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_home_24"
-                    android:tint="@color/green"/>
+                    app:tint="@color/green" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_name"
-                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/user_name"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"/>
+                android:background="#E0E0E0" />
 
             <!-- PHONE -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="14dp"
-                android:gravity="center_vertical">
+                android:padding="14dp">
 
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_home_24"
-                    android:tint="@color/green"/>
+                    app:tint="@color/green" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_phone"
-                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/user_phone"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"/>
+                android:background="#E0E0E0" />
 
             <!-- ADDRESS -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="14dp"
-                android:gravity="center_vertical">
+                android:padding="14dp">
 
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_home_24"
-                    android:tint="@color/green"/>
+                    app:tint="@color/green" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_address"
-                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/user_address"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"/>
+                android:background="#E0E0E0" />
 
             <!-- CNIC -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="14dp"
-                android:gravity="center_vertical">
+                android:padding="14dp">
 
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_snowshoeing_24"
-                    android:tint="@color/green"/>
+                    app:tint="@color/green" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_cnic"
-                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/user_cnic"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"/>
+                android:background="#E0E0E0" />
 
-            <!-- WALLET  -->
+            <!-- ACCOUNT NUMBER -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="14dp"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/baseline_snowshoeing_24"
+                    app:tint="@color/green" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="NBP1234567898765"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0" />
+
+            <!-- WALLET -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="#E8F5E9"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
 
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_home_24"
-                    android:tint="@color/green"/>
+                    app:tint="@color/green" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wallet"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/green"/>
+                    android:text="@string/wallet"
+                    android:textColor="@color/green"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </LinearLayout>
 
         <!-- ================= Other Info ================= -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/card_bg"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:elevation="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="14dp"
-            android:background="#E8F5E9"
-            android:gravity="center_vertical">
+            android:layout_margin="16dp"
+            android:background="@drawable/card_bg"
+            android:elevation="6dp"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:src="@drawable/baseline_home_24"
-                android:tint="@color/green"/>
+            <!-- TERMS -->
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/terms_conditions"
-                android:padding="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:textSize="16sp"/>
+                android:background="#E8F5E9"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
 
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/baseline_home_24"
+                    app:tint="@color/green" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    android:text="@string/terms_conditions"
+                    android:textSize="16sp" />
 
+            </LinearLayout>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="14dp"
-            android:gravity="center_vertical">
+            <!-- HELP -->
 
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:src="@drawable/baseline_snowshoeing_24"
-                android:tint="@color/green"/>
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/help_support"
-                android:padding="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:textSize="16sp"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/baseline_snowshoeing_24"
+                    app:tint="@color/green" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    android:text="@string/help_support"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <!-- EDIT PROFILE -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/baseline_snowshoeing_24"
+                    app:tint="@color/green" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    android:text="@string/profile_edit"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <!-- ORDERS -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/baseline_snowshoeing_24"
+                    app:tint="@color/green" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    android:text="@string/info_order"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="14dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_snowshoeing_24"
-                android:tint="@color/green"/>
-
-            <TextView
-                          android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/profile_edit"
-                            android:padding="16dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                           android:textSize="16sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="14dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:src="@drawable/baseline_snowshoeing_24"
-                android:tint="@color/green"/>
-
-            <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/info_order"
-                            android:padding="16dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:textSize="16sp"/>
-        </LinearLayout>
-    </LinearLayout>
 
         <!-- ================= Logout button ================= -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="32dp"
             android:layout_marginBottom="24dp"
+            android:background="@drawable/logout_button_bg"
+            android:gravity="center"
             android:text="Logout"
             android:textColor="@android:color/white"
-            android:gravity="center"
-            android:textStyle="bold"
             android:textSize="16sp"
-            android:background="@drawable/logout_button_bg"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
