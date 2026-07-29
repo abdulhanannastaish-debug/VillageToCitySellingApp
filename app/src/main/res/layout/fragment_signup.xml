@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/bg_gradient">
-
-    <!-- LOGIN CARD -->
+    <!-- SIGNUP CARD -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,23 +26,47 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
+                android:text="@string/signup"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
-                android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginBottom="24dp"/>
+
+            <!-- Name -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/name"
+                android:background="@drawable/bg_gradient"
+                android:drawableStart="@drawable/baseline_snowshoeing_24"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"/>
+
+            <!-- Profile Image Select -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/profile_image"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/bg_gradient"
+                android:drawableStart="@drawable/ic_google"
+                android:drawableEnd="@drawable/baseline_snowshoeing_24"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"/>
 
             <!-- Email -->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:layout_marginTop="12dp"
                 android:hint="@string/email"
                 android:background="@drawable/bg_gradient"
-                android:paddingStart="12dp"
                 android:drawableStart="@drawable/ic_email"
-                android:drawablePadding="8dp"/>
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"/>
 
             <!-- Password -->
             <EditText
@@ -51,30 +74,21 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/password"
-                android:inputType="textPassword"
                 android:background="@drawable/bg_gradient"
-                android:paddingStart="12dp"
+                android:inputType="textPassword"
                 android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="8dp"/>
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"/>
 
-            <!-- Forgot Password -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/forgot_password"
-                android:textColor="#00AA44"
-                android:layout_gravity="end"
-                android:layout_marginTop="12dp"/>
-
-            <!-- Login Button -->
+            <!-- Signup Button -->
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/login_now"
+                android:text="@string/signup_now"
                 android:textColor="#000000"
                 android:background="@drawable/btn_white_rounded"
-                android:backgroundTint="#4CAF50"/>
+                android:backgroundTint="@color/green"/>
 
             <!-- OR Divider -->
             <LinearLayout
@@ -93,6 +107,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="OR"
                     android:layout_marginHorizontal="8dp"
                     android:textColor="#666666"/>
@@ -104,27 +120,27 @@
                     android:background="#CCCCCC"/>
             </LinearLayout>
 
-            <!-- Google Login -->
+            <!-- Google Signup -->
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:text="@string/google_login"
                 android:textColor="#000000"
+                android:background="@drawable/btn_white_rounded"
                 android:drawableStart="@drawable/ic_google"
                 android:drawablePadding="8dp"
-                android:paddingStart="16dp"
-                android:background="@drawable/btn_white_rounded" />
+                android:paddingStart="16dp"/>
 
-            <!-- Signup -->
+            <!-- Already have account -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_account"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:text="@string/have_account"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
-    <!-- this is a comment-->
+<!--fdf-->
