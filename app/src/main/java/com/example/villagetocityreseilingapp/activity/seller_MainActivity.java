@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.villagetocityreseilingapp.R;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_home;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_menu;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_orders;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_profile;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerHomeFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerMenuFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerOrderFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerProfileFragment;
 
 public class seller_MainActivity extends AppCompatActivity {
 
@@ -27,12 +27,12 @@ public class seller_MainActivity extends AppCompatActivity {
         ordersBtn = findViewById(R.id.orders_layout);
         profileBtn = findViewById(R.id.profile_layout);
 
-        loadFragment(new seller_fragment_home());
+        loadFragment(new SellerHomeFragment());
 
-        homeBtn.setOnClickListener(v -> loadFragment(new seller_fragment_home()));
-        menuBtn.setOnClickListener(v -> loadFragment(new seller_fragment_menu()));
-        ordersBtn.setOnClickListener(v -> loadFragment(new seller_fragment_orders()));
-        profileBtn.setOnClickListener(v -> loadFragment(new seller_fragment_profile()));
+        homeBtn.setOnClickListener(v -> loadFragment(new SellerHomeFragment()));
+        menuBtn.setOnClickListener(v -> loadFragment(new SellerMenuFragment()));
+        ordersBtn.setOnClickListener(v -> loadFragment(new SellerOrderFragment()));
+        profileBtn.setOnClickListener(v -> loadFragment(new SellerProfileFragment()));
     }
 
     private void loadFragment(Fragment fragment) {
