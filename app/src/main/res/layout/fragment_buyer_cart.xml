@@ -44,16 +44,6 @@
                 android:id="@+id/item1"
                 layout="@layout/buyer_cart_include_cart_item"/>
 
-            <!-- ITEM 2 -->
-            <include
-                android:id="@+id/item2"
-                layout="@layout/buyer_cart_include_cart_item"/>
-
-            <!-- ITEM 3 -->
-            <include
-                android:id="@+id/item3"
-                layout="@layout/buyer_cart_include_cart_item"/>
-
         </LinearLayout>
 
     </ScrollView>
