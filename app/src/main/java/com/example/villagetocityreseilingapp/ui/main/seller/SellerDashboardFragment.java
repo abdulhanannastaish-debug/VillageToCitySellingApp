@@ -12,10 +12,10 @@ import com.example.villagetocityreseilingapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SellerHomeFragment#newInstance} factory method to
+ * Use the {@link SellerDashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SellerHomeFragment extends Fragment {
+public class SellerDashboardFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class SellerHomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SellerHomeFragment() {
+    public SellerDashboardFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class SellerHomeFragment extends Fragment {
      * @return A new instance of fragment seller_fragment_home.
      */
     // TODO: Rename and change types and number of parameters
-    public static SellerHomeFragment newInstance(String param1, String param2) {
-        SellerHomeFragment fragment = new SellerHomeFragment();
+    public static SellerDashboardFragment newInstance(String param1, String param2) {
+        SellerDashboardFragment fragment = new SellerDashboardFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class SellerHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seller_home, container, false);
+        return inflater.inflate(R.layout.fragment_seller_dashboard, container, false);
     }
 }

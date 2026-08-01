@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.villagetocityreseilingapp.R;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_home;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_menu;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_orders;
-import com.example.villagetocityreseilingapp.ui.main.seller.seller_fragment_profile;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerDashboardFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerProductFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerOrderFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,34 +32,34 @@ public class MainActivity extends AppCompatActivity {
         dashboardBtn = findViewById(R.id.dashboard_layout);
 
         // Set default fragment
-        loadFragment(new seller_fragment_home());
+        loadFragment(new SellerDashboardFragment());
 
         // Set click listeners
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new seller_fragment_home());
+                loadFragment(new SellerDashboardFragment());
             }
         });
 
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new seller_fragment_menu());
+                loadFragment(new SellerProductFragment());
             }
         });
 
         ordersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new seller_fragment_orders());
+                loadFragment(new SellerOrderFragment());
             }
         });
 
         dashboardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new seller_fragment_profile());
+                loadFragment(new SellerProfileFragment());
             }
         });
     }

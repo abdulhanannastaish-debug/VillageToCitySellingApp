@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F4F7">
+
+    <!-- ================= HEADER ================= -->
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/village"
+        android:orientation="vertical"
+        android:padding="10dp"
+        tools:ignore="ExtraText">
+
+
+    </LinearLayout>
+
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="12dp">
+
+        <!-- IMPORTANT FIX -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txtWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome Back!"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#0B0B0B"
+                android:layout_marginTop="-6dp"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+                <!-- First Row -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- Orders -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardOrders"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgOrders"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_orders"
+                                app:tint="#2979FF"/>
+
+                            <TextView
+                                android:id="@+id/txtOrdersLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total Orders"
+                                android:textSize="15sp"
+                                android:layout_marginTop="10dp"/>
+
+                            <TextView
+                                android:id="@+id/txtOrdersCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textSize="24sp"
+                                android:textColor="#212121"/>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Revenue -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardRevenue"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgRevenue"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_total_revenue"
+                                app:tint="#31B315"/>
+
+                            <TextView
+                                android:id="@+id/txtRevenueLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Revenue"
+                                android:textSize="15sp"
+                                android:layout_marginTop="10dp"/>
+
+                            <TextView
+                                android:id="@+id/txtRevenue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rs. 0"
+                                android:textStyle="bold"
+                                android:textSize="24sp"
+                                android:textColor="#212121"/>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Menu Items Card -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardMenuItems"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgMenu"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_menu"
+                                app:tint="#E90C0C"/>
+
+                            <TextView
+                                android:id="@+id/txtMenuLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="My Products"
+                                android:layout_marginTop="10dp"/>
+
+                            <TextView
+                                android:id="@+id/txtMenuCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="24"
+                                android:textStyle="bold"
+                                android:textSize="24sp"/>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Rating Card -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardRating"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgRating"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_star"
+                                app:tint="#FFFF00"/>
+
+                            <TextView
+                                android:id="@+id/txtRatingLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rating"
+                                android:layout_marginTop="10dp"/>
+
+                            <TextView
+                                android:id="@+id/txtRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4.8 ★"
+                                android:textStyle="bold"
+                                android:textSize="24sp"/>
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                    <!-- Quick Access -->
+
+                    <TextView
+                        android:id="@+id/txtQuickAccess"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quick Access"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardQuickAccess"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/layoutRestaurantProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_profile"
+                                    app:tint="#070707"/>
+
+                                <TextView
+                                    android:id="@+id/txtRestaurantProfile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Seller Profile"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="16dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layoutManageMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:gravity="center_vertical">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_menu"
+                                    app:tint="#0B0B0B"/>
+
+                                <TextView
+                                    android:id="@+id/txtManageMenu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Manage Product"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="16dp"/>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+</RelativeLayout>
+
+

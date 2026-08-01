@@ -98,7 +98,7 @@
             android:layout_height="48dp"
             android:text="Choose CNIC Front Image"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#4DB6AC"
+            android:backgroundTint="#6AC32F"
             android:layout_marginBottom="20dp"/>
 
         <TextView
@@ -138,7 +138,7 @@
             android:layout_height="48dp"
             android:text="Choose CNIC Back Image"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#4DB6AC"
+            android:backgroundTint="#6AC32F"
             android:layout_marginBottom="24dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -148,7 +148,7 @@
             android:text="Register as Seller"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:backgroundTint="#4DB6AC"/>
+            android:backgroundTint="#6AC32F"/>
 
     </LinearLayout>
 
