@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.villagetocityreseilingapp.R;
-import com.example.villagetocityreseilingapp.ui.main.seller.SellerHomeFragment;
-import com.example.villagetocityreseilingapp.ui.main.seller.SellerMenuFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerDashboardFragment;
+import com.example.villagetocityreseilingapp.ui.main.seller.SellerProductFragment;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerOrderFragment;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerProfileFragment;
 
@@ -27,10 +27,10 @@ public class seller_MainActivity extends AppCompatActivity {
         ordersBtn = findViewById(R.id.orders_layout);
         profileBtn = findViewById(R.id.profile_layout);
 
-        loadFragment(new SellerHomeFragment());
+        loadFragment(new SellerDashboardFragment());
 
-        homeBtn.setOnClickListener(v -> loadFragment(new SellerHomeFragment()));
-        menuBtn.setOnClickListener(v -> loadFragment(new SellerMenuFragment()));
+        homeBtn.setOnClickListener(v -> loadFragment(new SellerDashboardFragment()));
+        menuBtn.setOnClickListener(v -> loadFragment(new SellerProductFragment()));
         ordersBtn.setOnClickListener(v -> loadFragment(new SellerOrderFragment()));
         profileBtn.setOnClickListener(v -> loadFragment(new SellerProfileFragment()));
     }

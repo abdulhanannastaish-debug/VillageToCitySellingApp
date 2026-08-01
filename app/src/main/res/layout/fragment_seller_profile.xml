@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_status"
+                android:text="Verifird Seller"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
@@ -57,36 +57,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- NAME -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/baseline_home_24"
-                    app:tint="@color/green" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/user_name"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0" />
-
             <!-- PHONE -->
 
             <LinearLayout
@@ -99,8 +69,8 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@drawable/baseline_home_24"
-                    app:tint="@color/green" />
+                    android:src="@drawable/ic_phone_call"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,7 +100,7 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_home_24"
-                    app:tint="@color/green" />
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,8 +129,8 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@drawable/baseline_snowshoeing_24"
-                    app:tint="@color/green" />
+                    android:src="@drawable/ic_cnic"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -189,8 +159,8 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@drawable/baseline_snowshoeing_24"
-                    app:tint="@color/green" />
+                    android:src="@drawable/ic_bank"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -207,32 +177,6 @@
                 android:layout_height="1dp"
                 android:background="#E0E0E0" />
 
-            <!-- WALLET -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#E8F5E9"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/baseline_home_24"
-                    app:tint="@color/green" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/wallet"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -260,8 +204,8 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@drawable/baseline_home_24"
-                    app:tint="@color/green" />
+                    android:src="@drawable/ic_term"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -271,32 +215,6 @@
                     android:focusable="true"
                     android:padding="16dp"
                     android:text="@string/terms_conditions"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <!-- HELP -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/baseline_snowshoeing_24"
-                    app:tint="@color/green" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="16dp"
-                    android:text="@string/help_support"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -313,8 +231,8 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/baseline_snowshoeing_24"
-                    app:tint="@color/green" />
+                    android:src="@drawable/ic_profile"
+                    app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -323,32 +241,6 @@
                     android:focusable="true"
                     android:padding="16dp"
                     android:text="@string/profile_edit"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <!-- ORDERS -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/baseline_snowshoeing_24"
-                    app:tint="@color/green" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="16dp"
-                    android:text="@string/info_order"
                     android:textSize="16sp" />
 
             </LinearLayout>
