@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.villagetocityreseilingapp.R;
 
 
-public class buyer_fragment_orders extends Fragment {
+public class BuyerOrderFragment extends Fragment {
 
 
     @Override

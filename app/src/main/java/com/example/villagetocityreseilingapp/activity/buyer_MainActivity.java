@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.villagetocityreseilingapp.R;
 import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerCartFragment;
 import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerHomeFragment;
-import com.example.villagetocityreseilingapp.ui.main.buyer.buyer_fragment_orders;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerOrderFragment;
 import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerProfileFragment;
 
 public class buyer_MainActivity extends AppCompatActivity {
@@ -52,7 +52,7 @@ public class buyer_MainActivity extends AppCompatActivity {
         ordersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new buyer_fragment_orders());
+                loadFragment(new BuyerOrderFragment());
             }
         });
 
