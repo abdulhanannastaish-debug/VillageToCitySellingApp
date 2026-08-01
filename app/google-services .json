@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "636112126781",
+    "project_id": "village-to-city-reselling-app",
+    "storage_bucket": "village-to-city-reselling-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636112126781:android:7754ebfe6d082d9354bb54",
+        "android_client_info": {
+          "package_name": "com.example.villagetocityreseilingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPn9ddRGzwXAHb02IwtqJfBSpt13_ez7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
