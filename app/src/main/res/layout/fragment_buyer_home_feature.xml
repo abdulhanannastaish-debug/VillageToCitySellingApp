@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <include layout="@layout/buyer_home_item_product"/>
-        <include layout="@layout/buyer_home_item_product"/>
+        <include layout="@layout/fragment_buyer_home_product"/>
+        <include layout="@layout/fragment_buyer_home_product"/>
 
     </LinearLayout>
 
@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <include layout="@layout/buyer_home_item_product"/>
-        <include layout="@layout/buyer_home_item_product"/>
+        <include layout="@layout/fragment_buyer_home_product"/>
+        <include layout="@layout/fragment_buyer_home_product"/>
 
     </LinearLayout>
 

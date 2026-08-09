@@ -9,7 +9,7 @@
     <!-- Header -->
     <include
         android:id="@+id/header"
-        layout="@layout/buyer_home_include_home_header"/>
+        layout="@layout/fragment_buyer_home_header"/>
 
     <!-- Scroll Content -->
     <ScrollView
@@ -24,11 +24,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/buyer_home_include_search_bar"/>
+            <include layout="@layout/fragment_buyer_search_bar"/>
 
-            <include layout="@layout/buyer_home_include_categories"/>
+            <include layout="@layout/fragment_buyer_categories"/>
 
-            <include layout="@layout/buyer_home_include_featured_products"/>
+            <include layout="@layout/fragment_buyer_home_feature"/>
 
         </LinearLayout>
 

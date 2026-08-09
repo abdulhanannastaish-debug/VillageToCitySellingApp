@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.villagetocityreseilingapp.R;
-import com.example.villagetocityreseilingapp.ui.main.buyer.buyer_fragment_cart;
-import com.example.villagetocityreseilingapp.ui.main.buyer.buyer_fragment_home;
-import com.example.villagetocityreseilingapp.ui.main.buyer.buyer_fragment_orders;
-import com.example.villagetocityreseilingapp.ui.main.buyer.buyer_fragment_profile;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerCartFragment;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerHomeFragment;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerOrderFragment;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerProfileFragment;
 
 public class buyer_MainActivity extends AppCompatActivity {
 
@@ -32,34 +32,34 @@ public class buyer_MainActivity extends AppCompatActivity {
         dashboardBtn = findViewById(R.id.dashboard_layout);
 
         // Set default fragment
-        loadFragment(new buyer_fragment_home());
+        loadFragment(new BuyerHomeFragment());
 
         // Set click listeners
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new buyer_fragment_home());
+                loadFragment(new BuyerHomeFragment());
             }
         });
 
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new buyer_fragment_cart());
+                loadFragment(new BuyerCartFragment());
             }
         });
 
         ordersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new buyer_fragment_orders());
+                loadFragment(new BuyerOrderFragment());
             }
         });
 
         dashboardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new buyer_fragment_profile());
+                loadFragment(new BuyerProfileFragment());
             }
         });
     }

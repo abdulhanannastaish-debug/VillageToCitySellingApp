@@ -23,7 +23,7 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:text="+ Add Item"
+        android:text="+ Add Product"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:backgroundTint="#43A047"

@@ -1,102 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- ================= FRAGMENT CONTAINER ================= -->
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
 
     <LinearLayout
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:orientation="horizontal"
         android:background="@color/white"
-        android:weightSum="4"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <!-- DASHBOARD -->
 
         <LinearLayout
+            android:id="@+id/home_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/home_layout"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageView
-                android:src="@drawable/ic_dashboard"
                 android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                android:layout_height="24dp"
+                android:src="@drawable/ic_dashboard"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dashboard"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="#000000" />
+
         </LinearLayout>
 
+
+        <!-- PRODUCTS -->
+
         <LinearLayout
+            android:id="@+id/menu_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/menu_layout"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageView
-                android:src="@drawable/ic_product"
                 android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                android:layout_height="24dp"
+                android:src="@drawable/ic_product"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Products"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="#000000" />
+
         </LinearLayout>
 
+
+        <!-- ORDERS -->
+
         <LinearLayout
+            android:id="@+id/orders_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/orders_layout"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageView
-                android:src="@drawable/ic_orders"
                 android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                android:layout_height="24dp"
+                android:src="@drawable/ic_orders"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Orders"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="#000000" />
+
         </LinearLayout>
 
+
+        <!-- PROFILE -->
+
         <LinearLayout
+            android:id="@+id/profile_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/profile_layout"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageView
-                android:src="@drawable/ic_profile"
                 android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                android:layout_height="24dp"
+                android:src="@drawable/ic_profile"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="#000000" />
+
         </LinearLayout>
 
     </LinearLayout>
