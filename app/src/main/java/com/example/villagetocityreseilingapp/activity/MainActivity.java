@@ -17,30 +17,38 @@ import com.example.villagetocityreseilingapp.ui.main.seller.SellerProfileFragmen
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout homeBtn, menuBtn, ordersBtn, dashboardBtn;
+    private LinearLayout homeBtn;
+    private LinearLayout menuBtn;
+    private LinearLayout ordersBtn;
+    private LinearLayout profileBtn;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seller_fragment_loader);
 
-        // Find views
+        // Seller main loader screen
+        setContentView(R.layout.fragment_seller_loader);
+
+        // Bottom navigation buttons
         homeBtn = findViewById(R.id.home_layout);
         menuBtn = findViewById(R.id.menu_layout);
         ordersBtn = findViewById(R.id.orders_layout);
-        dashboardBtn = findViewById(R.id.dashboard_layout);
+        profileBtn = findViewById(R.id.profile_layout);
 
-        // Set default fragment
+        // Default screen
         loadFragment(new SellerDashboardFragment());
 
-        // Set click listeners
+        // ================= DASHBOARD =================
+
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new SellerDashboardFragment());
             }
         });
+
+        // ================= PRODUCTS =================
 
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // ================= ORDERS =================
+
         ordersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        dashboardBtn.setOnClickListener(new View.OnClickListener() {
+        // ================= PROFILE =================
+
+        profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new SellerProfileFragment());
@@ -64,10 +76,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // This is the only method you need for loading fragments
+    // ================= LOAD FRAGMENT =================
+
     private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+
         transaction.replace(R.id.fragment_container, fragment);
+
         transaction.commit();
     }
 }
