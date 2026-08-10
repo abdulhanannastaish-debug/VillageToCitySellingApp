@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Seller main loader screen
-        setContentView(R.layout.fragment_seller_loader);
+        setContentView(R.layout.seller_activity_main);
 
         // Bottom navigation buttons
         homeBtn = findViewById(R.id.home_layout);
