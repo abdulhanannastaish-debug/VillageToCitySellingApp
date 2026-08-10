@@ -1,5 +1,6 @@
 package com.example.villagetocityreseilingapp.ui.main.seller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.villagetocityreseilingapp.R;
+import com.example.villagetocityreseilingapp.activity.seller_MainActivity;
 
 public class SellerVerificationFragment extends Fragment {
 
@@ -31,6 +33,10 @@ public class SellerVerificationFragment extends Fragment {
         AppCompatButton btn3 = view.findViewById(R.id.btnSubmit);
         btn3.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Verification Submitted!", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(getActivity(), seller_MainActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         });
 
         return view;

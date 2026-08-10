@@ -3,26 +3,20 @@ package com.example.villagetocityreseilingapp.ui.main.seller;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.villagetocityreseilingapp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SellerDashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SellerDashboardFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -30,15 +24,6 @@ public class SellerDashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment seller_fragment_home.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SellerDashboardFragment newInstance(String param1, String param2) {
         SellerDashboardFragment fragment = new SellerDashboardFragment();
         Bundle args = new Bundle();
@@ -60,7 +45,35 @@ public class SellerDashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seller_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_seller_dashboard, container, false);
+
+        // Seller Profile Click
+        LinearLayout layoutProfile = view.findViewById(R.id.layoutRestaurantProfile);
+        layoutProfile.setOnClickListener(v -> {
+            loadFragment(new SellerProfileFragment());
+        });
+
+        // Manage Product Click
+        LinearLayout layoutManageMenu = view.findViewById(R.id.layoutManageMenu);
+        layoutManageMenu.setOnClickListener(v -> {
+            loadFragment(new SellerProductFragment());
+        });
+
+        // Seller Wallet Click
+        LinearLayout layoutWallet = view.findViewById(R.id.layoutSellerWallet);
+        layoutWallet.setOnClickListener(v -> {
+            loadFragment(new SellerWalletFragment());
+        });
+
+        return view;
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
