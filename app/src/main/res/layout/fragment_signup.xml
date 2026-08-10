@@ -103,7 +103,6 @@
                     android:background="@drawable/bg_edittext"
                     android:paddingStart="12dp"
                     android:drawableStart="@drawable/ic_password"
-                    android:drawableEnd="@android:drawable/ic_visibility"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -116,7 +115,6 @@
                     android:background="@drawable/bg_edittext"
                     android:paddingStart="12dp"
                     android:drawableStart="@drawable/ic_password"
-                    android:drawableEnd="@android:drawable/ic_visibility"
                     android:drawablePadding="8dp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
