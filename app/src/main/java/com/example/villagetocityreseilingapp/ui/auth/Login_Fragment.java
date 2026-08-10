@@ -21,7 +21,7 @@ public class Login_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buyer_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Role check karke title change karo
         SharedPreferences prefs = requireActivity().getSharedPreferences("role", 0);
@@ -48,7 +48,7 @@ public class Login_Fragment extends Fragment {
         });
 
         // Signup text
-        TextView txtSignup = view.findViewById(R.id.txtSignup);
+        TextView txtSignup = view.findViewById(R.id.txtRegister);
         txtSignup.setOnClickListener(v -> {
             Navigation.findNavController(v)
                     .navigate(R.id.action_login_to_signup);

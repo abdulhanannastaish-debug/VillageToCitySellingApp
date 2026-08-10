@@ -1,49 +1,82 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="140dp"
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#2F6BFF"
-    android:padding="20dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <!-- Cart Icon -->
-
-    <ImageView
-        android:id="@+id/cartIcon"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:src="@drawable/baseline_menu_24"
-        app:tint="#FFFFFF"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"/>
-
-    <!-- Text Container -->
+    <!-- ================= HEADER ================= -->
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="18dp"
+        android:paddingEnd="14dp"
+        android:background="@color/green"
+        android:elevation="4dp">
 
-        <TextView
-            android:text="Welcome Back!"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <!-- Welcome Text -->
 
-        <TextView
-            android:text="Ali Ahmad"
-            android:textSize="14sp"
-            android:textColor="#DDE6FF"
-            android:layout_marginTop="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome Back!"
+                android:textColor="@color/white"
+                android:textSize="21sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtBuyerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Buyer"
+                android:textColor="#E8F5E9"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+
+        <!-- Cart Card -->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cartCard"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            app:cardCornerRadius="26dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@color/white"
+            android:clickable="true"
+            android:focusable="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/cartIcon"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_cart"
+                    android:contentDescription="Shopping Cart"
+                    app:tint="@color/green"/>
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
-</RelativeLayout>
-
-
-
-
-
+</LinearLayout>

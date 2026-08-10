@@ -17,7 +17,7 @@ public class Select_Role_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_select_role_, container, false);
+        View view = inflater.inflate(R.layout.fragment_seller_role, container, false);
 
         // Buyer card click
         CardView cardBuyer = view.findViewById(R.id.cardBuyer);
