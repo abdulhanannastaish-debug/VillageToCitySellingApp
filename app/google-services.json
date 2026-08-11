@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "117834474082",
-    "project_id": "fir-app-d62f4",
-    "storage_bucket": "fir-app-d62f4.firebasestorage.app"
+    "project_number": "938820309973",
+    "project_id": "admin-panel-383da",
+    "storage_bucket": "admin-panel-383da.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:117834474082:android:70b7b5bdef96e75f0ca73b",
+        "mobilesdk_app_id": "1:938820309973:android:69983598ceac8ae280635c",
         "android_client_info": {
           "package_name": "com.example.villagetocityreseilingapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "938820309973-alkqmn7vkl2t1fh8ctfr48e3d8s8o2b2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.villagetocityreseilingapp",
+            "certificate_hash": "4fc280f6a6f8e566f7b2094400ef9e2771759fcb"
+          }
+        },
+        {
+          "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyB6sEB9Z6PtycPuW6D6QVB1QhrjsAYuheY"
+          "current_key": "AIzaSyCCimAWJbGrxAK48rAr0LjzYBOzYzx8sc0"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

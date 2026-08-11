@@ -68,7 +68,6 @@
                     android:hint="Full Name"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -91,7 +90,6 @@
                     android:inputType="phone"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_phone"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -103,7 +101,6 @@
                     android:inputType="textPassword"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_password"
                     android:drawableEnd="@drawable/ic_visibility"
                     android:drawablePadding="8dp"/>
 
@@ -116,7 +113,6 @@
                     android:inputType="textPassword"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_password"
                     android:drawableEnd="@drawable/ic_visibility"
                     android:drawablePadding="8dp"/>
 
@@ -142,7 +138,7 @@
                     android:text="Continue with Google"
                     android:textAllCaps="false"
                     android:textColor="#000000"
-                    android:drawableStart="@drawable/ic_location"
+                    android:drawableStart="@drawable/ic_google"
                     android:drawablePadding="8dp"
                     android:paddingStart="16dp"
                     android:background="@drawable/btn_white_rounded"/>
