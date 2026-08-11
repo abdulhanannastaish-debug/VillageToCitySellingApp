@@ -19,7 +19,7 @@
         android:id="@+id/login_fragment"
         android:name="com.example.villagetocityreseilingapp.ui.auth.Login_Fragment"
         android:label="Login"
-        tools:layout="@layout/fragment_buyer_login">
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_to_signup"
             app:destination="@id/signup_fragment" />
@@ -29,6 +29,23 @@
         <action
             android:id="@+id/action_login_to_verification"
             app:destination="@id/seller_verification_fragment" />
+        <action
+            android:id="@+id/action_login_to_forgot_password"
+            app:destination="@id/forget_password_fragment" />
+    </fragment>
+
+    <!-- ================= FORGET PASSWORD ================= -->
+
+    <fragment
+        android:id="@+id/forget_password_fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.auth.ForgetPasswordFragment"
+        android:label="Forget Password"
+        tools:layout="@layout/fragment_forget_password">
+
+        <action
+            android:id="@+id/action_forget_password_to_login"
+            app:destination="@id/login_fragment" />
+
     </fragment>
 
     <fragment
