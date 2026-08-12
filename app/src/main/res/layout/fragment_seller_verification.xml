@@ -51,6 +51,17 @@
             android:inputType="textEmailAddress"
             android:layout_marginBottom="12dp"/>
 
+        <!-- ================= SELLER ADDRESS ================= -->
+
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Seller Address"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"/>
+
         <EditText
             android:id="@+id/etCnic"
             android:layout_width="match_parent"

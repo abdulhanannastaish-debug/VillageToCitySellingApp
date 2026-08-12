@@ -25,14 +25,15 @@
             android:paddingStart="8dp"
             android:paddingEnd="16dp">
 
-            <ImageButton
-                android:id="@+id/btnBack"
+            <ImageView
+                android:id="@+id/btnTermsBack"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_media_previous"
-                android:contentDescription="Back Button"
-                app:tint="#FFFFFF"/>
+                android:padding="12dp"
+                android:src="@drawable/ic_arrow_white"
+                android:contentDescription="Back"
+                android:clickable="true"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/tvEditProfileTitle"
@@ -238,31 +239,6 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-                <!-- ================= BANK ACCOUNT ================= -->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:text="Bank Account Number"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/etBankAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="8dp"
-                    android:hint="Enter bank account number"
-                    android:inputType="number"
-                    android:drawableStart="@drawable/ic_bank"
-                    android:drawablePadding="8dp"
-                    android:paddingStart="12dp"
-                    android:background="@drawable/bg_gradient"
-                    android:textColor="#000000"
-                    android:textColorHint="#777777"/>
 
 
                 <!-- ================= SAVE BUTTON ================= -->
