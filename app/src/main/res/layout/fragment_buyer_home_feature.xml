@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -14,391 +13,39 @@
     <!-- ================= TITLE ================= -->
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txtSelectedCategoryTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Featured Products"
+        android:text="Products"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginBottom="14dp"/>
 
 
-    <!-- ================================================= -->
-    <!-- ROW 1 -->
-    <!-- ================================================= -->
+    <!-- ================= NO PRODUCTS ================= -->
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/txtNoProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <!-- PRODUCT 1 -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardProduct1"
-            android:layout_width="0dp"
-            android:layout_height="230dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="7dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/white">
-
-                <!-- Image -->
-
-                <ImageView
-                    android:id="@+id/productImage1"
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:background="#E8F5E9"
-                    android:src="@drawable/baseline_menu_24"
-                    android:scaleType="centerInside"
-                    android:contentDescription="Desi Ghee"/>
-
-                <!-- Green divider -->
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="#4CAF50"/>
-
-                <!-- Product Info -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Pure Desi Ghee"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="#222222"
-                        android:maxLines="1"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Village Chak 123"
-                        android:textSize="12sp"
-                        android:textColor="#777777"
-                        android:layout_marginTop="3dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="6dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Rs 1,500"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#4CAF50"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="★ 4.8"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="#555555"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        android:text="No products found"
+        android:textSize="16sp"
+        android:textColor="#777777"
+        android:gravity="center"
+        android:padding="20dp"
+        android:visibility="gone"/>
 
 
-        <!-- PRODUCT 2 -->
+    <!-- ================= PRODUCTS ================= -->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardProduct2"
-            android:layout_width="0dp"
-            android:layout_height="230dp"
-            android:layout_weight="1"
-            android:layout_marginStart="7dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/white">
-
-                <ImageView
-                    android:id="@+id/productImage2"
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:background="#E8F5E9"
-                    android:src="@drawable/baseline_menu_24"
-                    android:scaleType="centerInside"
-                    android:contentDescription="Handmade Basket"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="#4CAF50"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Handmade Basket"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="#222222"
-                        android:maxLines="1"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Village Basti"
-                        android:textSize="12sp"
-                        android:textColor="#777777"
-                        android:layout_marginTop="3dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="6dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Rs 850"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#4CAF50"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="★ 4.6"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="#555555"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-
-    <!-- ================================================= -->
-    <!-- ROW 2 -->
-    <!-- ================================================= -->
-
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerFeaturedProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="14dp">
-
-        <!-- PRODUCT 3 -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardProduct3"
-            android:layout_width="0dp"
-            android:layout_height="230dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="7dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/white">
-
-                <ImageView
-                    android:id="@+id/productImage3"
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:background="#E8F5E9"
-                    android:src="@drawable/baseline_menu_24"
-                    android:scaleType="centerInside"
-                    android:contentDescription="Organic Honey"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="#4CAF50"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Organic Honey"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="#222222"
-                        android:maxLines="1"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Village Noor Pur"
-                        android:textSize="12sp"
-                        android:textColor="#777777"
-                        android:layout_marginTop="3dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="6dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Rs 1,200"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#4CAF50"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="★ 4.9"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="#555555"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <!-- PRODUCT 4 -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardProduct4"
-            android:layout_width="0dp"
-            android:layout_height="230dp"
-            android:layout_weight="1"
-            android:layout_marginStart="7dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/white">
-
-                <ImageView
-                    android:id="@+id/productImage4"
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:background="#E8F5E9"
-                    android:src="@drawable/baseline_menu_24"
-                    android:scaleType="centerInside"
-                    android:contentDescription="Fresh Dates"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="#4CAF50"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Fresh Dates"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="#222222"
-                        android:maxLines="1"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Village Rahim Yar"
-                        android:textSize="12sp"
-                        android:textColor="#777777"
-                        android:layout_marginTop="3dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="6dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Rs 950"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#4CAF50"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="★ 4.7"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="#555555"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+        android:nestedScrollingEnabled="false"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        android:contentDescription="Products"/>
 
 </LinearLayout>

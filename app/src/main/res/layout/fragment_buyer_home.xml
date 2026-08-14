@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F4F7">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <!-- Header -->
+    <!-- ================= HEADER ================= -->
+
     <include
         android:id="@+id/header"
         layout="@layout/fragment_buyer_home_header"/>
 
-    <!-- Scroll Content -->
+
+    <!-- ================= HOME CONTENT ================= -->
+
     <ScrollView
-        android:layout_below="@id/header"
-        android:layout_above="@id/bottomnav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="NotSibling">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:background="@color/white">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <include layout="@layout/fragment_buyer_search_bar"/>
+            <!-- ================= SEARCH ================= -->
 
-            <include layout="@layout/fragment_buyer_categories"/>
+            <include
+                layout="@layout/fragment_buyer_search_bar"/>
 
-            <include layout="@layout/fragment_buyer_home_feature"/>
+
+            <!-- ================= CATEGORIES ================= -->
+
+            <include
+                layout="@layout/fragment_buyer_categories"/>
+
+
+            <!-- ================= FEATURED PRODUCTS ================= -->
+
+            <include
+                layout="@layout/fragment_buyer_home_feature"/>
 
         </LinearLayout>
 
     </ScrollView>
 
-
-
-
-
-</RelativeLayout>
-
+</LinearLayout>
