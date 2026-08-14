@@ -2,18 +2,18 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="12dp">
 
-    <!-- Categories Title -->
+    <!-- ================= CATEGORY TITLE ================= -->
 
     <TextView
+        android:id="@+id/txtCategoriesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Categories"
@@ -22,222 +22,16 @@
         android:textColor="@color/black"
         android:layout_marginBottom="12dp"/>
 
-    <!-- Category 1 + 2 -->
+    <!-- ================= CATEGORY GRID ================= -->
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <!-- Food Items -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardFood"
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="#E8F5E9">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Food Items"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2E7D32"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <!-- Handicrafts -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardHandicrafts"
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_weight="1"
-            android:layout_marginStart="6dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="#E8F5E9">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Handicrafts"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2E7D32"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-
-    <!-- Category 3 + 4 -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="12dp">
-
-        <!-- Agri Products -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardAgri"
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="#E8F5E9">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Agri Products"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2E7D32"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <!-- Dairy Products -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardDairy"
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_weight="1"
-            android:layout_marginStart="6dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="#E8F5E9">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dairy Products"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2E7D32"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-
-    <!-- Category 5 + 6 -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="12dp">
-
-        <!-- Herbal -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardHerbal"
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="#E8F5E9">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Herbal"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2E7D32"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <!-- Seasonal Items -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardSeasonal"
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_weight="1"
-            android:layout_marginStart="6dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:background="#E8F5E9">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seasonal Items"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2E7D32"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+        android:nestedScrollingEnabled="false"
+        android:clipToPadding="false"
+        android:padding="0dp"
+        android:contentDescription="Product categories"
+        android:overScrollMode="never"/>
 
 </LinearLayout>

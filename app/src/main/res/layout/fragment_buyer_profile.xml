@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,24 +29,28 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/imgProfile"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/circle_image_bg"
                     android:clipToOutline="true"
                     android:padding="3dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/hanan" />
+                    android:src="@drawable/hanan"
+                    android:contentDescription="Profile Image" />
 
                 <TextView
+                    android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/user_name"
+                    android:text="Loading..."
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvProfileRole"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Buyer"
@@ -53,7 +59,8 @@
 
             </LinearLayout>
 
-            <!-- ================= Profile Card ================= -->
+
+            <!-- ================= PROFILE CARD ================= -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,22 +84,27 @@
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:src="@drawable/ic_email"
-                        app:tint="@color/black" />
+                        app:tint="@color/black"
+                        android:contentDescription="Email" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvProfileEmail"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginStart="16dp"
-                        android:text="abdulhannanastaish@gmail.com"
+                        android:text="Loading..."
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
                 </LinearLayout>
 
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E0E0E0" />
+
 
                 <!-- ADDRESS -->
 
@@ -107,22 +119,27 @@
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:src="@drawable/baseline_home_24"
-                        app:tint="@color/black" />
+                        app:tint="@color/black"
+                        android:contentDescription="Address" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvProfileAddress"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginStart="16dp"
-                        android:text="@string/user_address"
+                        android:text="Address not added"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
                 </LinearLayout>
 
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E0E0E0" />
+
 
                 <!-- PHONE -->
 
@@ -137,13 +154,16 @@
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:src="@drawable/ic_phone_call"
-                        app:tint="@color/black" />
+                        app:tint="@color/black"
+                        android:contentDescription="Phone" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvProfilePhone"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginStart="16dp"
-                        android:text="03421269597"
+                        android:text="Loading..."
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
@@ -151,7 +171,8 @@
 
             </LinearLayout>
 
-            <!-- ================= Other Info ================= -->
+
+            <!-- ================= OTHER INFO ================= -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -162,72 +183,85 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- TERMS -->
+
+                <!-- ================= TERMS ================= -->
 
                 <LinearLayout
+                    android:id="@+id/layoutTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#E8F5E9"
+                    android:background="#FFFFFF"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="14dp">
+                    android:padding="14dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:src="@drawable/ic_term"
-                        app:tint="@color/black" />
+                        app:tint="@color/black"
+                        android:contentDescription="Terms and Conditions" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:padding="16dp"
                         android:text="@string/terms_conditions"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black" />
 
                 </LinearLayout>
 
-                <!-- EDIT PROFILE -->
+
+                <!-- ================= EDIT PROFILE ================= -->
 
                 <LinearLayout
+                    android:id="@+id/layoutEditProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="14dp">
+                    android:padding="14dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="26dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_profile"
-                        app:tint="@color/black" />
+                        app:tint="@color/black"
+                        android:contentDescription="Edit Profile" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:padding="16dp"
                         android:text="@string/profile_edit"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black" />
 
                 </LinearLayout>
 
-                <!-- WALLET -->
+
+                <!-- ================= WALLET ================= -->
 
                 <LinearLayout
                     android:id="@+id/layoutWallet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="14dp"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="26dp"
@@ -237,9 +271,10 @@
                         android:contentDescription="Wallet" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:padding="16dp"
                         android:text="My Wallet"
                         android:textColor="@android:color/black"
@@ -249,15 +284,19 @@
 
             </LinearLayout>
 
-            <!-- ================= Logout button ================= -->
+
+            <!-- ================= LOGOUT ================= -->
 
             <TextView
+                android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/logout_button_bg"
                 android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="Logout"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
@@ -266,143 +305,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-
-    <LinearLayout
-        android:id="@+id/bottomnav"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        android:background="@color/white"
-        android:elevation="10dp">
-
-        <!-- HOME -->
-
-        <LinearLayout
-            android:id="@+id/home_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_home_24"
-                android:contentDescription="Home"
-                app:tint="#4CAF50"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="Home"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#4CAF50"/>
-
-        </LinearLayout>
-
-
-        <!-- CART -->
-
-        <LinearLayout
-            android:id="@+id/menu_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_menu_24"
-                android:contentDescription="Cart"
-                app:tint="#555555"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="Cart"
-                android:textSize="12sp"
-                android:textColor="#555555"/>
-
-        </LinearLayout>
-
-
-        <!-- ORDERS -->
-
-        <LinearLayout
-            android:id="@+id/orders_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/order"
-                android:contentDescription="Orders"
-                app:tint="#555555"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="Orders"
-                android:textSize="12sp"
-                android:textColor="#555555"/>
-
-        </LinearLayout>
-
-
-        <!-- PROFILE -->
-
-        <LinearLayout
-            android:id="@+id/dashboard_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_dashboard"
-                android:contentDescription="Profile"
-                app:tint="#555555"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="Profile"
-                android:textSize="12sp"
-                android:textColor="#555555"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
