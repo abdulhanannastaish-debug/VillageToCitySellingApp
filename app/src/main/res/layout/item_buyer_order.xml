@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:id="@+id/orderMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ================================================= -->
+        <!-- PRODUCT NAME -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:id="@+id/tvOrderProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product"
+            android:textColor="#222222"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:contentDescription="Product name" />
+
+        <!-- ================================================= -->
+        <!-- ORDER ID -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:id="@+id/tvOrderId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Order ID: #RGL2345678"
+            android:textColor="#777777"
+            android:textSize="13sp"
+            android:contentDescription="Order ID" />
+
+        <!-- ================================================= -->
+        <!-- DATE -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:id="@+id/tvOrderDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="15 Aug 2026"
+            android:textColor="#777777"
+            android:textSize="13sp"
+            android:contentDescription="Order date" />
+
+        <!-- ================================================= -->
+        <!-- DIVIDER -->
+        <!-- ================================================= -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="14dp"
+            android:background="#E5E5E5"
+            android:contentDescription="@null" />
+
+        <!-- ================================================= -->
+        <!-- PRICE + QUANTITY -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvOrderPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rs 1700"
+                android:textColor="#2E7D32"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:contentDescription="Order total price" />
+
+            <TextView
+                android:id="@+id/tvOrderQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qty: 1"
+                android:textColor="#555555"
+                android:textSize="14sp"
+                android:contentDescription="Order quantity" />
+
+        </LinearLayout>
+
+        <!-- ================================================= -->
+        <!-- ORDER STATUS -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:id="@+id/tvOrderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#FFF3CD"
+            android:paddingStart="12dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="6dp"
+            android:text="PENDING"
+            android:textColor="#664D03"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:contentDescription="Order status" />
+
+        <!-- ================================================= -->
+        <!-- CANCEL ORDER -->
+        <!-- ================================================= -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancelOrder"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="#F44336"
+            android:text="Cancel Order"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:contentDescription="Cancel order" />
+
+        <!-- ================================================= -->
+        <!-- RATE & REVIEW -->
+        <!-- ================================================= -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRateProduct"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="#4CAF50"
+            android:text="Rate &amp; Review Product"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:contentDescription="Rate and review product" />
+
+        <!-- ================================================= -->
+        <!-- COMPLAINT BUTTON -->
+        <!-- ================================================= -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnComplaint"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="#FF9800"
+            android:text="Submit Complaint"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:contentDescription="Submit complaint about this order" />
+
+        <!-- ================================================= -->
+        <!-- COMPLAINT STATUS -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:id="@+id/tvComplaintStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="12dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#555555"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:contentDescription="Complaint status" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
