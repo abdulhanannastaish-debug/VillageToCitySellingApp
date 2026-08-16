@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F4F7"
@@ -26,7 +29,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
 
     <!-- ================= ORDER FILTER TABS ================= -->
 
@@ -89,14 +91,26 @@
 
     </LinearLayout>
 
+    <!-- ================= ORDERS SCROLL AREA ================= -->
 
-    <!-- ================= CONTENT AREA ================= -->
-
-    <FrameLayout
-        android:id="@+id/orderContentContainer"
+    <ScrollView
+        android:id="@+id/ordersScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        android:contentDescription="Orders list"
+        tools:ignore="HardcodedText,SpeakableTextPresentCheck">
 
+        <LinearLayout
+            android:id="@+id/orderContentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="16dp" />
+
+    </ScrollView>
 
 </LinearLayout>

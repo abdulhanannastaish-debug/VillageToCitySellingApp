@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/select_role_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.auth.Select_Role_Fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.auth.SelectRoleFragment"
         android:label="Select Role"
-        tools:layout="@layout/fragment_seller_role">
+        tools:layout="@layout/fragment_select_role">
         <action
             android:id="@+id/action_role_to_login"
             app:destination="@id/login_fragment" />

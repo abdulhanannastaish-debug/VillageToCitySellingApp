@@ -20,8 +20,11 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+                getDefaultProguardFile(
+                    "proguard-android-optimize.txt"
+                ),
                 "proguard-rules.pro"
             )
         }
@@ -34,24 +37,69 @@ android {
 }
 
 dependencies {
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
+    // =====================================================
+    // FIREBASE
+    // =====================================================
 
-    // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:21.4.0")
+    implementation(
+        platform(
+            "com.google.firebase:firebase-bom:33.15.0"
+        )
+    )
 
-    // Navigation Component
-    implementation("androidx.navigation:navigation-fragment:2.8.9")
-    implementation("androidx.navigation:navigation-ui:2.8.9")
+    implementation(
+        "com.google.firebase:firebase-auth"
+    )
+
+    implementation(
+        "com.google.firebase:firebase-firestore"
+    )
+
+    // =====================================================
+    // FIREBASE CLOUD MESSAGING
+    // =====================================================
+
+    implementation(
+        "com.google.firebase:firebase-messaging"
+    )
+
+    // =====================================================
+    // GOOGLE SIGN-IN
+    // =====================================================
+
+    implementation(
+        "com.google.android.gms:play-services-auth:21.4.0"
+    )
+
+    // =====================================================
+    // NAVIGATION COMPONENT
+    // =====================================================
+
+    implementation(
+        "androidx.navigation:navigation-fragment:2.8.9"
+    )
+
+    implementation(
+        "androidx.navigation:navigation-ui:2.8.9"
+    )
+
+    // =====================================================
+    // TESTING
+    // =====================================================
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+
+    androidTestImplementation(
+        libs.ext.junit
+    )
+
+    androidTestImplementation(
+        libs.espresso.core
+    )
 }

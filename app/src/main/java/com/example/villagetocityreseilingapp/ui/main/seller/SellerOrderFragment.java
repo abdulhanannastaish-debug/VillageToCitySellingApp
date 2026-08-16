@@ -1,10 +1,14 @@
 package com.example.villagetocityreseilingapp.ui.main.seller;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,9 +18,20 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.villagetocityreseilingapp.R;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerNotificationHelper;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class SellerOrderFragment extends Fragment {
 
@@ -25,6 +40,13 @@ public class SellerOrderFragment extends Fragment {
     // =========================================================
 
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
+
+    // =========================================================
+    // REALTIME LISTENER
+    // =========================================================
+
+    private ListenerRegistration ordersListener;
 
     // =========================================================
     // VIEWS
@@ -77,84 +99,110 @@ public class SellerOrderFragment extends Fragment {
             @NonNull View view,
             @Nullable Bundle savedInstanceState) {
 
-        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(
+                view,
+                savedInstanceState
+        );
 
         // =====================================================
         // FIREBASE
         // =====================================================
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // =====================================================
         // FIND VIEWS
         // =====================================================
 
         orderContentContainer =
-                view.findViewById(R.id.orderContentContainer);
+                view.findViewById(
+                        R.id.orderContentContainer
+                );
 
         tabAll =
-                view.findViewById(R.id.tabAll);
+                view.findViewById(
+                        R.id.tabAll
+                );
 
         tabActive =
-                view.findViewById(R.id.tabActive);
+                view.findViewById(
+                        R.id.tabActive
+                );
 
         tabDelivered =
-                view.findViewById(R.id.tabDelivered);
+                view.findViewById(
+                        R.id.tabDelivered
+                );
 
         tabCancelled =
-                view.findViewById(R.id.tabCancelled);
+                view.findViewById(
+                        R.id.tabCancelled
+                );
 
         // =====================================================
         // ALL
         // =====================================================
 
-        tabAll.setOnClickListener(v -> {
+        if (tabAll != null) {
 
-            currentFilter = "all";
+            tabAll.setOnClickListener(v -> {
 
-            updateTabColors();
+                currentFilter = "all";
 
-            loadOrders();
-        });
+                updateTabColors();
+
+                startOrdersListener();
+            });
+        }
 
         // =====================================================
         // ACTIVE
         // =====================================================
 
-        tabActive.setOnClickListener(v -> {
+        if (tabActive != null) {
 
-            currentFilter = "active";
+            tabActive.setOnClickListener(v -> {
 
-            updateTabColors();
+                currentFilter = "active";
 
-            loadOrders();
-        });
+                updateTabColors();
+
+                startOrdersListener();
+            });
+        }
 
         // =====================================================
         // DELIVERED
         // =====================================================
 
-        tabDelivered.setOnClickListener(v -> {
+        if (tabDelivered != null) {
 
-            currentFilter = "delivered";
+            tabDelivered.setOnClickListener(v -> {
 
-            updateTabColors();
+                currentFilter = "delivered";
 
-            loadOrders();
-        });
+                updateTabColors();
+
+                startOrdersListener();
+            });
+        }
 
         // =====================================================
         // CANCELLED
         // =====================================================
 
-        tabCancelled.setOnClickListener(v -> {
+        if (tabCancelled != null) {
 
-            currentFilter = "cancelled";
+            tabCancelled.setOnClickListener(v -> {
 
-            updateTabColors();
+                currentFilter = "cancelled";
 
-            loadOrders();
-        });
+                updateTabColors();
+
+                startOrdersListener();
+            });
+        }
 
         // =====================================================
         // INITIAL
@@ -162,7 +210,7 @@ public class SellerOrderFragment extends Fragment {
 
         updateTabColors();
 
-        loadOrders();
+        startOrdersListener();
     }
 
     // =========================================================
@@ -171,143 +219,322 @@ public class SellerOrderFragment extends Fragment {
 
     private void updateTabColors() {
 
-        tabAll.setTextColor(
-                getResources().getColor(
-                        android.R.color.darker_gray
-                )
+        if (tabAll == null ||
+                tabActive == null ||
+                tabDelivered == null ||
+                tabCancelled == null) {
+
+            return;
+        }
+
+        int gray = Color.rgb(
+                100,
+                100,
+                100
         );
 
-        tabActive.setTextColor(
-                getResources().getColor(
-                        android.R.color.darker_gray
-                )
+        int green = Color.rgb(
+                46,
+                125,
+                50
         );
 
-        tabDelivered.setTextColor(
-                getResources().getColor(
-                        android.R.color.darker_gray
-                )
-        );
-
-        tabCancelled.setTextColor(
-                getResources().getColor(
-                        android.R.color.darker_gray
-                )
-        );
+        tabAll.setTextColor(gray);
+        tabActive.setTextColor(gray);
+        tabDelivered.setTextColor(gray);
+        tabCancelled.setTextColor(gray);
 
         if (currentFilter.equals("all")) {
 
-            tabAll.setTextColor(
-                    getResources().getColor(
-                            R.color.green
-                    )
-            );
+            tabAll.setTextColor(green);
 
         } else if (currentFilter.equals("active")) {
 
-            tabActive.setTextColor(
-                    getResources().getColor(
-                            R.color.green
-                    )
-            );
+            tabActive.setTextColor(green);
 
         } else if (currentFilter.equals("delivered")) {
 
-            tabDelivered.setTextColor(
-                    getResources().getColor(
-                            R.color.green
-                    )
-            );
+            tabDelivered.setTextColor(green);
 
         } else if (currentFilter.equals("cancelled")) {
 
-            tabCancelled.setTextColor(
-                    getResources().getColor(
-                            R.color.green
-                    )
-            );
+            tabCancelled.setTextColor(green);
         }
     }
 
     // =========================================================
-    // LOAD ORDERS
+    // START REALTIME ORDERS LISTENER
+    //
+    // Buyer agar order cancel kare:
+    //
+    // status = cancelled
+    //
+    // Yeh listener Firestore change ko automatically receive karega.
     // =========================================================
 
-    private void loadOrders() {
+    private void startOrdersListener() {
 
-        if (!isAdded()) {
+        if (!isAdded() ||
+                db == null ||
+                auth == null ||
+                orderContentContainer == null) {
+
+            return;
+        }
+
+        // =====================================================
+        // REMOVE OLD LISTENER
+        // =====================================================
+
+        removeOrdersListener();
+
+        FirebaseUser currentUser =
+                auth.getCurrentUser();
+
+        if (currentUser == null) {
+
+            orderContentContainer.removeAllViews();
+
+            showNoOrdersMessage();
+
+            return;
+        }
+
+        String sellerId =
+                currentUser.getUid();
+
+        // =====================================================
+        // CLEAR OLD CARDS
+        // =====================================================
+
+        orderContentContainer.removeAllViews();
+
+        // =====================================================
+        // REALTIME QUERY
+        //
+        // sellerId ke orders realtime monitor honge.
+        // =====================================================
+
+        ordersListener =
+                db.collection("orders")
+                        .whereEqualTo(
+                                "sellerId",
+                                sellerId
+                        )
+                        .addSnapshotListener(
+                                (snapshots, error) -> {
+
+                                    if (!isAdded()) {
+                                        return;
+                                    }
+
+                                    if (error != null) {
+
+                                        orderContentContainer
+                                                .removeAllViews();
+
+                                        Toast.makeText(
+                                                requireContext(),
+                                                "Failed to load orders: "
+                                                        + error.getMessage(),
+                                                Toast.LENGTH_LONG
+                                        ).show();
+
+                                        showNoOrdersMessage();
+
+                                        return;
+                                    }
+
+                                    if (snapshots == null) {
+
+                                        showNoOrdersMessage();
+
+                                        return;
+                                    }
+
+                                    // =================================
+                                    // GET ALL DOCUMENTS
+                                    // =================================
+
+                                    List<DocumentSnapshot> documents =
+                                            new ArrayList<>(
+                                                    snapshots.getDocuments()
+                                            );
+
+                                    // =================================
+                                    // SORT
+                                    // =================================
+
+                                    documents.sort(
+                                            (a, b) ->
+                                                    Long.compare(
+                                                            getOrderDateValue(b),
+                                                            getOrderDateValue(a)
+                                                    )
+                                    );
+
+                                    // =================================
+                                    // DISPLAY
+                                    // =================================
+
+                                    displayOrders(
+                                            documents
+                                    );
+                                }
+                        );
+    }
+
+    // =========================================================
+    // REMOVE REALTIME LISTENER
+    // =========================================================
+
+    private void removeOrdersListener() {
+
+        if (ordersListener != null) {
+
+            ordersListener.remove();
+
+            ordersListener = null;
+        }
+    }
+
+    // =========================================================
+    // DISPLAY ORDERS
+    // =========================================================
+
+    private void displayOrders(
+            List<DocumentSnapshot> documents) {
+
+        if (!isAdded() ||
+                orderContentContainer == null) {
+
             return;
         }
 
         orderContentContainer.removeAllViews();
 
-        db.collection("orders")
-                .orderBy(
-                        "orderDate",
-                        Query.Direction.DESCENDING
-                )
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+        if (documents == null ||
+                documents.isEmpty()) {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+            showNoOrdersMessage();
 
-                    if (queryDocumentSnapshots.isEmpty()) {
+            return;
+        }
 
-                        showNoOrdersMessage();
+        boolean foundOrder = false;
 
-                        return;
-                    }
+        // =====================================================
+        // LOOP ALL ORDERS
+        // =====================================================
 
-                    boolean foundOrder = false;
+        for (DocumentSnapshot document : documents) {
 
-                    for (DocumentSnapshot document :
-                            queryDocumentSnapshots.getDocuments()) {
+            if (document == null ||
+                    !document.exists()) {
 
-                        String status =
-                                document.getString("status");
+                continue;
+            }
 
-                        if (status == null ||
-                                status.trim().isEmpty()) {
+            String status =
+                    getSafeString(
+                            document,
+                            "status",
+                            "pending"
+                    );
 
-                            status = "new";
-                        }
+            status =
+                    status
+                            .toLowerCase(
+                                    Locale.getDefault()
+                            )
+                            .trim();
 
-                        status = status
-                                .toLowerCase()
-                                .trim();
+            // =================================================
+            // FILTER
+            // =================================================
 
-                        if (!matchesFilter(status)) {
-                            continue;
-                        }
+            if (!matchesFilter(status)) {
+                continue;
+            }
 
-                        foundOrder = true;
+            foundOrder = true;
 
-                        addOrderCard(document);
-                    }
+            addOrderCard(
+                    document
+            );
+        }
 
-                    if (!foundOrder) {
+        // =====================================================
+        // NO MATCHING ORDERS
+        // =====================================================
 
-                        showNoOrdersMessage();
-                    }
+        if (!foundOrder) {
 
-                })
-                .addOnFailureListener(e -> {
+            showNoOrdersMessage();
+        }
+    }
 
-                    if (!isAdded()) {
-                        return;
-                    }
+    // =========================================================
+    // GET ORDER DATE VALUE
+    // =========================================================
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to load orders: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
+    private long getOrderDateValue(
+            DocumentSnapshot document) {
 
-                    showNoOrdersMessage();
-                });
+        if (document == null) {
+            return 0L;
+        }
+
+        Object value =
+                document.get("orderDate");
+
+        if (value instanceof Number) {
+
+            return ((Number) value)
+                    .longValue();
+        }
+
+        if (value instanceof Timestamp) {
+
+            return ((Timestamp) value)
+                    .toDate()
+                    .getTime();
+        }
+
+        if (value != null) {
+
+            try {
+
+                return Long.parseLong(
+                        String.valueOf(value)
+                                .trim()
+                );
+
+            } catch (Exception ignored) {
+            }
+        }
+
+        // =====================================================
+        // FALLBACK CREATED AT
+        // =====================================================
+
+        Object createdAt =
+                document.get("createdAt");
+
+        if (createdAt instanceof Timestamp) {
+
+            return ((Timestamp) createdAt)
+                    .toDate()
+                    .getTime();
+        }
+
+        if (createdAt instanceof Number) {
+
+            return ((Number) createdAt)
+                    .longValue();
+        }
+
+        return 0L;
     }
 
     // =========================================================
@@ -317,36 +544,38 @@ public class SellerOrderFragment extends Fragment {
     private boolean matchesFilter(
             String status) {
 
-        if (status == null) {
-            status = "new";
+        if (status == null ||
+                status.trim().isEmpty()) {
+
+            status = "pending";
         }
 
-        status = status
-                .toLowerCase()
-                .trim();
+        status =
+                status
+                        .toLowerCase(
+                                Locale.getDefault()
+                        )
+                        .trim();
 
         // =====================================================
         // ALL
+        //
+        // Pending/new orders
         // =====================================================
 
         if (currentFilter.equals("all")) {
 
-            return true;
+            return status.equals("new")
+                    || status.equals("pending");
         }
 
         // =====================================================
         // ACTIVE
-        //
-        // New
-        // Pending
-        // Processing
-        // Shipped
         // =====================================================
 
         if (currentFilter.equals("active")) {
 
-            return status.equals("new")
-                    || status.equals("pending")
+            return status.equals("accepted")
                     || status.equals("processing")
                     || status.equals("shipped");
         }
@@ -363,12 +592,18 @@ public class SellerOrderFragment extends Fragment {
 
         // =====================================================
         // CANCELLED
+        //
+        // Buyer cancel kare ya seller cancel kare:
+        // status = cancelled
+        //
+        // Is wajah se yahan automatically show hoga.
         // =====================================================
 
         if (currentFilter.equals("cancelled")) {
 
             return status.equals("cancelled")
-                    || status.equals("canceled");
+                    || status.equals("canceled")
+                    || status.equals("rejected");
         }
 
         return false;
@@ -385,17 +620,14 @@ public class SellerOrderFragment extends Fragment {
             return;
         }
 
-        // =====================================================
-        // INFLATE
-        // =====================================================
-
         View orderView =
-                LayoutInflater.from(requireContext())
-                        .inflate(
-                                R.layout.fragment_seller_order_card,
-                                orderContentContainer,
-                                false
-                        );
+                LayoutInflater.from(
+                        requireContext()
+                ).inflate(
+                        R.layout.fragment_seller_order_card,
+                        orderContentContainer,
+                        false
+                );
 
         // =====================================================
         // FIND VIEWS
@@ -442,192 +674,224 @@ public class SellerOrderFragment extends Fragment {
                 );
 
         // =====================================================
-        // FIRESTORE DATA
-        // =====================================================
-
-        String firestoreOrderId =
-                document.getString("id");
-
-        String orderDate =
-                document.getString("orderDate");
-
-        String productName =
-                document.getString("productName");
-
-        String quantity =
-                document.getString("quantity");
-
-        String amount =
-                document.getString("amount");
-
-        String firestoreStatus =
-                document.getString("status");
-
-        // =====================================================
         // ORDER ID
         // =====================================================
 
-        final String finalOrderId;
+        String firestoreOrderId =
+                getSafeString(
+                        document,
+                        "orderId",
+                        ""
+                );
 
-        if (firestoreOrderId == null ||
-                firestoreOrderId.trim().isEmpty()) {
+        if (firestoreOrderId
+                .trim()
+                .isEmpty()) {
 
-            finalOrderId = document.getId();
+            firestoreOrderId =
+                    getSafeString(
+                            document,
+                            "id",
+                            document.getId()
+                    );
+        }
 
-        } else {
+        final String finalOrderId =
+                firestoreOrderId
+                        .trim()
+                        .isEmpty()
+                        ? document.getId()
+                        : firestoreOrderId;
 
-            finalOrderId = firestoreOrderId;
+        // =====================================================
+        // DATE
+        // =====================================================
+
+        if (txtOrderDate != null) {
+
+            txtOrderDate.setText(
+                    getReadableOrderDate(
+                            document
+                    )
+            );
+        }
+
+        // =====================================================
+        // PRODUCT NAME
+        // =====================================================
+
+        String productName =
+                getSafeString(
+                        document,
+                        "productName",
+                        "Product"
+                );
+
+        if (txtProductName != null) {
+
+            txtProductName.setText(
+                    productName
+            );
+        }
+
+        // =====================================================
+        // QUANTITY
+        // =====================================================
+
+        String quantity =
+                getNumberOrString(
+                        document,
+                        "quantity",
+                        "1"
+                );
+
+        if (txtQuantity != null) {
+
+            txtQuantity.setText(
+                    "Quantity: " + quantity
+            );
+        }
+
+        // =====================================================
+        // AMOUNT
+        // =====================================================
+
+        String amount =
+                getNumberOrString(
+                        document,
+                        "totalAmount",
+                        ""
+                );
+
+        if (amount
+                .trim()
+                .isEmpty()) {
+
+            amount =
+                    getNumberOrString(
+                            document,
+                            "amount",
+                            "0"
+                    );
+        }
+
+        if (txtPrice != null) {
+
+            txtPrice.setText(
+                    "Rs. " + amount
+            );
         }
 
         // =====================================================
         // STATUS
         // =====================================================
 
-        final String finalStatus;
-
-        if (firestoreStatus == null ||
-                firestoreStatus.trim().isEmpty()) {
-
-            finalStatus = "new";
-
-        } else {
-
-            finalStatus = firestoreStatus
-                    .toLowerCase()
-                    .trim();
-        }
-
-        // =====================================================
-        // BASIC DATA
-        // =====================================================
-
-        txtOrderId.setText(
-                "Order #" + finalOrderId
-        );
-
-        if (orderDate != null &&
-                !orderDate.trim().isEmpty()) {
-
-            txtOrderDate.setText(
-                    orderDate
-            );
-
-        } else {
-
-            txtOrderDate.setText(
-                    "Date not available"
-            );
-        }
-
-        if (productName != null &&
-                !productName.trim().isEmpty()) {
-
-            txtProductName.setText(
-                    productName
-            );
-
-        } else {
-
-            txtProductName.setText(
-                    "Product"
-            );
-        }
-
-        if (quantity != null &&
-                !quantity.trim().isEmpty()) {
-
-            txtQuantity.setText(
-                    "Quantity: " + quantity
-            );
-
-        } else {
-
-            txtQuantity.setText(
-                    "Quantity: 1"
-            );
-        }
-
-        if (amount != null &&
-                !amount.trim().isEmpty()) {
-
-            txtPrice.setText(
-                    "Rs. " + amount
-            );
-
-        } else {
-
-            txtPrice.setText(
-                    "Rs. 0"
-            );
-        }
-
-        // =====================================================
-        // STATUS DISPLAY
-        // =====================================================
-
-        txtOrderStatus.setText(
-                formatStatus(finalStatus)
-        );
-
-        // =====================================================
-        // DETAILS BUTTON
-        // =====================================================
-
-        btnOrderDetails.setVisibility(
-                View.VISIBLE
-        );
-
-        btnOrderDetails.setOnClickListener(v -> {
-
-            openOrderDetails(
-                    document.getId()
-            );
-        });
-
-        // =====================================================
-        // NEW
-        // =====================================================
-
-        if (finalStatus.equals("new")) {
-
-            setStatusButton(
-                    btnOrderStatus,
-                    "Accept Order"
-            );
-
-            btnOrderStatus.setOnClickListener(v -> {
-
-                updateOrderStatus(
-                        document.getId(),
+        String firestoreStatus =
+                getSafeString(
+                        document,
+                        "status",
                         "pending"
                 );
-            });
+
+        final String finalStatus =
+                firestoreStatus
+                        .toLowerCase(
+                                Locale.getDefault()
+                        )
+                        .trim();
+
+        if (txtOrderId != null) {
+
+            txtOrderId.setText(
+                    "Order #" + finalOrderId
+            );
+        }
+
+        if (txtOrderStatus != null) {
+
+            txtOrderStatus.setText(
+                    formatStatus(
+                            finalStatus
+                    )
+            );
+
+            setStatusTextColor(
+                    txtOrderStatus,
+                    finalStatus
+            );
+        }
+
+        // =====================================================
+        // ORDER DETAILS
+        // =====================================================
+
+        if (btnOrderDetails != null) {
+
+            btnOrderDetails.setVisibility(
+                    View.VISIBLE
+            );
+
+            btnOrderDetails.setOnClickListener(
+                    v -> openOrderDetails(
+                            document.getId()
+                    )
+            );
+        }
+
+        // =====================================================
+        // PENDING / NEW
+        //
+        // Buyer ne abhi cancel nahi kiya.
+        // Seller accept kar sakta hai.
+        // =====================================================
+
+        if (finalStatus.equals("new")
+                || finalStatus.equals("pending")) {
+
+            if (btnOrderStatus != null) {
+
+                setStatusButton(
+                        btnOrderStatus,
+                        "Accept Order"
+                );
+
+                btnOrderStatus.setOnClickListener(
+                        v -> acceptOrderAndNotifyBuyer(
+                                document.getId()
+                        )
+                );
+            }
+
+            // =================================================
+            // SELLER CANCEL BUTTON
+            // =================================================
 
             addCancelButton(
                     orderView,
                     document.getId()
             );
-
         }
 
         // =====================================================
-        // PENDING
+        // ACCEPTED
         // =====================================================
 
-        else if (finalStatus.equals("pending")) {
+        else if (finalStatus.equals("accepted")) {
 
             setStatusButton(
                     btnOrderStatus,
-                    "Start Processing"
+                    "Mark as Shipped"
             );
 
-            btnOrderStatus.setOnClickListener(v -> {
+            if (btnOrderStatus != null) {
 
-                updateOrderStatus(
-                        document.getId(),
-                        "processing"
+                btnOrderStatus.setOnClickListener(
+                        v -> updateOrderStatus(
+                                document.getId(),
+                                "shipped"
+                        )
                 );
-            });
+            }
         }
 
         // =====================================================
@@ -641,13 +905,15 @@ public class SellerOrderFragment extends Fragment {
                     "Mark as Shipped"
             );
 
-            btnOrderStatus.setOnClickListener(v -> {
+            if (btnOrderStatus != null) {
 
-                updateOrderStatus(
-                        document.getId(),
-                        "shipped"
+                btnOrderStatus.setOnClickListener(
+                        v -> updateOrderStatus(
+                                document.getId(),
+                                "shipped"
+                        )
                 );
-            });
+            }
         }
 
         // =====================================================
@@ -661,68 +927,129 @@ public class SellerOrderFragment extends Fragment {
                     "Mark as Delivered"
             );
 
-            btnOrderStatus.setOnClickListener(v -> {
+            if (btnOrderStatus != null) {
 
-                updateOrderStatus(
-                        document.getId(),
-                        "delivered"
+                btnOrderStatus.setOnClickListener(
+                        v -> updateOrderStatus(
+                                document.getId(),
+                                "delivered"
+                        )
                 );
-            });
+            }
         }
 
         // =====================================================
         // DELIVERED
         // =====================================================
 
-        else if (finalStatus.equals("delivered") ||
-                finalStatus.equals("completed")) {
+        else if (
+                finalStatus.equals("delivered")
+                        || finalStatus.equals("completed")
+        ) {
 
             setStatusButton(
                     btnOrderStatus,
                     "Delivered"
             );
 
-            btnOrderStatus.setOnClickListener(v -> {
+            if (btnOrderStatus != null) {
 
-                Toast.makeText(
-                        requireContext(),
-                        "Order Delivered",
-                        Toast.LENGTH_SHORT
-                ).show();
-            });
+                btnOrderStatus.setOnClickListener(
+                        v -> {
+
+                            if (isAdded()) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order Delivered",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        }
+                );
+            }
         }
 
         // =====================================================
         // CANCELLED
+        //
+        // IMPORTANT:
+        //
+        // Buyer cancel karega to yahan ye block chalega.
         // =====================================================
 
-        else if (finalStatus.equals("cancelled") ||
-                finalStatus.equals("canceled")) {
+        else if (
+                finalStatus.equals("cancelled")
+                        || finalStatus.equals("canceled")
+                        || finalStatus.equals("rejected")
+        ) {
 
             setStatusButton(
                     btnOrderStatus,
                     "Cancelled"
             );
 
-            btnOrderStatus.setOnClickListener(v -> {
+            if (btnOrderStatus != null) {
 
-                Toast.makeText(
-                        requireContext(),
-                        "Order Cancelled",
-                        Toast.LENGTH_SHORT
-                ).show();
-            });
+                btnOrderStatus.setOnClickListener(
+                        v -> {
+
+                            if (isAdded()) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order Cancelled",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        }
+                );
+            }
         }
 
         // =====================================================
-        // OTHER STATUS
+        // OTHER
         // =====================================================
 
         else {
 
             setStatusButton(
                     btnOrderStatus,
-                    formatStatus(finalStatus)
+                    formatStatus(
+                            finalStatus
+                    )
+            );
+        }
+
+        // =====================================================
+        // CARD SPACING
+        // =====================================================
+
+        ViewGroup.LayoutParams existingParams =
+                orderView.getLayoutParams();
+
+        if (existingParams instanceof
+                LinearLayout.LayoutParams) {
+
+            LinearLayout.LayoutParams params =
+                    (LinearLayout.LayoutParams)
+                            existingParams;
+
+            params.width =
+                    ViewGroup.LayoutParams.MATCH_PARENT;
+
+            params.height =
+                    ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            params.setMargins(
+                    0,
+                    0,
+                    0,
+                    16
+            );
+
+            orderView.setLayoutParams(
+                    params
             );
         }
 
@@ -736,107 +1063,155 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
-    // SET STATUS BUTTON
+    // ACCEPT ORDER + NOTIFY BUYER
     // =========================================================
 
-    private void setStatusButton(
-            View button,
-            String text) {
-
-        button.setVisibility(
-                View.VISIBLE
-        );
-
-        if (button instanceof AppCompatButton) {
-
-            ((AppCompatButton) button)
-                    .setText(text);
-        }
-    }
-
-    // =========================================================
-    // ADD CANCEL BUTTON
-    // =========================================================
-
-    private void addCancelButton(
-            View orderView,
+    private void acceptOrderAndNotifyBuyer(
             String orderId) {
 
-        if (!(orderView instanceof ViewGroup)) {
+        if (!isAdded()) {
             return;
         }
 
-        ViewGroup root =
-                (ViewGroup) orderView;
+        db.collection("orders")
+                .document(orderId)
+                .get()
+                .addOnSuccessListener(
+                        documentSnapshot -> {
 
-        TextView cancelButton =
-                new TextView(requireContext());
+                            if (!isAdded()) {
+                                return;
+                            }
 
-        cancelButton.setText(
-                "Cancel Order"
-        );
+                            if (!documentSnapshot.exists()) {
 
-        cancelButton.setTextSize(
-                14
-        );
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order not found.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
 
-        cancelButton.setGravity(
-                Gravity.CENTER
-        );
+                                return;
+                            }
 
-        cancelButton.setTextColor(
-                getResources().getColor(
-                        android.R.color.white
+                            String currentStatus =
+                                    getSafeString(
+                                            documentSnapshot,
+                                            "status",
+                                            "pending"
+                                    )
+                                            .toLowerCase(
+                                                    Locale.getDefault()
+                                            )
+                                            .trim();
+
+                            // =================================================
+                            // IMPORTANT:
+                            //
+                            // Agar buyer ne seller ke accept karne se pehle
+                            // order cancel kar diya hai to seller accept
+                            // NAHI kar sakta.
+                            // =================================================
+
+                            if (!currentStatus.equals("pending")
+                                    && !currentStatus.equals("new")) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "This order is already "
+                                                + formatStatus(currentStatus)
+                                                + ".",
+                                        Toast.LENGTH_LONG
+                                ).show();
+
+                                return;
+                            }
+
+                            String buyerId =
+                                    getSafeString(
+                                            documentSnapshot,
+                                            "buyerId",
+                                            ""
+                                    );
+
+                            // =================================================
+                            // UPDATE STATUS
+                            // =================================================
+
+                            db.collection("orders")
+                                    .document(orderId)
+                                    .update(
+                                            "status",
+                                            "accepted",
+                                            "updatedAt",
+                                            Timestamp.now()
+                                    )
+                                    .addOnSuccessListener(
+                                            unused -> {
+
+                                                if (!isAdded()) {
+                                                    return;
+                                                }
+
+                                                // =================================
+                                                // BUYER NOTIFICATION
+                                                // =================================
+
+                                                if (!buyerId
+                                                        .trim()
+                                                        .isEmpty()) {
+
+                                                    BuyerNotificationHelper
+                                                            .createOrderAcceptedNotification(
+                                                                    buyerId,
+                                                                    orderId
+                                                            );
+                                                }
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Order accepted successfully.",
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
+
+                                                // =================================
+                                                // REALTIME LISTENER
+                                                // khud screen update karega.
+                                                // =================================
+                                            }
+                                    )
+                                    .addOnFailureListener(
+                                            e -> {
+
+                                                if (!isAdded()) {
+                                                    return;
+                                                }
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Failed to accept order: "
+                                                                + e.getMessage(),
+                                                        Toast.LENGTH_LONG
+                                                ).show();
+                                            }
+                                    );
+                        }
                 )
-        );
+                .addOnFailureListener(
+                        e -> {
 
-        cancelButton.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
+                            if (!isAdded()) {
+                                return;
+                            }
 
-        cancelButton.setBackgroundColor(
-                android.graphics.Color.rgb(
-                        229,
-                        57,
-                        53
-                )
-        );
-
-        cancelButton.setPadding(
-                10,
-                10,
-                10,
-                10
-        );
-
-        android.widget.LinearLayout.LayoutParams params =
-                new android.widget.LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        52
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to read order: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
                 );
-
-        params.setMargins(
-                16,
-                8,
-                16,
-                16
-        );
-
-        cancelButton.setLayoutParams(
-                params
-        );
-
-        cancelButton.setOnClickListener(v -> {
-
-            cancelOrder(
-                    orderId
-            );
-        });
-
-        root.addView(
-                cancelButton
-        );
     }
 
     // =========================================================
@@ -855,36 +1230,46 @@ public class SellerOrderFragment extends Fragment {
                 .document(orderId)
                 .update(
                         "status",
-                        newStatus
+                        newStatus,
+                        "updatedAt",
+                        Timestamp.now()
                 )
-                .addOnSuccessListener(unused -> {
+                .addOnSuccessListener(
+                        unused -> {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Order status updated to "
-                                    + formatStatus(newStatus),
-                            Toast.LENGTH_SHORT
-                    ).show();
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Order status updated to "
+                                            + formatStatus(
+                                            newStatus
+                                    ),
+                                    Toast.LENGTH_SHORT
+                            ).show();
 
-                    loadOrders();
-                })
-                .addOnFailureListener(e -> {
+                            // =================================================
+                            // REALTIME LISTENER AUTOMATICALLY REFRESH KAREGA
+                            // =================================================
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to update order: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to update order: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
     }
 
     // =========================================================
@@ -900,37 +1285,281 @@ public class SellerOrderFragment extends Fragment {
 
         db.collection("orders")
                 .document(orderId)
-                .update(
-                        "status",
-                        "cancelled"
+                .get()
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            if (!documentSnapshot.exists()) {
+                                return;
+                            }
+
+                            String currentStatus =
+                                    getSafeString(
+                                            documentSnapshot,
+                                            "status",
+                                            "pending"
+                                    )
+                                            .toLowerCase(
+                                                    Locale.getDefault()
+                                            )
+                                            .trim();
+
+                            // =================================================
+                            // CANCEL SIRF PENDING ORDER KO
+                            // =================================================
+
+                            if (!currentStatus.equals("pending")
+                                    && !currentStatus.equals("new")) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order cannot be cancelled now.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                return;
+                            }
+
+                            db.collection("orders")
+                                    .document(orderId)
+                                    .update(
+                                            "status",
+                                            "cancelled",
+                                            "updatedAt",
+                                            Timestamp.now()
+                                    )
+                                    .addOnSuccessListener(
+                                            unused -> {
+
+                                                if (!isAdded()) {
+                                                    return;
+                                                }
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Order cancelled successfully.",
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
+
+                                                // =================================================
+                                                // REALTIME LISTENER:
+                                                //
+                                                // pending card automatically disappear
+                                                // aur Cancelled tab mein show ho jayega.
+                                                // =================================================
+                                            }
+                                    )
+                                    .addOnFailureListener(
+                                            e -> {
+
+                                                if (!isAdded()) {
+                                                    return;
+                                                }
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Failed to cancel order: "
+                                                                + e.getMessage(),
+                                                        Toast.LENGTH_LONG
+                                                ).show();
+                                            }
+                                    );
+                        }
                 )
-                .addOnSuccessListener(unused -> {
+                .addOnFailureListener(
+                        e -> {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Order cancelled successfully.",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to check order: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
+    }
 
-                    loadOrders();
-                })
-                .addOnFailureListener(e -> {
+    // =========================================================
+    // ADD CANCEL BUTTON
+    // =========================================================
 
-                    if (!isAdded()) {
-                        return;
-                    }
+    private void addCancelButton(
+            View orderView,
+            String orderId) {
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to cancel order: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+        if (!isAdded() ||
+                orderView == null) {
+
+            return;
+        }
+
+        LinearLayout targetLayout =
+                findFirstLinearLayout(
+                        orderView
+                );
+
+        if (targetLayout == null) {
+            return;
+        }
+
+        // =====================================================
+        // CANCEL BUTTON
+        // =====================================================
+
+        TextView cancelButton =
+                new TextView(
+                        requireContext()
+                );
+
+        cancelButton.setText(
+                "Cancel Order"
+        );
+
+        cancelButton.setTextSize(
+                13
+        );
+
+        cancelButton.setGravity(
+                Gravity.CENTER
+        );
+
+        cancelButton.setTextColor(
+                Color.rgb(
+                        198,
+                        40,
+                        40
+                )
+        );
+
+        cancelButton.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        // =====================================================
+        // BACKGROUND
+        // =====================================================
+
+        GradientDrawable background =
+                new GradientDrawable();
+
+        background.setColor(
+                Color.rgb(
+                        255,
+                        235,
+                        235
+                )
+        );
+
+        background.setCornerRadius(
+                12
+        );
+
+        background.setStroke(
+                1,
+                Color.rgb(
+                        229,
+                        57,
+                        53
+                )
+        );
+
+        cancelButton.setBackground(
+                background
+        );
+
+        cancelButton.setPadding(
+                10,
+                8,
+                10,
+                8
+        );
+
+        // =====================================================
+        // SIZE
+        // =====================================================
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        44
+                );
+
+        params.setMargins(
+                16,
+                8,
+                16,
+                12
+        );
+
+        cancelButton.setLayoutParams(
+                params
+        );
+
+        // =====================================================
+        // CLICK
+        // =====================================================
+
+        cancelButton.setOnClickListener(
+                v -> cancelOrder(
+                        orderId
+                )
+        );
+
+        // =====================================================
+        // ADD
+        // =====================================================
+
+        targetLayout.addView(
+                cancelButton
+        );
+    }
+
+    // =========================================================
+    // FIND FIRST LINEAR LAYOUT
+    // =========================================================
+
+    private LinearLayout findFirstLinearLayout(
+            View view) {
+
+        if (view instanceof LinearLayout) {
+
+            return (LinearLayout) view;
+        }
+
+        if (view instanceof ViewGroup) {
+
+            ViewGroup group =
+                    (ViewGroup) view;
+
+            for (int i = 0;
+                 i < group.getChildCount();
+                 i++) {
+
+                View child =
+                        group.getChildAt(i);
+
+                LinearLayout result =
+                        findFirstLinearLayout(
+                                child
+                        );
+
+                if (result != null) {
+
+                    return result;
+                }
+            }
+        }
+
+        return null;
     }
 
     // =========================================================
@@ -962,24 +1591,144 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
+    // STATUS TEXT COLOR
+    // =========================================================
+
+    private void setStatusTextColor(
+            TextView statusView,
+            String status) {
+
+        if (statusView == null) {
+            return;
+        }
+
+        if (status == null) {
+            status = "pending";
+        }
+
+        status =
+                status
+                        .toLowerCase(
+                                Locale.getDefault()
+                        )
+                        .trim();
+
+        if (status.equals("accepted")
+                || status.equals("processing")) {
+
+            statusView.setTextColor(
+                    Color.rgb(
+                            46,
+                            125,
+                            50
+                    )
+            );
+
+        } else if (
+                status.equals("shipped")
+        ) {
+
+            statusView.setTextColor(
+                    Color.rgb(
+                            21,
+                            101,
+                            192
+                    )
+            );
+
+        } else if (
+                status.equals("delivered")
+                        || status.equals("completed")
+        ) {
+
+            statusView.setTextColor(
+                    Color.rgb(
+                            46,
+                            125,
+                            50
+                    )
+            );
+
+        } else if (
+                status.equals("cancelled")
+                        || status.equals("canceled")
+                        || status.equals("rejected")
+        ) {
+
+            statusView.setTextColor(
+                    Color.rgb(
+                            198,
+                            40,
+                            40
+                    )
+            );
+
+        } else {
+
+            statusView.setTextColor(
+                    Color.rgb(
+                            239,
+                            108,
+                            0
+                    )
+            );
+        }
+    }
+
+    // =========================================================
+    // SET STATUS BUTTON
+    // =========================================================
+
+    private void setStatusButton(
+            View button,
+            String text) {
+
+        if (button == null) {
+            return;
+        }
+
+        button.setVisibility(
+                View.VISIBLE
+        );
+
+        if (button instanceof AppCompatButton) {
+
+            ((AppCompatButton) button)
+                    .setText(text);
+
+        } else if (button instanceof TextView) {
+
+            ((TextView) button)
+                    .setText(text);
+        }
+    }
+
+    // =========================================================
     // FORMAT STATUS
     // =========================================================
 
     private String formatStatus(
             String status) {
 
-        if (status == null) {
-            return "New";
+        if (status == null ||
+                status.trim().isEmpty()) {
+
+            return "Pending";
         }
 
-        status = status.trim();
+        status =
+                status.trim();
 
         if (status.equalsIgnoreCase("new")) {
-            return "New";
+            return "Pending";
         }
 
         if (status.equalsIgnoreCase("pending")) {
             return "Pending";
+        }
+
+        if (status.equalsIgnoreCase("accepted")) {
+            return "Accepted";
         }
 
         if (status.equalsIgnoreCase("processing")) {
@@ -990,27 +1739,219 @@ public class SellerOrderFragment extends Fragment {
             return "Shipped";
         }
 
-        if (status.equalsIgnoreCase("completed") ||
-                status.equalsIgnoreCase("delivered")) {
+        if (status.equalsIgnoreCase("completed")
+                || status.equalsIgnoreCase("delivered")) {
 
             return "Delivered";
         }
 
-        if (status.equalsIgnoreCase("cancelled") ||
-                status.equalsIgnoreCase("canceled")) {
+        if (status.equalsIgnoreCase("cancelled")
+                || status.equalsIgnoreCase("canceled")
+                || status.equalsIgnoreCase("rejected")) {
 
             return "Cancelled";
         }
 
-        if (status.equalsIgnoreCase("accepted")) {
-            return "Accepted";
-        }
-
-        if (status.equalsIgnoreCase("confirmed")) {
-            return "Confirmed";
-        }
-
         return status;
+    }
+
+    // =========================================================
+    // READABLE ORDER DATE
+    // =========================================================
+
+    private String getReadableOrderDate(
+            DocumentSnapshot document) {
+
+        if (document == null) {
+            return "Date not available";
+        }
+
+        Object orderDate =
+                document.get("orderDate");
+
+        long time = -1;
+
+        // =====================================================
+        // NUMBER
+        // =====================================================
+
+        if (orderDate instanceof Number) {
+
+            time =
+                    ((Number) orderDate)
+                            .longValue();
+        }
+
+        // =====================================================
+        // TIMESTAMP
+        // =====================================================
+
+        else if (orderDate instanceof Timestamp) {
+
+            time =
+                    ((Timestamp) orderDate)
+                            .toDate()
+                            .getTime();
+        }
+
+        // =====================================================
+        // STRING
+        // =====================================================
+
+        else if (orderDate != null) {
+
+            try {
+
+                time =
+                        Long.parseLong(
+                                String.valueOf(
+                                        orderDate
+                                ).trim()
+                        );
+
+            } catch (Exception ignored) {
+            }
+        }
+
+        // =====================================================
+        // FALLBACK CREATED AT
+        // =====================================================
+
+        if (time <= 0) {
+
+            Object createdAt =
+                    document.get("createdAt");
+
+            if (createdAt instanceof Timestamp) {
+
+                time =
+                        ((Timestamp) createdAt)
+                                .toDate()
+                                .getTime();
+            }
+
+            if (createdAt instanceof Number) {
+
+                time =
+                        ((Number) createdAt)
+                                .longValue();
+            }
+        }
+
+        if (time <= 0) {
+
+            return "Date not available";
+        }
+
+        try {
+
+            SimpleDateFormat formatter =
+                    new SimpleDateFormat(
+                            "dd MMM yyyy, hh:mm a",
+                            Locale.getDefault()
+                    );
+
+            return formatter.format(
+                    new Date(time)
+            );
+
+        } catch (Exception e) {
+
+            return String.valueOf(time);
+        }
+    }
+
+    // =========================================================
+    // SAFE STRING
+    // =========================================================
+
+    private String getSafeString(
+            DocumentSnapshot document,
+            String field,
+            String defaultValue) {
+
+        if (document == null) {
+            return defaultValue;
+        }
+
+        Object value =
+                document.get(field);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        String result =
+                String.valueOf(value)
+                        .trim();
+
+        if (result.isEmpty()) {
+            return defaultValue;
+        }
+
+        return result;
+    }
+
+    // =========================================================
+    // NUMBER OR STRING
+    // =========================================================
+
+    private String getNumberOrString(
+            DocumentSnapshot document,
+            String field,
+            String defaultValue) {
+
+        if (document == null) {
+            return defaultValue;
+        }
+
+        Object value =
+                document.get(field);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        // =====================================================
+        // NUMBER
+        // =====================================================
+
+        if (value instanceof Number) {
+
+            Number number =
+                    (Number) value;
+
+            double doubleValue =
+                    number.doubleValue();
+
+            long longValue =
+                    number.longValue();
+
+            if (doubleValue == longValue) {
+
+                return String.valueOf(
+                        longValue
+                );
+            }
+
+            return String.valueOf(
+                    doubleValue
+            );
+        }
+
+        // =====================================================
+        // STRING
+        // =====================================================
+
+        String result =
+                String.valueOf(value)
+                        .trim();
+
+        if (result.isEmpty()) {
+            return defaultValue;
+        }
+
+        return result;
     }
 
     // =========================================================
@@ -1019,24 +1960,57 @@ public class SellerOrderFragment extends Fragment {
 
     private void showNoOrdersMessage() {
 
-        if (!isAdded()) {
+        if (!isAdded() ||
+                orderContentContainer == null) {
+
             return;
         }
 
         TextView noOrders =
-                new TextView(requireContext());
+                new TextView(
+                        requireContext()
+                );
 
-        noOrders.setText(
-                "No orders found"
-        );
+        if (currentFilter.equals("all")) {
+
+            noOrders.setText(
+                    "No pending orders"
+            );
+
+        } else if (currentFilter.equals("active")) {
+
+            noOrders.setText(
+                    "No active orders"
+            );
+
+        } else if (currentFilter.equals("delivered")) {
+
+            noOrders.setText(
+                    "No delivered orders"
+            );
+
+        } else if (currentFilter.equals("cancelled")) {
+
+            noOrders.setText(
+                    "No cancelled orders"
+            );
+
+        } else {
+
+            noOrders.setText(
+                    "No orders found"
+            );
+        }
 
         noOrders.setTextSize(
                 16
         );
 
         noOrders.setTextColor(
-                getResources().getColor(
-                        android.R.color.darker_gray
+                Color.rgb(
+                        90,
+                        90,
+                        90
                 )
         );
 
@@ -1051,13 +2025,37 @@ public class SellerOrderFragment extends Fragment {
                 60
         );
 
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+
+        noOrders.setLayoutParams(
+                params
+        );
+
         orderContentContainer.addView(
                 noOrders
         );
     }
 
     // =========================================================
-    // RELOAD
+    // PAUSE
+    // =========================================================
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+
+        // Listener remove karna zaroori hai
+        // taake unnecessary Firebase reads na hon.
+        removeOrdersListener();
+    }
+
+    // =========================================================
+    // RESUME
     // =========================================================
 
     @Override
@@ -1068,7 +2066,19 @@ public class SellerOrderFragment extends Fragment {
         if (db != null &&
                 orderContentContainer != null) {
 
-            loadOrders();
+            startOrdersListener();
         }
+    }
+
+    // =========================================================
+    // DESTROY VIEW
+    // =========================================================
+
+    @Override
+    public void onDestroyView() {
+
+        removeOrdersListener();
+
+        super.onDestroyView();
     }
 }

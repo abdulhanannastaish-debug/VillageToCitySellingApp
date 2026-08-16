@@ -5,14 +5,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.villagetocityreseilingapp.R;
@@ -29,10 +28,10 @@ public class SellerEditProductFragment extends Fragment {
     // PRODUCT ID
     // =========================================================
 
-    private static final String ARG_PRODUCT_ID = "productId";
+    private static final String ARG_PRODUCT_ID =
+            "productId";
 
     private String productId;
-
 
     // =========================================================
     // VIEWS
@@ -40,14 +39,12 @@ public class SellerEditProductFragment extends Fragment {
 
     private EditText etProductName;
     private EditText etProductPrice;
-    private EditText etProductQuantity;
+    private EditText etProductStock;
     private EditText etProductDescription;
 
-    private Button btnUpdateProduct;
-    private Button btnDeleteProduct;
+    private AppCompatButton btnUpdateProduct;
 
     private ImageButton btnBack;
-
 
     // =========================================================
     // FIREBASE
@@ -56,7 +53,6 @@ public class SellerEditProductFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
-
     // =========================================================
     // CONSTRUCTOR
     // =========================================================
@@ -64,7 +60,6 @@ public class SellerEditProductFragment extends Fragment {
     public SellerEditProductFragment() {
         // Required empty public constructor
     }
-
 
     // =========================================================
     // NEW INSTANCE
@@ -76,18 +71,20 @@ public class SellerEditProductFragment extends Fragment {
         SellerEditProductFragment fragment =
                 new SellerEditProductFragment();
 
-        Bundle args = new Bundle();
+        Bundle args =
+                new Bundle();
 
         args.putString(
                 ARG_PRODUCT_ID,
                 productId
         );
 
-        fragment.setArguments(args);
+        fragment.setArguments(
+                args
+        );
 
         return fragment;
     }
-
 
     // =========================================================
     // ON CREATE
@@ -97,17 +94,19 @@ public class SellerEditProductFragment extends Fragment {
     public void onCreate(
             Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+        super.onCreate(
+                savedInstanceState
+        );
 
         if (getArguments() != null) {
 
             productId =
-                    getArguments().getString(
-                            ARG_PRODUCT_ID
-                    );
+                    getArguments()
+                            .getString(
+                                    ARG_PRODUCT_ID
+                            );
         }
     }
-
 
     // =========================================================
     // CREATE VIEW
@@ -126,7 +125,6 @@ public class SellerEditProductFragment extends Fragment {
         );
     }
 
-
     // =========================================================
     // VIEW CREATED
     // =========================================================
@@ -141,7 +139,6 @@ public class SellerEditProductFragment extends Fragment {
                 savedInstanceState
         );
 
-
         // =====================================================
         // FIREBASE
         // =====================================================
@@ -151,7 +148,6 @@ public class SellerEditProductFragment extends Fragment {
 
         db =
                 FirebaseFirestore.getInstance();
-
 
         // =====================================================
         // FIND VIEWS
@@ -172,9 +168,9 @@ public class SellerEditProductFragment extends Fragment {
                         R.id.etProductPrice
                 );
 
-        etProductQuantity =
+        etProductStock =
                 view.findViewById(
-                        R.id.etProductQuantity
+                        R.id.etProductStock
                 );
 
         etProductDescription =
@@ -187,23 +183,16 @@ public class SellerEditProductFragment extends Fragment {
                         R.id.btnUpdateProduct
                 );
 
-        btnDeleteProduct =
-                view.findViewById(
-                        R.id.btnDeleteProduct
-                );
-
-
         // =====================================================
-        // BACK BUTTON
+        // BACK
         // =====================================================
 
-        btnBack.setOnClickListener(v ->
-                goBackToProducts()
+        btnBack.setOnClickListener(
+                v -> goBackToProducts()
         );
 
-
         // =====================================================
-        // CHECK PRODUCT ID
+        // PRODUCT ID CHECK
         // =====================================================
 
         if (TextUtils.isEmpty(productId)) {
@@ -219,35 +208,23 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
-
         // =====================================================
         // LOAD PRODUCT
         // =====================================================
 
         loadProduct();
 
-
         // =====================================================
-        // UPDATE PRODUCT
-        // =====================================================
-
-        btnUpdateProduct.setOnClickListener(v ->
-                updateProduct()
-        );
-
-
-        // =====================================================
-        // DELETE PRODUCT
+        // UPDATE
         // =====================================================
 
-        btnDeleteProduct.setOnClickListener(v ->
-                showDeleteConfirmation()
+        btnUpdateProduct.setOnClickListener(
+                v -> updateProduct()
         );
     }
 
-
     // =========================================================
-    // LOAD PRODUCT FROM FIRESTORE
+    // LOAD PRODUCT
     // =========================================================
 
     private void loadProduct() {
@@ -257,6 +234,10 @@ public class SellerEditProductFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(
                         documentSnapshot -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
 
                             if (!documentSnapshot.exists()) {
 
@@ -270,11 +251,6 @@ public class SellerEditProductFragment extends Fragment {
 
                                 return;
                             }
-
-
-                            // =================================================
-                            // CHECK CURRENT SELLER
-                            // =================================================
 
                             FirebaseUser currentUser =
                                     auth.getCurrentUser();
@@ -290,21 +266,22 @@ public class SellerEditProductFragment extends Fragment {
                                 return;
                             }
 
+                            // =================================
+                            // SELLER SECURITY CHECK
+                            // =================================
 
                             String sellerId =
                                     documentSnapshot.getString(
                                             "sellerId"
                                     );
 
-
-                            // =================================================
-                            // SECURITY CHECK
-                            // =================================================
-
-                            if (sellerId == null ||
-                                    !sellerId.equals(
-                                            currentUser.getUid()
-                                    )) {
+                            if (
+                                    sellerId == null
+                                            ||
+                                            !sellerId.equals(
+                                                    currentUser.getUid()
+                                            )
+                            ) {
 
                                 Toast.makeText(
                                         requireContext(),
@@ -317,107 +294,113 @@ public class SellerEditProductFragment extends Fragment {
                                 return;
                             }
 
-
-                            // =================================================
-                            // GET DATA
-                            // =================================================
+                            // =================================
+                            // NAME
+                            // =================================
 
                             String name =
                                     documentSnapshot.getString(
                                             "name"
                                     );
 
-                            String description =
-                                    documentSnapshot.getString(
-                                            "description"
-                                    );
-
-
-                            // =================================================
-                            // PRICE
-                            // =================================================
-
-                            Object priceObject =
-                                    documentSnapshot.get(
-                                            "price"
-                                    );
-
-
-                            // =================================================
-                            // QUANTITY
-                            // =================================================
-
-                            Object quantityObject =
-                                    documentSnapshot.get(
-                                            "quantity"
-                                    );
-
-
-                            // =================================================
-                            // SET NAME
-                            // =================================================
-
-                            if (name != null) {
+                            if (!TextUtils.isEmpty(name)) {
 
                                 etProductName.setText(
                                         name
                                 );
                             }
 
+                            // =================================
+                            // DESCRIPTION
+                            // =================================
 
-                            // =================================================
-                            // SET PRICE
-                            // =================================================
+                            String description =
+                                    documentSnapshot.getString(
+                                            "description"
+                                    );
 
-                            if (priceObject != null) {
-
-                                etProductPrice.setText(
-                                        String.valueOf(
-                                                priceObject
-                                        )
-                                );
-                            }
-
-
-                            // =================================================
-                            // SET QUANTITY
-                            // =================================================
-
-                            if (quantityObject != null) {
-
-                                etProductQuantity.setText(
-                                        String.valueOf(
-                                                quantityObject
-                                        )
-                                );
-                            }
-
-
-                            // =================================================
-                            // SET DESCRIPTION
-                            // =================================================
-
-                            if (description != null) {
+                            if (!TextUtils.isEmpty(description)) {
 
                                 etProductDescription.setText(
                                         description
                                 );
                             }
 
+                            // =================================
+                            // PRICE
+                            // =================================
+
+                            Object priceObject =
+                                    documentSnapshot.get(
+                                            "price"
+                                    );
+
+                            if (priceObject != null) {
+
+                                etProductPrice.setText(
+                                        formatNumber(
+                                                priceObject
+                                        )
+                                );
+                            }
+
+                            // =================================
+                            // STOCK
+                            // =================================
+
+                            Object stockObject =
+                                    documentSnapshot.get(
+                                            "availableStock"
+                                    );
+
+                            if (stockObject == null) {
+
+                                stockObject =
+                                        documentSnapshot.get(
+                                                "totalStock"
+                                        );
+                            }
+
+                            if (stockObject == null) {
+
+                                stockObject =
+                                        documentSnapshot.get(
+                                                "quantity"
+                                        );
+                            }
+
+                            if (stockObject != null) {
+
+                                etProductStock.setText(
+                                        formatNumber(
+                                                stockObject
+                                        )
+                                );
+
+                            } else {
+
+                                etProductStock.setText(
+                                        "0"
+                                );
+                            }
                         }
                 )
-                .addOnFailureListener(e -> {
+                .addOnFailureListener(
+                        e -> {
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to load product: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                });
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to load product: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
     }
-
 
     // =========================================================
     // UPDATE PRODUCT
@@ -437,8 +420,8 @@ public class SellerEditProductFragment extends Fragment {
                         .toString()
                         .trim();
 
-        String quantityText =
-                etProductQuantity
+        String stockText =
+                etProductStock
                         .getText()
                         .toString()
                         .trim();
@@ -449,9 +432,8 @@ public class SellerEditProductFragment extends Fragment {
                         .toString()
                         .trim();
 
-
         // =====================================================
-        // VALIDATION
+        // NAME
         // =====================================================
 
         if (TextUtils.isEmpty(name)) {
@@ -465,6 +447,9 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
+        // =====================================================
+        // PRICE
+        // =====================================================
 
         if (TextUtils.isEmpty(priceText)) {
 
@@ -477,18 +462,24 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
+        // =====================================================
+        // STOCK
+        // =====================================================
 
-        if (TextUtils.isEmpty(quantityText)) {
+        if (TextUtils.isEmpty(stockText)) {
 
-            etProductQuantity.setError(
-                    "Enter product quantity"
+            etProductStock.setError(
+                    "Enter available stock"
             );
 
-            etProductQuantity.requestFocus();
+            etProductStock.requestFocus();
 
             return;
         }
 
+        // =====================================================
+        // DESCRIPTION
+        // =====================================================
 
         if (TextUtils.isEmpty(description)) {
 
@@ -500,7 +491,6 @@ public class SellerEditProductFragment extends Fragment {
 
             return;
         }
-
 
         // =====================================================
         // CURRENT USER
@@ -519,7 +509,6 @@ public class SellerEditProductFragment extends Fragment {
 
             return;
         }
-
 
         // =====================================================
         // PRICE
@@ -545,41 +534,62 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
+        if (price < 0) {
 
-        // =====================================================
-        // QUANTITY
-        // =====================================================
-
-        int quantity;
-
-        try {
-
-            quantity =
-                    Integer.parseInt(
-                            quantityText
-                    );
-
-        } catch (NumberFormatException e) {
-
-            etProductQuantity.setError(
-                    "Enter a valid quantity"
+            etProductPrice.setError(
+                    "Price cannot be negative"
             );
 
-            etProductQuantity.requestFocus();
+            etProductPrice.requestFocus();
 
             return;
         }
 
+        // =====================================================
+        // STOCK
+        // =====================================================
+
+        int availableStock;
+
+        try {
+
+            availableStock =
+                    Integer.parseInt(
+                            stockText
+                    );
+
+        } catch (NumberFormatException e) {
+
+            etProductStock.setError(
+                    "Enter a valid stock"
+            );
+
+            etProductStock.requestFocus();
+
+            return;
+        }
+
+        if (availableStock < 0) {
+
+            etProductStock.setError(
+                    "Stock cannot be negative"
+            );
+
+            etProductStock.requestFocus();
+
+            return;
+        }
 
         // =====================================================
         // DISABLE BUTTON
         // =====================================================
 
-        btnUpdateProduct.setEnabled(false);
-
+        btnUpdateProduct.setEnabled(
+                false
+        );
 
         // =====================================================
-        // UPDATED DATA
+        // UPDATE DATA
         // =====================================================
 
         Map<String, Object> updateData =
@@ -596,8 +606,18 @@ public class SellerEditProductFragment extends Fragment {
         );
 
         updateData.put(
+                "availableStock",
+                availableStock
+        );
+
+        updateData.put(
+                "totalStock",
+                availableStock
+        );
+
+        updateData.put(
                 "quantity",
-                quantity
+                availableStock
         );
 
         updateData.put(
@@ -605,6 +625,24 @@ public class SellerEditProductFragment extends Fragment {
                 description
         );
 
+        // =====================================================
+        // STATUS
+        // =====================================================
+
+        if (availableStock <= 0) {
+
+            updateData.put(
+                    "status",
+                    "outOfStock"
+            );
+
+        } else {
+
+            updateData.put(
+                    "status",
+                    "active"
+            );
+        }
 
         // =====================================================
         // UPDATE FIRESTORE
@@ -613,126 +651,118 @@ public class SellerEditProductFragment extends Fragment {
         db.collection("products")
                 .document(productId)
                 .update(updateData)
-                .addOnSuccessListener(unused -> {
+                .addOnSuccessListener(
+                        unused -> {
 
-                    btnUpdateProduct.setEnabled(
-                            true
-                    );
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Product updated successfully!",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                            btnUpdateProduct.setEnabled(
+                                    true
+                            );
 
-                    goBackToProducts();
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Product updated successfully!",
+                                    Toast.LENGTH_SHORT
+                            ).show();
 
-                })
-                .addOnFailureListener(e -> {
+                            goBackToProducts();
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
 
-                    btnUpdateProduct.setEnabled(
-                            true
-                    );
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to update product: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+                            btnUpdateProduct.setEnabled(
+                                    true
+                            );
+
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to update product: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
     }
 
-
     // =========================================================
-    // DELETE CONFIRMATION
-    // =========================================================
-
-    private void showDeleteConfirmation() {
-
-        new AlertDialog.Builder(
-                requireContext()
-        )
-                .setTitle("Delete Product")
-                .setMessage(
-                        "Are you sure you want to delete this product?"
-                )
-                .setNegativeButton(
-                        "Cancel",
-                        null
-                )
-                .setPositiveButton(
-                        "Delete",
-                        (dialog, which) ->
-                                deleteProduct()
-                )
-                .show();
-    }
-
-
-    // =========================================================
-    // DELETE PRODUCT
+    // FORMAT NUMBER
     // =========================================================
 
-    private void deleteProduct() {
+    private String formatNumber(
+            Object value) {
 
-        FirebaseUser currentUser =
-                auth.getCurrentUser();
-
-        if (currentUser == null) {
-
-            Toast.makeText(
-                    requireContext(),
-                    "Seller is not logged in.",
-                    Toast.LENGTH_SHORT
-            ).show();
-
-            return;
+        if (value == null) {
+            return "";
         }
 
+        if (value instanceof Number) {
 
-        btnDeleteProduct.setEnabled(
-                false
-        );
+            double doubleValue =
+                    ((Number) value)
+                            .doubleValue();
 
+            if (
+                    doubleValue
+                            == Math.floor(
+                            doubleValue
+                    )
+            ) {
 
-        // =====================================================
-        // DELETE FROM FIRESTORE
-        // =====================================================
+                return String.valueOf(
+                        (long) doubleValue
+                );
+            }
 
-        db.collection("products")
-                .document(productId)
-                .delete()
-                .addOnSuccessListener(unused -> {
+            return String.valueOf(
+                    doubleValue
+            );
+        }
 
-                    btnDeleteProduct.setEnabled(
-                            true
+        String stringValue =
+                String.valueOf(
+                        value
+                ).trim();
+
+        if (TextUtils.isEmpty(stringValue)) {
+            return "";
+        }
+
+        try {
+
+            double doubleValue =
+                    Double.parseDouble(
+                            stringValue
                     );
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Product deleted successfully!",
-                            Toast.LENGTH_SHORT
-                    ).show();
+            if (
+                    doubleValue
+                            == Math.floor(
+                            doubleValue
+                    )
+            ) {
 
-                    goBackToProducts();
+                return String.valueOf(
+                        (long) doubleValue
+                );
+            }
 
-                })
-                .addOnFailureListener(e -> {
+            return String.valueOf(
+                    doubleValue
+            );
 
-                    btnDeleteProduct.setEnabled(
-                            true
-                    );
+        } catch (Exception e) {
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to delete product: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+            return stringValue;
+        }
     }
-
 
     // =========================================================
     // BACK TO PRODUCTS

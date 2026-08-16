@@ -14,8 +14,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.villagetocityreseilingapp.R;
+import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerNotificationHelper;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+// =========================================================
+// SELLER ORDER DETAIL FRAGMENT
+// =========================================================
 
 public class SellerOrderDetailFragment extends Fragment {
 
@@ -148,102 +154,127 @@ public class SellerOrderDetailFragment extends Fragment {
         // FIREBASE
         // =====================================================
 
-        db = FirebaseFirestore.getInstance();
+        db =
+                FirebaseFirestore.getInstance();
 
         // =====================================================
         // FIND VIEWS
         // =====================================================
 
         btnBack =
-                view.findViewById(R.id.btn_back);
+                view.findViewById(
+                        R.id.btn_back
+                );
 
         tvOrderStatus =
-                view.findViewById(R.id.tvOrderStatus);
+                view.findViewById(
+                        R.id.tvOrderStatus
+                );
 
         tvOrderId =
-                view.findViewById(R.id.tvOrderId);
+                view.findViewById(
+                        R.id.tvOrderId
+                );
 
         tvProductName =
-                view.findViewById(R.id.tvProductName);
+                view.findViewById(
+                        R.id.tvProductName
+                );
 
         tvProductQuantity =
-                view.findViewById(R.id.tvProductQuantity);
+                view.findViewById(
+                        R.id.tvProductQuantity
+                );
 
         tvProductPrice =
-                view.findViewById(R.id.tvProductPrice);
+                view.findViewById(
+                        R.id.tvProductPrice
+                );
 
         tvBuyerName =
-                view.findViewById(R.id.tvBuyerName);
+                view.findViewById(
+                        R.id.tvBuyerName
+                );
 
         tvBuyerPhone =
-                view.findViewById(R.id.tvBuyerPhone);
+                view.findViewById(
+                        R.id.tvBuyerPhone
+                );
 
         tvBuyerAddress =
-                view.findViewById(R.id.tvBuyerAddress);
+                view.findViewById(
+                        R.id.tvBuyerAddress
+                );
 
         tvPaymentMethod =
-                view.findViewById(R.id.tvPaymentMethod);
+                view.findViewById(
+                        R.id.tvPaymentMethod
+                );
 
         tvProductTotal =
-                view.findViewById(R.id.tvProductTotal);
+                view.findViewById(
+                        R.id.tvProductTotal
+                );
 
         tvDeliveryCharges =
-                view.findViewById(R.id.tvDeliveryCharges);
+                view.findViewById(
+                        R.id.tvDeliveryCharges
+                );
 
         tvTotalAmount =
-                view.findViewById(R.id.tvTotalAmount);
+                view.findViewById(
+                        R.id.tvTotalAmount
+                );
 
         btnOrderAction =
-                view.findViewById(R.id.btnOrderAction);
+                view.findViewById(
+                        R.id.btnOrderAction
+                );
 
         btnCancelOrder =
-                view.findViewById(R.id.btnCancelOrder);
+                view.findViewById(
+                        R.id.btnCancelOrder
+                );
 
         // =====================================================
         // BACK
         // =====================================================
 
-        btnBack.setOnClickListener(v -> {
+        if (btnBack != null) {
 
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .popBackStack();
+            btnBack.setOnClickListener(
+                    v -> {
 
-        });
-
-        // =====================================================
-        // ACCEPT ORDER
-        // =====================================================
-
-        btnOrderAction.setOnClickListener(v -> {
-
-            /*
-             * Seller accepts the order.
-             *
-             * NEW -> PROCESSING
-             */
-
-            updateOrderStatus(
-                    "processing"
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .popBackStack();
+                    }
             );
-        });
+        }
 
         // =====================================================
-        // CANCEL ORDER
+        // ORDER ACTION
         // =====================================================
 
-        btnCancelOrder.setOnClickListener(v -> {
+        if (btnOrderAction != null) {
 
-            /*
-             * Seller can cancel only a NEW order.
-             *
-             * NEW -> CANCELLED
-             */
-
-            updateOrderStatus(
-                    "cancelled"
+            btnOrderAction.setOnClickListener(
+                    v -> handleOrderAction()
             );
-        });
+        }
+
+        // =====================================================
+        // CANCEL
+        // =====================================================
+
+        if (btnCancelOrder != null) {
+
+            btnCancelOrder.setOnClickListener(
+                    v -> updateOrderStatus(
+                            "cancelled"
+                    )
+            );
+        }
 
         // =====================================================
         // LOAD ORDER
@@ -277,41 +308,44 @@ public class SellerOrderDetailFragment extends Fragment {
         db.collection("orders")
                 .document(orderDocumentId)
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
+                .addOnSuccessListener(
+                        documentSnapshot -> {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    if (!documentSnapshot.exists()) {
+                            if (!documentSnapshot.exists()) {
 
-                        Toast.makeText(
-                                requireContext(),
-                                "Order not found.",
-                                Toast.LENGTH_SHORT
-                        ).show();
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order not found.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
 
-                        return;
-                    }
+                                return;
+                            }
 
-                    displayOrderData(
-                            documentSnapshot
-                    );
+                            displayOrderData(
+                                    documentSnapshot
+                            );
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
 
-                })
-                .addOnFailureListener(e -> {
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    if (!isAdded()) {
-                        return;
-                    }
-
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to load order: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to load order: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
     }
 
     // =========================================================
@@ -321,17 +355,37 @@ public class SellerOrderDetailFragment extends Fragment {
     private void displayOrderData(
             DocumentSnapshot document) {
 
+        if (document == null ||
+                !document.exists()) {
+
+            return;
+        }
+
         // =====================================================
         // ORDER ID
         // =====================================================
 
         String orderId =
-                document.getString("id");
+                getValueAsString(
+                        document,
+                        "orderId",
+                        ""
+                );
 
-        if (orderId == null ||
-                orderId.trim().isEmpty()) {
+        if (orderId.trim().isEmpty()) {
 
-            orderId = document.getId();
+            orderId =
+                    getValueAsString(
+                            document,
+                            "id",
+                            ""
+                    );
+        }
+
+        if (orderId.trim().isEmpty()) {
+
+            orderId =
+                    document.getId();
         }
 
         tvOrderId.setText(
@@ -343,17 +397,14 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String status =
-                document.getString("status");
+                getValueAsString(
+                        document,
+                        "status",
+                        "pending"
+                );
 
-        if (status == null ||
-                status.trim().isEmpty()) {
-
-            status = "new";
-        }
-
-        status = status
-                .toLowerCase()
-                .trim();
+        status =
+                normalizeStatus(status);
 
         tvOrderStatus.setText(
                 formatStatus(status)
@@ -364,13 +415,11 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String productName =
-                document.getString("productName");
-
-        if (productName == null ||
-                productName.trim().isEmpty()) {
-
-            productName = "Product";
-        }
+                getValueAsString(
+                        document,
+                        "productName",
+                        "Product"
+                );
 
         tvProductName.setText(
                 productName
@@ -378,40 +427,87 @@ public class SellerOrderDetailFragment extends Fragment {
 
         // =====================================================
         // QUANTITY
+        //
+        // IMPORTANT:
+        // Firebase quantity Number ho sakta hai.
+        // getString() use nahi karna.
         // =====================================================
 
         String quantity =
-                document.getString("quantity");
-
-        if (quantity == null ||
-                quantity.trim().isEmpty()) {
-
-            quantity = "1";
-        }
+                getNumberOrString(
+                        document,
+                        "quantity",
+                        "1"
+                );
 
         tvProductQuantity.setText(
                 "Quantity: " + quantity
         );
 
         // =====================================================
-        // PRICE
+        // PRODUCT PRICE
         // =====================================================
 
         String amount =
-                document.getString("amount");
+                getNumberOrString(
+                        document,
+                        "amount",
+                        ""
+                );
 
-        if (amount == null ||
-                amount.trim().isEmpty()) {
+        if (amount.trim().isEmpty()) {
 
-            amount = "0";
+            amount =
+                    getNumberOrString(
+                            document,
+                            "price",
+                            ""
+                    );
+        }
+
+        if (amount.trim().isEmpty()) {
+
+            amount =
+                    getNumberOrString(
+                            document,
+                            "totalAmount",
+                            "0"
+                    );
         }
 
         tvProductPrice.setText(
                 "Price: Rs. " + amount
         );
 
+        // =====================================================
+        // PRODUCT TOTAL
+        // =====================================================
+
+        String productTotal =
+                getNumberOrString(
+                        document,
+                        "productTotal",
+                        ""
+                );
+
+        if (productTotal.trim().isEmpty()) {
+
+            productTotal =
+                    getNumberOrString(
+                            document,
+                            "totalProductAmount",
+                            ""
+                    );
+        }
+
+        if (productTotal.trim().isEmpty()) {
+
+            productTotal =
+                    amount;
+        }
+
         tvProductTotal.setText(
-                "Rs. " + amount
+                "Rs. " + productTotal
         );
 
         // =====================================================
@@ -419,12 +515,26 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String customerName =
-                document.getString("customerName");
+                getValueAsString(
+                        document,
+                        "customerName",
+                        ""
+                );
 
-        if (customerName == null ||
-                customerName.trim().isEmpty()) {
+        if (customerName.trim().isEmpty()) {
 
-            customerName = "Not available";
+            customerName =
+                    getValueAsString(
+                            document,
+                            "buyerName",
+                            ""
+                    );
+        }
+
+        if (customerName.trim().isEmpty()) {
+
+            customerName =
+                    "Not available";
         }
 
         tvBuyerName.setText(
@@ -436,19 +546,26 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String customerPhone =
-                document.getString("customerPhone");
+                getValueAsString(
+                        document,
+                        "customerPhone",
+                        ""
+                );
 
-        if (customerPhone == null ||
-                customerPhone.trim().isEmpty()) {
+        if (customerPhone.trim().isEmpty()) {
 
             customerPhone =
-                    document.getString("buyerPhone");
+                    getValueAsString(
+                            document,
+                            "buyerPhone",
+                            ""
+                    );
         }
 
-        if (customerPhone == null ||
-                customerPhone.trim().isEmpty()) {
+        if (customerPhone.trim().isEmpty()) {
 
-            customerPhone = "Not available";
+            customerPhone =
+                    "Not available";
         }
 
         tvBuyerPhone.setText(
@@ -460,19 +577,36 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String customerAddress =
-                document.getString("customerAddress");
+                getValueAsString(
+                        document,
+                        "customerAddress",
+                        ""
+                );
 
-        if (customerAddress == null ||
-                customerAddress.trim().isEmpty()) {
+        if (customerAddress.trim().isEmpty()) {
 
             customerAddress =
-                    document.getString("buyerAddress");
+                    getValueAsString(
+                            document,
+                            "buyerAddress",
+                            ""
+                    );
         }
 
-        if (customerAddress == null ||
-                customerAddress.trim().isEmpty()) {
+        if (customerAddress.trim().isEmpty()) {
 
-            customerAddress = "Not available";
+            customerAddress =
+                    getValueAsString(
+                            document,
+                            "address",
+                            ""
+                    );
+        }
+
+        if (customerAddress.trim().isEmpty()) {
+
+            customerAddress =
+                    "Not available";
         }
 
         tvBuyerAddress.setText(
@@ -484,10 +618,13 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String paymentMethod =
-                document.getString("paymentMethod");
+                getValueAsString(
+                        document,
+                        "paymentMethod",
+                        ""
+                );
 
-        if (paymentMethod == null ||
-                paymentMethod.trim().isEmpty()) {
+        if (paymentMethod.trim().isEmpty()) {
 
             paymentMethod =
                     "Cash on Delivery";
@@ -502,29 +639,41 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         String deliveryCharges =
-                document.getString("deliveryCharges");
-
-        if (deliveryCharges == null ||
-                deliveryCharges.trim().isEmpty()) {
-
-            deliveryCharges = "0";
-        }
+                getNumberOrString(
+                        document,
+                        "deliveryCharges",
+                        "0"
+                );
 
         tvDeliveryCharges.setText(
                 "Rs. " + deliveryCharges
         );
 
         // =====================================================
-        // TOTAL
+        // TOTAL AMOUNT
         // =====================================================
 
         String totalAmount =
-                document.getString("totalAmount");
+                getNumberOrString(
+                        document,
+                        "totalAmount",
+                        ""
+                );
 
-        if (totalAmount == null ||
-                totalAmount.trim().isEmpty()) {
+        if (totalAmount.trim().isEmpty()) {
 
-            totalAmount = amount;
+            totalAmount =
+                    getNumberOrString(
+                            document,
+                            "grandTotal",
+                            ""
+                    );
+        }
+
+        if (totalAmount.trim().isEmpty()) {
+
+            totalAmount =
+                    productTotal;
         }
 
         tvTotalAmount.setText(
@@ -532,7 +681,7 @@ public class SellerOrderDetailFragment extends Fragment {
         );
 
         // =====================================================
-        // BUTTONS
+        // ACTION BUTTONS
         // =====================================================
 
         updateActionButtons(
@@ -541,7 +690,118 @@ public class SellerOrderDetailFragment extends Fragment {
     }
 
     // =========================================================
-    // UPDATE STATUS
+    // HANDLE ORDER ACTION
+    // =========================================================
+
+    private void handleOrderAction() {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        if (orderDocumentId == null ||
+                orderDocumentId.trim().isEmpty()) {
+
+            return;
+        }
+
+        db.collection("orders")
+                .document(orderDocumentId)
+                .get()
+                .addOnSuccessListener(
+                        document -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            if (!document.exists()) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order not found.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                return;
+                            }
+
+                            String status =
+                                    normalizeStatus(
+                                            getValueAsString(
+                                                    document,
+                                                    "status",
+                                                    "pending"
+                                            )
+                                    );
+
+                            // =========================================
+                            // PENDING / NEW -> ACCEPTED
+                            // =========================================
+
+                            if (status.equals("pending") ||
+                                    status.equals("new")) {
+
+                                updateOrderStatus(
+                                        "accepted"
+                                );
+
+                                return;
+                            }
+
+                            // =========================================
+                            // ACCEPTED / PROCESSING -> SHIPPED
+                            // =========================================
+
+                            if (status.equals("accepted") ||
+                                    status.equals("processing")) {
+
+                                updateOrderStatus(
+                                        "shipped"
+                                );
+
+                                return;
+                            }
+
+                            // =========================================
+                            // SHIPPED -> DELIVERED
+                            // =========================================
+
+                            if (status.equals("shipped")) {
+
+                                updateOrderStatus(
+                                        "delivered"
+                                );
+
+                                return;
+                            }
+
+                            Toast.makeText(
+                                    requireContext(),
+                                    "No action available.",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to check order status: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
+    }
+
+    // =========================================================
+    // UPDATE ORDER STATUS
     // =========================================================
 
     private void updateOrderStatus(
@@ -557,53 +817,166 @@ public class SellerOrderDetailFragment extends Fragment {
             return;
         }
 
-        btnOrderAction.setEnabled(false);
-        btnCancelOrder.setEnabled(false);
+        if (btnOrderAction != null) {
+
+            btnOrderAction.setEnabled(false);
+        }
+
+        if (btnCancelOrder != null) {
+
+            btnCancelOrder.setEnabled(false);
+        }
+
+        // =====================================================
+        // FIRST READ BUYER ID
+        // =====================================================
 
         db.collection("orders")
                 .document(orderDocumentId)
-                .update(
-                        "status",
-                        newStatus
+                .get()
+                .addOnSuccessListener(
+                        document -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            if (!document.exists()) {
+
+                                enableButtons();
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order not found.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                return;
+                            }
+
+                            String buyerId =
+                                    getValueAsString(
+                                            document,
+                                            "buyerId",
+                                            ""
+                                    );
+
+                            // =========================================
+                            // UPDATE
+                            // =========================================
+
+                            db.collection("orders")
+                                    .document(orderDocumentId)
+                                    .update(
+                                            "status",
+                                            newStatus,
+                                            "updatedAt",
+                                            Timestamp.now()
+                                    )
+                                    .addOnSuccessListener(
+                                            unused -> {
+
+                                                if (!isAdded()) {
+                                                    return;
+                                                }
+
+                                                // =================================
+                                                // BUYER NOTIFICATION
+                                                // =================================
+
+                                                if (newStatus.equals(
+                                                        "accepted"
+                                                )) {
+
+                                                    if (!buyerId
+                                                            .trim()
+                                                            .isEmpty()) {
+
+                                                        BuyerNotificationHelper
+                                                                .createOrderAcceptedNotification(
+                                                                        buyerId,
+                                                                        orderDocumentId
+                                                                );
+                                                    }
+                                                }
+
+                                                // =================================
+                                                // UI
+                                                // =================================
+
+                                                tvOrderStatus.setText(
+                                                        formatStatus(
+                                                                newStatus
+                                                        )
+                                                );
+
+                                                updateActionButtons(
+                                                        newStatus
+                                                );
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Order status updated to "
+                                                                + formatStatus(
+                                                                newStatus
+                                                        ),
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
+                                            }
+                                    )
+                                    .addOnFailureListener(
+                                            e -> {
+
+                                                if (!isAdded()) {
+                                                    return;
+                                                }
+
+                                                enableButtons();
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Failed to update status: "
+                                                                + e.getMessage(),
+                                                        Toast.LENGTH_LONG
+                                                ).show();
+                                            }
+                                    );
+                        }
                 )
-                .addOnSuccessListener(unused -> {
+                .addOnFailureListener(
+                        e -> {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+                            if (!isAdded()) {
+                                return;
+                            }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Order status updated to "
-                                    + formatStatus(newStatus),
-                            Toast.LENGTH_SHORT
-                    ).show();
+                            enableButtons();
 
-                    tvOrderStatus.setText(
-                            formatStatus(newStatus)
-                    );
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to read order: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
+    }
 
-                    updateActionButtons(
-                            newStatus
-                    );
+    // =========================================================
+    // ENABLE BUTTONS
+    // =========================================================
 
-                })
-                .addOnFailureListener(e -> {
+    private void enableButtons() {
 
-                    if (!isAdded()) {
-                        return;
-                    }
+        if (btnOrderAction != null) {
 
-                    btnOrderAction.setEnabled(true);
-                    btnCancelOrder.setEnabled(true);
+            btnOrderAction.setEnabled(true);
+        }
 
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to update status: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+        if (btnCancelOrder != null) {
+
+            btnCancelOrder.setEnabled(true);
+        }
     }
 
     // =========================================================
@@ -613,21 +986,23 @@ public class SellerOrderDetailFragment extends Fragment {
     private void updateActionButtons(
             String status) {
 
-        if (status == null) {
-            status = "new";
+        if (status == null ||
+                status.trim().isEmpty()) {
+
+            status = "pending";
         }
 
-        status = status
-                .toLowerCase()
-                .trim();
+        status =
+                normalizeStatus(status);
 
         // =====================================================
-        // NEW
+        // PENDING / NEW
         //
-        // Seller can Accept or Cancel
+        // ACCEPT + CANCEL
         // =====================================================
 
-        if (status.equals("new")) {
+        if (status.equals("pending") ||
+                status.equals("new")) {
 
             btnOrderAction.setVisibility(
                     View.VISIBLE
@@ -652,20 +1027,52 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         // =====================================================
-        // PROCESSING
+        // ACCEPTED
         //
-        // Seller has accepted the order.
+        // MARK AS SHIPPED
         // =====================================================
 
-        if (status.equals("processing")) {
+        if (status.equals("accepted") ||
+                status.equals("processing")) {
 
             btnOrderAction.setVisibility(
-                    View.GONE
+                    View.VISIBLE
             );
 
             btnCancelOrder.setVisibility(
                     View.GONE
             );
+
+            btnOrderAction.setText(
+                    "Mark as Shipped"
+            );
+
+            btnOrderAction.setEnabled(true);
+
+            return;
+        }
+
+        // =====================================================
+        // SHIPPED
+        //
+        // MARK AS DELIVERED
+        // =====================================================
+
+        if (status.equals("shipped")) {
+
+            btnOrderAction.setVisibility(
+                    View.VISIBLE
+            );
+
+            btnCancelOrder.setVisibility(
+                    View.GONE
+            );
+
+            btnOrderAction.setText(
+                    "Mark as Delivered"
+            );
+
+            btnOrderAction.setEnabled(true);
 
             return;
         }
@@ -693,7 +1100,8 @@ public class SellerOrderDetailFragment extends Fragment {
         // =====================================================
 
         if (status.equals("cancelled") ||
-                status.equals("canceled")) {
+                status.equals("canceled") ||
+                status.equals("rejected")) {
 
             btnOrderAction.setVisibility(
                     View.GONE
@@ -707,7 +1115,7 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         // =====================================================
-        // UNKNOWN STATUS
+        // DEFAULT
         // =====================================================
 
         btnOrderAction.setVisibility(
@@ -720,24 +1128,65 @@ public class SellerOrderDetailFragment extends Fragment {
     }
 
     // =========================================================
+    // NORMALIZE STATUS
+    // =========================================================
+
+    private String normalizeStatus(
+            String status) {
+
+        if (status == null ||
+                status.trim().isEmpty()) {
+
+            return "pending";
+        }
+
+        status =
+                status
+                        .toLowerCase()
+                        .trim();
+
+        if (status.equals("new")) {
+            return "pending";
+        }
+
+        return status;
+    }
+
+    // =========================================================
     // FORMAT STATUS
     // =========================================================
 
     private String formatStatus(
             String status) {
 
-        if (status == null) {
-            return "New";
+        if (status == null ||
+                status.trim().isEmpty()) {
+
+            return "Pending";
         }
 
-        status = status.trim();
+        status =
+                status.trim();
 
-        if (status.equalsIgnoreCase("new")) {
-            return "New";
+        if (status.equalsIgnoreCase("new") ||
+                status.equalsIgnoreCase("pending")) {
+
+            return "Pending";
+        }
+
+        if (status.equalsIgnoreCase("accepted")) {
+
+            return "Accepted";
         }
 
         if (status.equalsIgnoreCase("processing")) {
+
             return "Processing";
+        }
+
+        if (status.equalsIgnoreCase("shipped")) {
+
+            return "Shipped";
         }
 
         if (status.equalsIgnoreCase("delivered") ||
@@ -747,11 +1196,132 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         if (status.equalsIgnoreCase("cancelled") ||
-                status.equalsIgnoreCase("canceled")) {
+                status.equalsIgnoreCase("canceled") ||
+                status.equalsIgnoreCase("rejected")) {
 
             return "Cancelled";
         }
 
         return status;
+    }
+
+    // =========================================================
+    // SAFE VALUE
+    //
+    // Firebase mein String / Number / Boolean etc.
+    // kisi bhi type ko safely String mein convert karega.
+    // =========================================================
+
+    private String getValueAsString(
+            DocumentSnapshot document,
+            String field,
+            String defaultValue) {
+
+        if (document == null) {
+            return defaultValue;
+        }
+
+        Object value =
+                document.get(field);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        String result =
+                String.valueOf(value)
+                        .trim();
+
+        if (result.isEmpty()) {
+            return defaultValue;
+        }
+
+        return result;
+    }
+
+    // =========================================================
+    // NUMBER OR STRING
+    //
+    // quantity / amount / deliveryCharges ke liye.
+    // =========================================================
+
+    private String getNumberOrString(
+            DocumentSnapshot document,
+            String field,
+            String defaultValue) {
+
+        if (document == null) {
+            return defaultValue;
+        }
+
+        Object value =
+                document.get(field);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        // =====================================================
+        // NUMBER
+        // =====================================================
+
+        if (value instanceof Number) {
+
+            Number number =
+                    (Number) value;
+
+            double doubleValue =
+                    number.doubleValue();
+
+            long longValue =
+                    number.longValue();
+
+            if (doubleValue == longValue) {
+
+                return String.valueOf(
+                        longValue
+                );
+            }
+
+            return String.valueOf(
+                    doubleValue
+            );
+        }
+
+        // =====================================================
+        // STRING
+        // =====================================================
+
+        String result =
+                String.valueOf(value)
+                        .trim();
+
+        if (result.isEmpty()) {
+            return defaultValue;
+        }
+
+        return result;
+    }
+
+    // =========================================================
+    // RESUME
+    // =========================================================
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        /*
+         * Agar user detail screen par wapas aaye
+         * to latest Firebase status load hoga.
+         */
+
+        if (db != null &&
+                orderDocumentId != null &&
+                !orderDocumentId.trim().isEmpty()) {
+
+            loadOrder();
+        }
     }
 }

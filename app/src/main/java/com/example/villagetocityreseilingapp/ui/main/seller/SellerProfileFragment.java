@@ -1,6 +1,7 @@
 package com.example.villagetocityreseilingapp.ui.main.seller;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ public class SellerProfileFragment extends Fragment {
     private TextView txtLogout;
 
     private View layoutTerms;
+    private View layoutEditProfile;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -49,13 +51,11 @@ public class SellerProfileFragment extends Fragment {
             ViewGroup container,
             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(
+        return inflater.inflate(
                 R.layout.fragment_seller_profile,
                 container,
                 false
         );
-
-        return view;
     }
 
     // =========================================================
@@ -104,11 +104,14 @@ public class SellerProfileFragment extends Fragment {
         layoutTerms =
                 view.findViewById(R.id.layoutTerms);
 
+        layoutEditProfile =
+                view.findViewById(R.id.layoutEditProfile);
+
         txtLogout =
                 view.findViewById(R.id.txtLogout);
 
         // =====================================================
-        // CLEAR OLD / DEFAULT DATA IMMEDIATELY
+        // CLEAR OLD / DEFAULT DATA
         // =====================================================
 
         clearProfileData();
@@ -123,38 +126,60 @@ public class SellerProfileFragment extends Fragment {
                 return;
             }
 
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(
-                            R.id.fragment_container,
-                            new SellerTermsFragment()
-                    )
-                    .addToBackStack(null)
-                    .commit();
+            // Single light-green blink
+            blinkView(
+                    layoutTerms,
+                    () -> {
+
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .setReorderingAllowed(true)
+                                .replace(
+                                        R.id.fragment_container,
+                                        new SellerTermsFragment()
+                                )
+                                .addToBackStack(null)
+                                .commit();
+                    }
+            );
         });
 
         // =====================================================
         // EDIT PROFILE
         // =====================================================
 
-        txtEditProfile.setOnClickListener(v -> {
+        layoutEditProfile.setOnClickListener(v -> {
 
             if (!isAdded()) {
                 return;
             }
 
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(
-                            R.id.fragment_container,
-                            new SellerEditProfileFragment()
-                    )
-                    .addToBackStack(null)
-                    .commit();
+            // Single light-green blink
+            blinkView(
+                    layoutEditProfile,
+                    () -> {
+
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .setReorderingAllowed(true)
+                                .replace(
+                                        R.id.fragment_container,
+                                        new SellerEditProfileFragment()
+                                )
+                                .addToBackStack(null)
+                                .commit();
+                    }
+            );
         });
 
         // =====================================================
@@ -175,6 +200,56 @@ public class SellerProfileFragment extends Fragment {
         // =====================================================
 
         loadSellerProfile();
+    }
+
+    // =========================================================
+    // SINGLE LIGHT GREEN BLINK
+    // =========================================================
+
+    private void blinkView(
+            View view,
+            Runnable afterBlink) {
+
+        if (view == null) {
+            return;
+        }
+
+        final int originalColor =
+                Color.WHITE;
+
+        final int blinkColor =
+                Color.parseColor("#E8F5E9");
+
+        // Green
+        view.setBackgroundColor(
+                blinkColor
+        );
+
+        // After short delay return to white
+        view.postDelayed(() -> {
+
+            if (!isAdded()) {
+                return;
+            }
+
+            view.setBackgroundColor(
+                    originalColor
+            );
+
+            // Open next screen after blink
+            view.postDelayed(() -> {
+
+                if (!isAdded()) {
+                    return;
+                }
+
+                if (afterBlink != null) {
+                    afterBlink.run();
+                }
+
+            }, 100);
+
+        }, 180);
     }
 
     // =========================================================
@@ -214,7 +289,9 @@ public class SellerProfileFragment extends Fragment {
 
     private void showLogoutConfirmation() {
 
-        new AlertDialog.Builder(requireContext())
+        new AlertDialog.Builder(
+                requireContext()
+        )
                 .setTitle("Logout")
                 .setMessage("Are you sure you want to logout?")
                 .setNegativeButton(
@@ -223,7 +300,8 @@ public class SellerProfileFragment extends Fragment {
                 )
                 .setPositiveButton(
                         "Logout",
-                        (dialog, which) -> logoutSeller()
+                        (dialog, which) ->
+                                logoutSeller()
                 )
                 .show();
     }
@@ -300,7 +378,7 @@ public class SellerProfileFragment extends Fragment {
                 currentUser.getUid();
 
         // =====================================================
-        // GET ONLY CURRENT SELLER DOCUMENT
+        // GET CURRENT SELLER DOCUMENT
         // =====================================================
 
         db.collection("sellers")
@@ -319,16 +397,21 @@ public class SellerProfileFragment extends Fragment {
                     if (!documentSnapshot.exists()) {
 
                         txtSellerName.setText("Seller");
+
                         txtSellerStatus.setText(
                                 "Verification Pending"
                         );
+
                         txtSellerPhone.setText("N/A");
 
                         if (currentUser.getEmail() != null) {
+
                             txtSellerEmail.setText(
                                     currentUser.getEmail()
                             );
+
                         } else {
+
                             txtSellerEmail.setText("N/A");
                         }
 
@@ -468,14 +551,12 @@ public class SellerProfileFragment extends Fragment {
                         return;
                     }
 
-                    // =================================================
-                    // FIRESTORE ERROR
-                    // =================================================
-
                     txtSellerName.setText("Seller");
+
                     txtSellerStatus.setText(
                             "Unable to load profile"
                     );
+
                     txtSellerPhone.setText("N/A");
                     txtSellerEmail.setText("N/A");
                     txtSellerAddress.setText("N/A");

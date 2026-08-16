@@ -5,9 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
@@ -59,6 +57,14 @@ public class BuyerProductDetailFragment extends Fragment {
     private Map<String, Object> selectedProduct;
 
     // =========================================================
+    // STOCK / QUANTITY
+    // =========================================================
+
+    private int availableStock = 0;
+    private int minimumOrder = 1;
+    private int selectedQuantity = 1;
+
+    // =========================================================
     // VIEWS
     // =========================================================
 
@@ -70,6 +76,11 @@ public class BuyerProductDetailFragment extends Fragment {
     private TextView tvProductPrice;
     private TextView tvProductRating;
 
+    private TextView tvAvailableStock;
+    private TextView tvOutOfStock;
+    private TextView tvMinimumOrder;
+    private TextView tvQuantity;
+
     private TextView tvSellerName;
     private TextView tvSellerPhone;
 
@@ -79,6 +90,9 @@ public class BuyerProductDetailFragment extends Fragment {
     private TextView tvNoReviews;
 
     private LinearLayout reviewsContainer;
+
+    private AppCompatButton btnQuantityMinus;
+    private AppCompatButton btnQuantityPlus;
 
     private AppCompatButton btnAddToCart;
     private AppCompatButton btnBuyNow;
@@ -142,8 +156,29 @@ public class BuyerProductDetailFragment extends Fragment {
         tvProductPrice = view.findViewById(R.id.tv_product_price);
         tvProductRating = view.findViewById(R.id.tv_product_rating);
 
-        tvSellerName = view.findViewById(R.id.tv_seller_name);
-        tvSellerPhone = view.findViewById(R.id.tv_seller_phone);
+        tvAvailableStock =
+                view.findViewById(R.id.tv_available_stock);
+
+        tvOutOfStock =
+                view.findViewById(R.id.tv_out_of_stock);
+
+        tvMinimumOrder =
+                view.findViewById(R.id.tv_minimum_order);
+
+        tvQuantity =
+                view.findViewById(R.id.tv_quantity);
+
+        btnQuantityMinus =
+                view.findViewById(R.id.btn_quantity_minus);
+
+        btnQuantityPlus =
+                view.findViewById(R.id.btn_quantity_plus);
+
+        tvSellerName =
+                view.findViewById(R.id.tv_seller_name);
+
+        tvSellerPhone =
+                view.findViewById(R.id.tv_seller_phone);
 
         tvProductDescription =
                 view.findViewById(R.id.tv_product_description);
@@ -170,7 +205,7 @@ public class BuyerProductDetailFragment extends Fragment {
         tvProductTitle.setText("Product Details");
 
         // =====================================================
-        // BACK
+        // BACK BUTTON
         // =====================================================
 
         btnBack.setOnClickListener(v ->
@@ -197,6 +232,65 @@ public class BuyerProductDetailFragment extends Fragment {
         }
 
         // =====================================================
+        // QUANTITY MINUS
+        // =====================================================
+
+        btnQuantityMinus.setOnClickListener(v -> {
+
+            if (availableStock <= 0) {
+                return;
+            }
+
+            if (selectedQuantity > minimumOrder) {
+
+                selectedQuantity--;
+
+                updateQuantityText();
+
+            } else {
+
+                Toast.makeText(
+                        requireContext(),
+                        "Minimum order is " + minimumOrder,
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+
+        // =====================================================
+        // QUANTITY PLUS
+        // =====================================================
+
+        btnQuantityPlus.setOnClickListener(v -> {
+
+            if (availableStock <= 0) {
+
+                Toast.makeText(
+                        requireContext(),
+                        "Product is out of stock",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            if (selectedQuantity < availableStock) {
+
+                selectedQuantity++;
+
+                updateQuantityText();
+
+            } else {
+
+                Toast.makeText(
+                        requireContext(),
+                        "Only " + availableStock + " items available",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+
+        // =====================================================
         // ADD TO CART
         // =====================================================
 
@@ -213,7 +307,14 @@ public class BuyerProductDetailFragment extends Fragment {
                 return;
             }
 
-            addProductToCart(selectedProduct);
+            if (!validateQuantity()) {
+                return;
+            }
+
+            addProductToCart(
+                    selectedProduct,
+                    selectedQuantity
+            );
         });
 
         // =====================================================
@@ -230,6 +331,10 @@ public class BuyerProductDetailFragment extends Fragment {
                         Toast.LENGTH_SHORT
                 ).show();
 
+                return;
+            }
+
+            if (!validateQuantity()) {
                 return;
             }
 
@@ -260,11 +365,86 @@ public class BuyerProductDetailFragment extends Fragment {
                 formatPrice(price)
         );
 
-        // Initial rating while reviews are loading
         setRatingText(
                 tvProductRating,
-                0.0
+                getProductRating(product)
         );
+
+        // =====================================================
+        // STOCK
+        // =====================================================
+
+        availableStock =
+                getIntValue(
+                        product.get("totalStock")
+                );
+
+        // =====================================================
+        // MINIMUM ORDER
+        // =====================================================
+
+        minimumOrder =
+                getIntValue(
+                        product.get("minimumOrder")
+                );
+
+        if (minimumOrder < 1) {
+            minimumOrder = 1;
+        }
+
+        // =====================================================
+        // STOCK DISPLAY
+        // =====================================================
+
+        tvAvailableStock.setText(
+                String.valueOf(availableStock)
+        );
+
+        // =====================================================
+        // OUT OF STOCK STATUS
+        // =====================================================
+
+        updateStockStatus();
+
+        // =====================================================
+        // MINIMUM ORDER DISPLAY
+        // =====================================================
+
+        tvMinimumOrder.setText(
+                String.valueOf(minimumOrder)
+        );
+
+        // =====================================================
+        // INITIAL QUANTITY
+        // =====================================================
+
+        if (availableStock > 0) {
+
+            if (minimumOrder <= availableStock) {
+
+                selectedQuantity = minimumOrder;
+
+            } else {
+
+                selectedQuantity = availableStock;
+            }
+
+        } else {
+
+            selectedQuantity = 0;
+        }
+
+        updateQuantityText();
+
+        // =====================================================
+        // STOCK BUTTON STATE
+        // =====================================================
+
+        updateQuantityButtons();
+
+        // =====================================================
+        // SELLER
+        // =====================================================
 
         String sellerId =
                 getStringValue(
@@ -319,6 +499,10 @@ public class BuyerProductDetailFragment extends Fragment {
                 sellerPhone
         );
 
+        // =====================================================
+        // DESCRIPTION
+        // =====================================================
+
         String description =
                 getStringValue(
                         product,
@@ -333,7 +517,7 @@ public class BuyerProductDetailFragment extends Fragment {
         );
 
         // =====================================================
-        // LOAD REVIEWS
+        // REVIEWS
         // =====================================================
 
         String productId =
@@ -344,6 +528,151 @@ public class BuyerProductDetailFragment extends Fragment {
                 );
 
         loadProductReviews(productId);
+    }
+
+    // =========================================================
+    // UPDATE STOCK STATUS
+    // =========================================================
+
+    private void updateStockStatus() {
+
+        if (tvOutOfStock == null) {
+            return;
+        }
+
+        if (availableStock <= 0) {
+
+            // Show red Out of Stock text
+            tvOutOfStock.setVisibility(View.VISIBLE);
+            tvOutOfStock.setText("Out of Stock");
+            tvOutOfStock.setTextColor(
+                    Color.rgb(211, 47, 47)
+            );
+
+        } else {
+
+            // Hide Out of Stock when stock is available
+            tvOutOfStock.setVisibility(View.GONE);
+        }
+    }
+
+    // =========================================================
+    // UPDATE QUANTITY TEXT
+    // =========================================================
+
+    private void updateQuantityText() {
+
+        if (tvQuantity == null) {
+            return;
+        }
+
+        tvQuantity.setText(
+                String.valueOf(selectedQuantity)
+        );
+
+        updateQuantityButtons();
+    }
+
+    // =========================================================
+    // UPDATE QUANTITY BUTTONS
+    // =========================================================
+
+    private void updateQuantityButtons() {
+
+        if (btnQuantityMinus == null ||
+                btnQuantityPlus == null) {
+            return;
+        }
+
+        if (availableStock <= 0) {
+
+            btnQuantityMinus.setEnabled(false);
+            btnQuantityPlus.setEnabled(false);
+
+            btnAddToCart.setEnabled(false);
+            btnBuyNow.setEnabled(false);
+
+            return;
+        }
+
+        // =====================================================
+        // MINUS
+        // =====================================================
+
+        btnQuantityMinus.setEnabled(
+                selectedQuantity > minimumOrder
+        );
+
+        // =====================================================
+        // PLUS
+        // =====================================================
+
+        btnQuantityPlus.setEnabled(
+                selectedQuantity < availableStock
+        );
+
+        // =====================================================
+        // ACTION BUTTONS
+        // =====================================================
+
+        boolean valid =
+                minimumOrder <= availableStock;
+
+        btnAddToCart.setEnabled(valid);
+        btnBuyNow.setEnabled(valid);
+    }
+
+    // =========================================================
+    // VALIDATE QUANTITY
+    // =========================================================
+
+    private boolean validateQuantity() {
+
+        if (availableStock <= 0) {
+
+            Toast.makeText(
+                    requireContext(),
+                    "Product is out of stock",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+        if (minimumOrder > availableStock) {
+
+            Toast.makeText(
+                    requireContext(),
+                    "Product stock is less than minimum order",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+        if (selectedQuantity < minimumOrder) {
+
+            Toast.makeText(
+                    requireContext(),
+                    "Minimum order is " + minimumOrder,
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+        if (selectedQuantity > availableStock) {
+
+            Toast.makeText(
+                    requireContext(),
+                    "Only " + availableStock + " items available",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+        return true;
     }
 
     // =========================================================
@@ -392,10 +721,11 @@ public class BuyerProductDetailFragment extends Fragment {
 
                             tvSellerName.setText(
                                     "Seller: "
-                                            + (TextUtils.isEmpty(
-                                            fallbackName)
-                                            ? "Not available"
-                                            : fallbackName)
+                                            + (
+                                            TextUtils.isEmpty(fallbackName)
+                                                    ? "Not available"
+                                                    : fallbackName
+                                    )
                             );
                         }
 
@@ -409,10 +739,11 @@ public class BuyerProductDetailFragment extends Fragment {
 
                             tvSellerPhone.setText(
                                     "Phone: "
-                                            + (TextUtils.isEmpty(
-                                            fallbackPhone)
-                                            ? "Not available"
-                                            : fallbackPhone)
+                                            + (
+                                            TextUtils.isEmpty(fallbackPhone)
+                                                    ? "Not available"
+                                                    : fallbackPhone
+                                    )
                             );
                         }
 
@@ -551,7 +882,7 @@ public class BuyerProductDetailFragment extends Fragment {
     }
 
     // =========================================================
-    // LOAD PRODUCT REVIEWS
+    // LOAD REVIEWS
     // =========================================================
 
     private void loadProductReviews(
@@ -602,10 +933,6 @@ public class BuyerProductDetailFragment extends Fragment {
                                 return;
                             }
 
-                            // =================================================
-                            // CALCULATE OVERALL RATING
-                            // =================================================
-
                             double totalRating = 0.0;
                             int validRatings = 0;
 
@@ -637,12 +964,6 @@ public class BuyerProductDetailFragment extends Fragment {
                                         totalRating
                                                 / validRatings;
                             }
-
-                            // =================================================
-                            // SHOW OVERALL RATING
-                            // STAR = YELLOW
-                            // NUMBER = BLACK
-                            // =================================================
 
                             setRatingText(
                                     tvProductRating,
@@ -685,8 +1006,10 @@ public class BuyerProductDetailFragment extends Fragment {
                                     }
                             );
 
-                            for (DocumentSnapshot review :
-                                    reviewList) {
+                            for (
+                                    DocumentSnapshot review
+                                    : reviewList
+                            ) {
 
                                 addReviewView(review);
                             }
@@ -715,8 +1038,6 @@ public class BuyerProductDetailFragment extends Fragment {
 
     // =========================================================
     // SET RATING TEXT
-    // ONLY STAR YELLOW
-    // NUMBER BLACK
     // =========================================================
 
     private void setRatingText(
@@ -733,28 +1054,24 @@ public class BuyerProductDetailFragment extends Fragment {
         SpannableString spannable =
                 new SpannableString(ratingText);
 
-        // =====================================================
-        // STAR YELLOW
-        // =====================================================
-
         spannable.setSpan(
-                new ForegroundColorSpan(Color.YELLOW),
+                new ForegroundColorSpan(
+                        Color.rgb(255, 193, 7)
+                ),
                 0,
                 1,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
         );
-
-        // =====================================================
-        // NUMBER BLACK
-        // =====================================================
 
         if (ratingText.length() > 1) {
 
             spannable.setSpan(
-                    new ForegroundColorSpan(Color.BLACK),
+                    new ForegroundColorSpan(
+                            Color.BLACK
+                    ),
                     1,
                     ratingText.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             );
         }
 
@@ -808,10 +1125,6 @@ public class BuyerProductDetailFragment extends Fragment {
         String date =
                 getReviewDate(review);
 
-        // =====================================================
-        // MAIN REVIEW LAYOUT
-        // =====================================================
-
         LinearLayout reviewLayout =
                 new LinearLayout(
                         requireContext()
@@ -828,10 +1141,6 @@ public class BuyerProductDetailFragment extends Fragment {
                 dpToPx(14)
         );
 
-        // =====================================================
-        // USER HEADER
-        // =====================================================
-
         LinearLayout userRow =
                 new LinearLayout(
                         requireContext()
@@ -844,10 +1153,6 @@ public class BuyerProductDetailFragment extends Fragment {
         userRow.setGravity(
                 Gravity.CENTER_VERTICAL
         );
-
-        // =====================================================
-        // PROFILE IMAGE
-        // =====================================================
 
         TextView profile =
                 new TextView(
@@ -873,10 +1178,6 @@ public class BuyerProductDetailFragment extends Fragment {
                 profileParams
         );
 
-        // =====================================================
-        // NAME + RATING
-        // =====================================================
-
         LinearLayout userInfo =
                 new LinearLayout(
                         requireContext()
@@ -901,28 +1202,17 @@ public class BuyerProductDetailFragment extends Fragment {
                         requireContext()
                 );
 
-        name.setText(
-                buyerName
-        );
-
+        name.setText(buyerName);
         name.setTextColor(
                 Color.rgb(34, 34, 34)
         );
-
         name.setTextSize(15);
-
         name.setTypeface(
                 Typeface.DEFAULT,
                 Typeface.BOLD
         );
 
         userInfo.addView(name);
-
-        // =====================================================
-        // REVIEW RATING
-        // STAR YELLOW
-        // NUMBER BLACK
-        // =====================================================
 
         TextView ratingText =
                 new TextView(
@@ -933,24 +1223,28 @@ public class BuyerProductDetailFragment extends Fragment {
                 "★ " + formatRating(rating);
 
         SpannableString reviewRatingSpan =
-                new SpannableString(reviewRating);
+                new SpannableString(
+                        reviewRating
+                );
 
-        // Yellow star
         reviewRatingSpan.setSpan(
-                new ForegroundColorSpan(Color.YELLOW),
+                new ForegroundColorSpan(
+                        Color.rgb(255, 193, 7)
+                ),
                 0,
                 1,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
         );
 
-        // Black number
         if (reviewRating.length() > 1) {
 
             reviewRatingSpan.setSpan(
-                    new ForegroundColorSpan(Color.BLACK),
+                    new ForegroundColorSpan(
+                            Color.BLACK
+                    ),
                     1,
                     reviewRating.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             );
         }
 
@@ -972,10 +1266,6 @@ public class BuyerProductDetailFragment extends Fragment {
                 infoParams
         );
 
-        // =====================================================
-        // DATE
-        // =====================================================
-
         TextView dateView =
                 new TextView(
                         requireContext()
@@ -989,10 +1279,6 @@ public class BuyerProductDetailFragment extends Fragment {
 
         reviewLayout.addView(userRow);
 
-        // =====================================================
-        // COMMENT
-        // =====================================================
-
         TextView comment =
                 new TextView(
                         requireContext()
@@ -1000,7 +1286,7 @@ public class BuyerProductDetailFragment extends Fragment {
 
         comment.setText(
                 TextUtils.isEmpty(reviewText)
-                        ? "No comment."
+                        ? "No review text."
                         : reviewText
         );
 
@@ -1032,11 +1318,6 @@ public class BuyerProductDetailFragment extends Fragment {
                 commentParams
         );
 
-        // =====================================================
-        // EDIT + DELETE
-        // ONLY REVIEW OWNER OR ADMIN
-        // =====================================================
-
         FirebaseUser currentUser =
                 auth.getCurrentUser();
 
@@ -1044,7 +1325,9 @@ public class BuyerProductDetailFragment extends Fragment {
 
             boolean isOwner =
                     !TextUtils.isEmpty(buyerId)
-                            && currentUser.getUid().equals(buyerId);
+                            && currentUser.getUid().equals(
+                            buyerId
+                    );
 
             checkAdminAndShowActions(
                     currentUser,
@@ -1055,10 +1338,6 @@ public class BuyerProductDetailFragment extends Fragment {
                     reviewText
             );
         }
-
-        // =====================================================
-        // DIVIDER
-        // =====================================================
 
         View divider =
                 new View(
@@ -1114,10 +1393,16 @@ public class BuyerProductDetailFragment extends Fragment {
                     if (documentSnapshot.exists()) {
 
                         String role =
-                                documentSnapshot.getString("role");
+                                documentSnapshot.getString(
+                                        "role"
+                                );
 
-                        if (role != null
-                                && role.equalsIgnoreCase("admin")) {
+                        if (
+                                role != null
+                                        && role.equalsIgnoreCase(
+                                        "admin"
+                                )
+                        ) {
 
                             isAdmin = true;
                         }
@@ -1136,7 +1421,7 @@ public class BuyerProductDetailFragment extends Fragment {
     }
 
     // =========================================================
-    // ADD EDIT + DELETE BUTTONS
+    // ADD EDIT DELETE BUTTONS
     // =========================================================
 
     private void addReviewActionButtons(
@@ -1167,10 +1452,6 @@ public class BuyerProductDetailFragment extends Fragment {
         actionParams.topMargin =
                 dpToPx(8);
 
-        // =====================================================
-        // EDIT BUTTON
-        // =====================================================
-
         AppCompatButton editButton =
                 new AppCompatButton(
                         requireContext()
@@ -1181,9 +1462,7 @@ public class BuyerProductDetailFragment extends Fragment {
         editButton.setTextColor(
                 Color.rgb(76, 175, 80)
         );
-
         editButton.setAllCaps(false);
-
         editButton.setBackgroundColor(
                 Color.TRANSPARENT
         );
@@ -1207,10 +1486,6 @@ public class BuyerProductDetailFragment extends Fragment {
                 editParams
         );
 
-        // =====================================================
-        // DELETE BUTTON
-        // =====================================================
-
         AppCompatButton deleteButton =
                 new AppCompatButton(
                         requireContext()
@@ -1218,13 +1493,10 @@ public class BuyerProductDetailFragment extends Fragment {
 
         deleteButton.setText("Delete");
         deleteButton.setTextSize(13);
-
         deleteButton.setTextColor(
                 Color.rgb(211, 47, 47)
         );
-
         deleteButton.setAllCaps(false);
-
         deleteButton.setBackgroundColor(
                 Color.TRANSPARENT
         );
@@ -1288,7 +1560,6 @@ public class BuyerProductDetailFragment extends Fragment {
 
         ratingBar.setNumStars(5);
         ratingBar.setStepSize(1.0f);
-
         ratingBar.setRating(
                 (float) oldRating
         );
@@ -1313,9 +1584,8 @@ public class BuyerProductDetailFragment extends Fragment {
                 );
 
         editText.setText(oldReview);
-
         editText.setHint(
-                "Write your comment..."
+                "Write your review..."
         );
 
         editText.setGravity(
@@ -1404,6 +1674,13 @@ public class BuyerProductDetailFragment extends Fragment {
                                         auth.getCurrentUser();
 
                                 if (user == null) {
+
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Please login first.",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
                                     return;
                                 }
 
@@ -1476,10 +1753,16 @@ public class BuyerProductDetailFragment extends Fragment {
                     }
 
                     String role =
-                            documentSnapshot.getString("role");
+                            documentSnapshot.getString(
+                                    "role"
+                            );
 
-                    if (role != null
-                            && role.equalsIgnoreCase("admin")) {
+                    if (
+                            role != null
+                                    && role.equalsIgnoreCase(
+                                    "admin"
+                            )
+                    ) {
 
                         updateReview(
                                 dialog,
@@ -1496,6 +1779,18 @@ public class BuyerProductDetailFragment extends Fragment {
                                 Toast.LENGTH_SHORT
                         ).show();
                     }
+                })
+                .addOnFailureListener(e -> {
+
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Unable to verify permission.",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 });
     }
 
@@ -1512,20 +1807,9 @@ public class BuyerProductDetailFragment extends Fragment {
         Map<String, Object> update =
                 new HashMap<>();
 
-        update.put(
-                "rating",
-                rating
-        );
-
-        update.put(
-                "review",
-                text
-        );
-
-        update.put(
-                "updatedAt",
-                Timestamp.now()
-        );
+        update.put("rating", rating);
+        update.put("review", text);
+        update.put("updatedAt", Timestamp.now());
 
         db.collection("reviews")
                 .document(
@@ -1668,8 +1952,12 @@ public class BuyerProductDetailFragment extends Fragment {
                                     "role"
                             );
 
-                    if (role != null
-                            && role.equalsIgnoreCase("admin")) {
+                    if (
+                            role != null
+                                    && role.equalsIgnoreCase(
+                                    "admin"
+                            )
+                    ) {
 
                         performDeleteReview(
                                 reviewDocument
@@ -1684,13 +1972,18 @@ public class BuyerProductDetailFragment extends Fragment {
                         ).show();
                     }
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(
-                                requireContext(),
-                                "Unable to verify permission.",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
+                .addOnFailureListener(e -> {
+
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Unable to verify permission.",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
     }
 
     // =========================================================
@@ -1771,7 +2064,8 @@ public class BuyerProductDetailFragment extends Fragment {
     // =========================================================
 
     private void addProductToCart(
-            Map<String, Object> product) {
+            Map<String, Object> product,
+            int requestedQuantity) {
 
         FirebaseUser currentUser =
                 auth.getCurrentUser();
@@ -1784,6 +2078,10 @@ public class BuyerProductDetailFragment extends Fragment {
                     Toast.LENGTH_SHORT
             ).show();
 
+            return;
+        }
+
+        if (!validateQuantity()) {
             return;
         }
 
@@ -1855,10 +2153,14 @@ public class BuyerProductDetailFragment extends Fragment {
                 );
 
         double price =
-                getDouble(product.get("price"));
+                getDouble(
+                        product.get("price")
+                );
 
         db.collection("cart")
-                .document(currentUser.getUid())
+                .document(
+                        currentUser.getUid()
+                )
                 .collection("items")
                 .document(productId)
                 .get()
@@ -1875,16 +2177,26 @@ public class BuyerProductDetailFragment extends Fragment {
                                         "quantity"
                                 );
 
-                        int quantity = 1;
+                        int oldQty = 0;
 
-                        if (oldQuantity != null
-                                && oldQuantity > 0) {
-
-                            quantity =
-                                    oldQuantity.intValue();
+                        if (oldQuantity != null) {
+                            oldQty = oldQuantity.intValue();
                         }
 
-                        quantity++;
+                        int newQuantity =
+                                oldQty + requestedQuantity;
+
+                        if (newQuantity > availableStock) {
+
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Only " + availableStock
+                                            + " items available in stock",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            return;
+                        }
 
                         db.collection("cart")
                                 .document(
@@ -1894,7 +2206,7 @@ public class BuyerProductDetailFragment extends Fragment {
                                 .document(productId)
                                 .update(
                                         "quantity",
-                                        quantity
+                                        newQuantity
                                 )
                                 .addOnSuccessListener(
                                         unused -> Toast.makeText(
@@ -1963,7 +2275,17 @@ public class BuyerProductDetailFragment extends Fragment {
 
                     cartItem.put(
                             "quantity",
-                            1
+                            requestedQuantity
+                    );
+
+                    cartItem.put(
+                            "minimumOrder",
+                            minimumOrder
+                    );
+
+                    cartItem.put(
+                            "availableStock",
+                            availableStock
                     );
 
                     cartItem.put(
@@ -2001,12 +2323,16 @@ public class BuyerProductDetailFragment extends Fragment {
     }
 
     // =========================================================
-    // BUY NOW -> CHECKOUT
+    // BUY NOW
     // =========================================================
 
     private void openCheckout() {
 
         if (!isAdded() || selectedProduct == null) {
+            return;
+        }
+
+        if (!validateQuantity()) {
             return;
         }
 
@@ -2060,7 +2386,7 @@ public class BuyerProductDetailFragment extends Fragment {
                         productName,
                         sellerId,
                         sellerName,
-                        "1",
+                        String.valueOf(selectedQuantity),
                         formatPriceNumber(price)
                 );
 
@@ -2217,6 +2543,43 @@ public class BuyerProductDetailFragment extends Fragment {
             try {
 
                 return Double.parseDouble(
+                        String.valueOf(value)
+                );
+
+            } catch (Exception ignored) {
+            }
+        }
+
+        return 0.0;
+    }
+
+    // =========================================================
+    // GET INTEGER
+    // =========================================================
+
+    private int getIntValue(
+            Object value) {
+
+        if (value instanceof Number) {
+
+            return ((Number) value)
+                    .intValue();
+        }
+
+        if (value != null) {
+
+            try {
+
+                return Integer.parseInt(
+                        String.valueOf(value)
+                );
+
+            } catch (Exception ignored) {
+            }
+
+            try {
+
+                return (int) Double.parseDouble(
                         String.valueOf(value)
                 );
 

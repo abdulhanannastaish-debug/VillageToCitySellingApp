@@ -218,7 +218,7 @@
                 android:id="@+id/layoutTerms"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="#E8F5E9"
+                android:background="@android:color/white"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -248,9 +248,11 @@
             <!-- EDIT PROFILE -->
 
             <LinearLayout
+                android:id="@+id/layoutEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="8dp"
+                android:background="@android:color/white"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"

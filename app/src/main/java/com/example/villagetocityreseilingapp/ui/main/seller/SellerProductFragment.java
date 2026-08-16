@@ -20,6 +20,8 @@ import com.example.villagetocityreseilingapp.adapter.ProductAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +29,48 @@ import java.util.Map;
 
 public class SellerProductFragment extends Fragment {
 
+    // =========================================================
+    // VIEWS
+    // =========================================================
+
     private Button btnAdd;
     private TextView txtEmpty;
     private RecyclerView recyclerProducts;
     private ProgressBar progressProducts;
 
+    // =========================================================
+    // FIREBASE
+    // =========================================================
+
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+
+    // =========================================================
+    // FIRESTORE LISTENER
+    // =========================================================
+
+    private ListenerRegistration productsListener;
+
+    // =========================================================
+    // PRODUCT LIST
+    // =========================================================
 
     private final List<Map<String, Object>> productList =
             new ArrayList<>();
 
     private ProductAdapter productAdapter;
 
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
+
     public SellerProductFragment() {
         // Required empty public constructor
     }
+
+    // =========================================================
+    // ON CREATE VIEW
+    // =========================================================
 
     @Override
     public View onCreateView(
@@ -57,19 +85,30 @@ public class SellerProductFragment extends Fragment {
         );
     }
 
+    // =========================================================
+    // VIEW CREATED
+    // =========================================================
+
     @Override
     public void onViewCreated(
             @NonNull View view,
             @Nullable Bundle savedInstanceState) {
 
-        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(
+                view,
+                savedInstanceState
+        );
 
-        // ================= FIREBASE =================
+        // =====================================================
+        // FIREBASE
+        // =====================================================
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // ================= FIND VIEWS =================
+        // =====================================================
+        // FIND VIEWS
+        // =====================================================
 
         btnAdd = view.findViewById(R.id.btnAdd);
 
@@ -81,17 +120,31 @@ public class SellerProductFragment extends Fragment {
         progressProducts =
                 view.findViewById(R.id.progressProducts);
 
-        // ================= INITIAL STATE =================
+        // =====================================================
+        // INITIAL STATE
+        // =====================================================
 
         progressProducts.setVisibility(View.VISIBLE);
+
         txtEmpty.setVisibility(View.GONE);
+
         recyclerProducts.setVisibility(View.GONE);
 
-        // ================= RECYCLER VIEW =================
+        // =====================================================
+        // RECYCLER VIEW
+        // =====================================================
 
         recyclerProducts.setLayoutManager(
-                new LinearLayoutManager(requireContext())
+                new LinearLayoutManager(
+                        requireContext()
+                )
         );
+
+        recyclerProducts.setHasFixedSize(false);
+
+        // =====================================================
+        // PRODUCT ADAPTER
+        // =====================================================
 
         productAdapter =
                 new ProductAdapter(
@@ -103,7 +156,9 @@ public class SellerProductFragment extends Fragment {
                 productAdapter
         );
 
-        // ================= ADD PRODUCT =================
+        // =====================================================
+        // ADD PRODUCT
+        // =====================================================
 
         btnAdd.setOnClickListener(v -> {
 
@@ -119,33 +174,51 @@ public class SellerProductFragment extends Fragment {
 
         });
 
-        // ================= LOAD PRODUCTS =================
+        // =====================================================
+        // LOAD PRODUCTS
+        // =====================================================
 
         loadSellerProducts();
     }
 
     // =========================================================
-    // LOAD SELLER PRODUCTS FROM FIRESTORE
+    // LOAD SELLER PRODUCTS
     // =========================================================
 
     private void loadSellerProducts() {
 
+        if (!isAdded()) {
+            return;
+        }
+
+        // =====================================================
+        // CURRENT USER
+        // =====================================================
+
         FirebaseUser currentUser =
                 auth.getCurrentUser();
 
+        // =====================================================
+        // CHECK LOGIN
+        // =====================================================
+
         if (currentUser == null) {
 
-            progressProducts.setVisibility(View.GONE);
+            progressProducts.setVisibility(
+                    View.GONE
+            );
 
-            txtEmpty.setVisibility(View.VISIBLE);
+            recyclerProducts.setVisibility(
+                    View.GONE
+            );
 
-            recyclerProducts.setVisibility(View.GONE);
+            txtEmpty.setVisibility(
+                    View.VISIBLE
+            );
 
-            Toast.makeText(
-                    requireContext(),
-                    "Seller is not logged in.",
-                    Toast.LENGTH_SHORT
-            ).show();
+            txtEmpty.setText(
+                    "Seller is not logged in."
+            );
 
             return;
         }
@@ -153,119 +226,295 @@ public class SellerProductFragment extends Fragment {
         String sellerId =
                 currentUser.getUid();
 
-        // ================= LOADING STATE =================
+        // =====================================================
+        // REMOVE OLD LISTENER
+        // =====================================================
 
-        progressProducts.setVisibility(View.VISIBLE);
+        if (productsListener != null) {
 
-        txtEmpty.setVisibility(View.GONE);
+            productsListener.remove();
 
-        recyclerProducts.setVisibility(View.GONE);
+            productsListener = null;
+        }
 
-        // ================= FIRESTORE =================
+        // =====================================================
+        // LOADING STATE
+        // =====================================================
 
-        db.collection("products")
-                .whereEqualTo(
-                        "sellerId",
-                        sellerId
-                )
-                .get()
-                .addOnSuccessListener(
-                        queryDocumentSnapshots -> {
+        progressProducts.setVisibility(
+                View.VISIBLE
+        );
 
-                            if (!isAdded()) {
-                                return;
-                            }
+        txtEmpty.setVisibility(
+                View.GONE
+        );
 
-                            productList.clear();
+        recyclerProducts.setVisibility(
+                View.GONE
+        );
 
-                            // ================= LOADING END =================
+        // =====================================================
+        // FIRESTORE REAL-TIME LISTENER
+        // =====================================================
 
-                            progressProducts.setVisibility(
-                                    View.GONE
-                            );
+        productsListener =
+                db.collection("products")
+                        .addSnapshotListener(
+                                (queryDocumentSnapshots, error) -> {
 
-                            // ================= NO PRODUCTS =================
+                                    if (!isAdded()) {
+                                        return;
+                                    }
 
-                            if (queryDocumentSnapshots.isEmpty()) {
+                                    // =================================
+                                    // ERROR
+                                    // =================================
 
-                                txtEmpty.setVisibility(
-                                        View.VISIBLE
-                                );
+                                    if (error != null) {
 
-                                recyclerProducts.setVisibility(
-                                        View.GONE
-                                );
+                                        progressProducts.setVisibility(
+                                                View.GONE
+                                        );
 
-                            }
+                                        recyclerProducts.setVisibility(
+                                                View.GONE
+                                        );
 
-                            // ================= PRODUCTS FOUND =================
+                                        txtEmpty.setVisibility(
+                                                View.VISIBLE
+                                        );
 
-                            else {
+                                        txtEmpty.setText(
+                                                "Unable to load your products."
+                                        );
 
-                                txtEmpty.setVisibility(
-                                        View.GONE
-                                );
+                                        Toast.makeText(
+                                                requireContext(),
+                                                "Failed to load products: "
+                                                        + error.getMessage(),
+                                                Toast.LENGTH_LONG
+                                        ).show();
 
-                                recyclerProducts.setVisibility(
-                                        View.VISIBLE
-                                );
+                                        return;
+                                    }
 
-                                for (
-                                        com.google.firebase.firestore.QueryDocumentSnapshot document
-                                        : queryDocumentSnapshots
-                                ) {
+                                    // =================================
+                                    // NULL SNAPSHOT
+                                    // =================================
 
-                                    Map<String, Object> product =
-                                            document.getData();
+                                    if (queryDocumentSnapshots == null) {
 
-                                    // Make sure productId exists
-                                    if (!product.containsKey("productId")) {
+                                        showEmptyProducts();
 
-                                        product.put(
-                                                "productId",
-                                                document.getId()
+                                        return;
+                                    }
+
+                                    // =================================
+                                    // CLEAR OLD LIST
+                                    // =================================
+
+                                    productList.clear();
+
+                                    // =================================
+                                    // GET SELLER PRODUCTS
+                                    // =================================
+
+                                    for (
+                                            QueryDocumentSnapshot document
+                                            : queryDocumentSnapshots
+                                    ) {
+
+                                        Map<String, Object> product =
+                                                document.getData();
+
+                                        // =============================
+                                        // SELLER ID
+                                        // =============================
+
+                                        Object sellerIdObject =
+                                                product.get("sellerId");
+
+                                        if (sellerIdObject == null) {
+                                            continue;
+                                        }
+
+                                        String productSellerId =
+                                                String.valueOf(
+                                                        sellerIdObject
+                                                ).trim();
+
+                                        // =============================
+                                        // CURRENT SELLER ONLY
+                                        // =============================
+
+                                        if (!sellerId.equals(
+                                                productSellerId
+                                        )) {
+                                            continue;
+                                        }
+
+                                        // =============================
+                                        // CHECK PRODUCT STATUS
+                                        // =============================
+                                        //
+                                        // IMPORTANT:
+                                        //
+                                        // Agar kisi purane product ka
+                                        // status "deleted" hai to usko
+                                        // list mein add nahi karna.
+                                        //
+                                        // =============================
+
+                                        Object statusObject =
+                                                product.get("status");
+
+                                        if (statusObject != null) {
+
+                                            String status =
+                                                    String.valueOf(
+                                                                    statusObject
+                                                            )
+                                                            .trim()
+                                                            .toLowerCase();
+
+                                            if (
+                                                    status.equals("deleted")
+                                                            ||
+                                                            status.equals("delete")
+                                            ) {
+                                                continue;
+                                            }
+                                        }
+
+                                        // =============================
+                                        // PRODUCT ID
+                                        // =============================
+
+                                        if (
+                                                !product.containsKey(
+                                                        "productId"
+                                                )
+                                                        ||
+                                                        product.get(
+                                                                "productId"
+                                                        ) == null
+                                                        ||
+                                                        String.valueOf(
+                                                                        product.get(
+                                                                                "productId"
+                                                                        )
+                                                                )
+                                                                .trim()
+                                                                .isEmpty()
+                                        ) {
+
+                                            product.put(
+                                                    "productId",
+                                                    document.getId()
+                                            );
+                                        }
+
+                                        // =============================
+                                        // ADD PRODUCT
+                                        // =============================
+
+                                        productList.add(
+                                                product
                                         );
                                     }
 
-                                    productList.add(product);
+                                    // =================================
+                                    // LOADING COMPLETE
+                                    // =================================
+
+                                    progressProducts.setVisibility(
+                                            View.GONE
+                                    );
+
+                                    // =================================
+                                    // NO PRODUCTS
+                                    // =================================
+
+                                    if (productList.isEmpty()) {
+
+                                        showEmptyProducts();
+
+                                        return;
+                                    }
+
+                                    // =================================
+                                    // SORT
+                                    // =================================
+
+                                    productAdapter.sortProducts();
+
+                                    // =================================
+                                    // SHOW PRODUCTS
+                                    // =================================
+
+                                    txtEmpty.setVisibility(
+                                            View.GONE
+                                    );
+
+                                    recyclerProducts.setVisibility(
+                                            View.VISIBLE
+                                    );
+
+                                    // =================================
+                                    // REFRESH ADAPTER
+                                    // =================================
+
+                                    productAdapter.notifyDataSetChanged();
                                 }
-
-                                productAdapter.notifyDataSetChanged();
-                            }
-
-                        })
-                .addOnFailureListener(e -> {
-
-                    if (!isAdded()) {
-                        return;
-                    }
-
-                    // ================= LOADING END =================
-
-                    progressProducts.setVisibility(
-                            View.GONE
-                    );
-
-                    recyclerProducts.setVisibility(
-                            View.GONE
-                    );
-
-                    txtEmpty.setVisibility(
-                            View.VISIBLE
-                    );
-
-                    Toast.makeText(
-                            requireContext(),
-                            "Failed to load products: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-
-                });
+                        );
     }
 
     // =========================================================
-    // RELOAD PRODUCTS
+    // SHOW EMPTY PRODUCTS
+    // =========================================================
+
+    private void showEmptyProducts() {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        progressProducts.setVisibility(
+                View.GONE
+        );
+
+        recyclerProducts.setVisibility(
+                View.GONE
+        );
+
+        txtEmpty.setVisibility(
+                View.VISIBLE
+        );
+
+        txtEmpty.setText(
+                "No product items yet. Click '+ Add Product' to create your product!"
+        );
+    }
+
+    // =========================================================
+    // STOP FIRESTORE LISTENER
+    // =========================================================
+
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+
+        if (productsListener != null) {
+
+            productsListener.remove();
+
+            productsListener = null;
+        }
+    }
+
+    // =========================================================
+    // RELOAD WHEN SCREEN RESUMES
     // =========================================================
 
     @Override
@@ -273,12 +522,11 @@ public class SellerProductFragment extends Fragment {
 
         super.onResume();
 
-        /*
-         * Product add/update/delete ke baad
-         * list dobara load hogi.
-         */
-
-        if (auth != null) {
+        if (
+                auth != null
+                        && db != null
+                        && productsListener == null
+        ) {
 
             loadSellerProducts();
         }
