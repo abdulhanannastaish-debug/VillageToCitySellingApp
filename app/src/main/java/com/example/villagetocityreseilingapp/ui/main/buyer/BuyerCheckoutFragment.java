@@ -62,10 +62,7 @@ public class BuyerCheckoutFragment extends Fragment {
     private TextView btnDecreaseQuantity;
     private TextView btnIncreaseQuantity;
 
-    // BUYER NAME
     private EditText etDeliveryName;
-
-    // ADDRESS + PHONE
     private EditText etDeliveryAddress;
     private EditText etDeliveryPhone;
 
@@ -94,6 +91,12 @@ public class BuyerCheckoutFragment extends Fragment {
     private double unitPrice = 0;
 
     private String productImageUrl = "";
+
+    // =========================================================
+    // CURRENT STOCK
+    // =========================================================
+
+    private int availableStock = 0;
 
     // =========================================================
     // BUYER DATA
@@ -126,7 +129,6 @@ public class BuyerCheckoutFragment extends Fragment {
     // =========================================================
 
     public BuyerCheckoutFragment() {
-        // Required empty public constructor
     }
 
     // =========================================================
@@ -308,10 +310,6 @@ public class BuyerCheckoutFragment extends Fragment {
                         R.id.btnIncreaseQuantity
                 );
 
-        // =====================================================
-        // BUYER NAME
-        // =====================================================
-
         etDeliveryName =
                 view.findViewById(
                         R.id.etBuyerName
@@ -388,7 +386,7 @@ public class BuyerCheckoutFragment extends Fragment {
         updateQuantityUI();
 
         // =====================================================
-        // LOAD BUYER PROFILE
+        // LOAD BUYER
         // =====================================================
 
         loadBuyerProfile();
@@ -400,7 +398,7 @@ public class BuyerCheckoutFragment extends Fragment {
         loadProductData();
 
         // =====================================================
-        // DELIVERY DEFAULT
+        // DEFAULT DELIVERY
         // =====================================================
 
         if (radioTcs != null) {
@@ -413,19 +411,35 @@ public class BuyerCheckoutFragment extends Fragment {
         updateOrderSummary();
 
         // =====================================================
-        // INCREASE QUANTITY
+        // INCREASE
         // =====================================================
 
         btnIncreaseQuantity.setOnClickListener(v -> {
 
-            quantity++;
+            if (availableStock > 0 &&
+                    quantity < availableStock) {
 
-            updateQuantityUI();
-            updateOrderSummary();
+                quantity++;
+
+                updateQuantityUI();
+                updateOrderSummary();
+
+            } else {
+
+                Toast.makeText(
+                        requireContext(),
+                        availableStock <= 0
+                                ? "Product is out of stock."
+                                : "Only "
+                                + availableStock
+                                + " items available.",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
         });
 
         // =====================================================
-        // DECREASE QUANTITY
+        // DECREASE
         // =====================================================
 
         btnDecreaseQuantity.setOnClickListener(v -> {
@@ -515,10 +529,6 @@ public class BuyerCheckoutFragment extends Fragment {
             return;
         }
 
-        // =====================================================
-        // FIRST: FIREBASE AUTH DISPLAY NAME
-        // =====================================================
-
         String authName =
                 currentUser.getDisplayName();
 
@@ -536,11 +546,6 @@ public class BuyerCheckoutFragment extends Fragment {
 
             return;
         }
-
-        // =====================================================
-        // SECOND: FIRESTORE USERS
-        // users/{buyerUid}
-        // =====================================================
 
         String buyerId =
                 currentUser.getUid();
@@ -581,10 +586,6 @@ public class BuyerCheckoutFragment extends Fragment {
                                 }
                             }
 
-                            // =================================================
-                            // OPTIONAL: AUTO LOAD PHONE
-                            // =================================================
-
                             String phone =
                                     getFirstAvailableString(
                                             documentSnapshot,
@@ -608,10 +609,6 @@ public class BuyerCheckoutFragment extends Fragment {
                                     );
                                 }
                             }
-
-                            // =================================================
-                            // OPTIONAL: AUTO LOAD ADDRESS
-                            // =================================================
 
                             String address =
                                     getFirstAvailableString(
@@ -640,7 +637,7 @@ public class BuyerCheckoutFragment extends Fragment {
     }
 
     // =========================================================
-    // LOAD PRODUCT
+    // LOAD PRODUCT DATA
     // =========================================================
 
     private void loadProductData() {
@@ -659,6 +656,13 @@ public class BuyerCheckoutFragment extends Fragment {
                     }
 
                     if (!documentSnapshot.exists()) {
+
+                        Toast.makeText(
+                                requireContext(),
+                                "Product no longer exists.",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
                         return;
                     }
 
@@ -713,7 +717,51 @@ public class BuyerCheckoutFragment extends Fragment {
                                 );
                     }
 
-                    updateQuantityUI();
+                    // =================================================
+                    // CURRENT FIRESTORE STOCK
+                    // =================================================
+
+                    availableStock =
+                            getIntFromFirestore(
+                                    documentSnapshot,
+                                    "totalStock"
+                            );
+
+                    if (availableStock <= 0) {
+
+                        quantity = 0;
+
+                        updateQuantityUI();
+
+                        Toast.makeText(
+                                requireContext(),
+                                "Product is out of stock.",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                    } else {
+
+                        if (quantity > availableStock) {
+
+                            quantity =
+                                    availableStock;
+
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Available stock is only "
+                                            + availableStock
+                                            + ".",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+
+                        if (quantity < 1) {
+                            quantity = 1;
+                        }
+
+                        updateQuantityUI();
+                    }
+
                     updateOrderSummary();
 
                     productImageUrl =
@@ -729,7 +777,59 @@ public class BuyerCheckoutFragment extends Fragment {
                                 productImageUrl
                         );
                     }
+                })
+                .addOnFailureListener(e -> {
+
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Unable to load product stock.",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 });
+    }
+
+    // =========================================================
+    // GET STOCK
+    // =========================================================
+
+    private int getIntFromFirestore(
+            DocumentSnapshot document,
+            String field) {
+
+        Object value =
+                document.get(field);
+
+        if (value instanceof Number) {
+
+            return ((Number) value).intValue();
+        }
+
+        if (value != null) {
+
+            try {
+
+                return Integer.parseInt(
+                        String.valueOf(value)
+                );
+
+            } catch (Exception ignored) {
+            }
+
+            try {
+
+                return (int) Double.parseDouble(
+                        String.valueOf(value)
+                );
+
+            } catch (Exception ignored) {
+            }
+        }
+
+        return 0;
     }
 
     // =========================================================
@@ -857,6 +957,38 @@ public class BuyerCheckoutFragment extends Fragment {
             checkoutProductPrice.setText(
                     "Rs " +
                             formatAmount(productTotal)
+            );
+        }
+
+        updateQuantityButtons();
+    }
+
+    // =========================================================
+    // QUANTITY BUTTON STATE
+    // =========================================================
+
+    private void updateQuantityButtons() {
+
+        if (btnDecreaseQuantity != null) {
+
+            btnDecreaseQuantity.setEnabled(
+                    quantity > 1
+            );
+        }
+
+        if (btnIncreaseQuantity != null) {
+
+            btnIncreaseQuantity.setEnabled(
+                    availableStock > 0
+                            && quantity < availableStock
+            );
+        }
+
+        if (btnPlaceOrder != null) {
+
+            btnPlaceOrder.setEnabled(
+                    availableStock > 0
+                            && quantity > 0
             );
         }
     }
@@ -1020,295 +1152,516 @@ public class BuyerCheckoutFragment extends Fragment {
         }
 
         if (quantity < 1) {
-            quantity = 1;
+
+            Toast.makeText(
+                    requireContext(),
+                    "Invalid quantity.",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
         }
 
-        double productTotal =
-                unitPrice * quantity;
-
-        double totalAmount =
-                productTotal +
-                        deliveryCharges;
+        // =====================================================
+        // DISABLE BUTTON
+        // =====================================================
 
         btnPlaceOrder.setEnabled(false);
 
         btnPlaceOrder.setText(
-                "Placing Order..."
+                "Checking Stock..."
         );
 
-        String buyerId =
+        // =====================================================
+        // IMPORTANT
+        //
+        // Stock will NOT be deducted here manually.
+        //
+        // Firestore transaction below will:
+        //
+        // 1. Read current product stock
+        // 2. Check requested quantity
+        // 3. Calculate remaining stock
+        // 4. Update product stock
+        // 5. Create order
+        //
+        // All atomically.
+        // =====================================================
+
+        placeOrderWithStockTransaction(
+                currentUser,
+                deliveryAddress,
+                deliveryPhone
+        );
+    }
+
+    // =========================================================
+    // PLACE ORDER + UPDATE STOCK
+    // ATOMIC FIRESTORE TRANSACTION
+    // =========================================================
+
+    private void placeOrderWithStockTransaction(
+            FirebaseUser currentUser,
+            String deliveryAddress,
+            String deliveryPhone) {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        final String buyerId =
                 currentUser.getUid();
 
-        String orderId =
+        final DocumentReference productReference =
+                db.collection("products")
+                        .document(productId);
+
+        final String orderId =
                 generateOrderId();
 
-        DocumentReference orderReference =
+        final DocumentReference orderReference =
                 db.collection("orders")
                         .document();
 
-        Map<String, Object> orderData =
-                new HashMap<>();
+        final double productTotal =
+                unitPrice * quantity;
 
-        // =====================================================
-        // IDs
-        // =====================================================
+        final double totalAmount =
+                productTotal +
+                        deliveryCharges;
 
-        orderData.put(
-                "id",
-                orderId
-        );
+        db.runTransaction(transaction -> {
 
-        orderData.put(
-                "orderId",
-                orderId
-        );
+                    // =================================================
+                    // READ PRODUCT FIRST
+                    // =================================================
 
-        orderData.put(
-                "buyerId",
-                buyerId
-        );
+                    DocumentSnapshot productSnapshot =
+                            transaction.get(
+                                    productReference
+                            );
 
-        orderData.put(
-                "sellerId",
-                sellerId
-        );
+                    if (!productSnapshot.exists()) {
 
-        orderData.put(
-                "productId",
-                productId
-        );
+                        throw new RuntimeException(
+                                "PRODUCT_NOT_FOUND"
+                        );
+                    }
 
-        // =====================================================
-        // BUYER EMAIL
-        // =====================================================
+                    // =================================================
+                    // READ CURRENT STOCK FROM FIRESTORE
+                    // =================================================
 
-        orderData.put(
-                "buyerEmail",
-                getSafeValue(
-                        currentUser.getEmail(),
-                        ""
-                )
-        );
+                    int currentStock =
+                            getIntFromFirestore(
+                                    productSnapshot,
+                                    "totalStock"
+                            );
 
-        // =====================================================
-        // BUYER NAME
-        // =====================================================
+                    // =================================================
+                    // OUT OF STOCK
+                    // =================================================
 
-        /*
-         * IMPORTANT:
-         *
-         * Dono fields save kar rahe hain:
-         *
-         * customerName
-         * buyerName
-         *
-         * Seller detail screen dono mein se
-         * buyer ka naam read kar sakti hai.
-         */
+                    if (currentStock <= 0) {
 
-        orderData.put(
-                "customerName",
-                buyerName
-        );
+                        throw new RuntimeException(
+                                "OUT_OF_STOCK"
+                        );
+                    }
 
-        orderData.put(
-                "buyerName",
-                buyerName
-        );
+                    // =================================================
+                    // NOT ENOUGH STOCK
+                    // =================================================
 
-        // =====================================================
-        // SELLER
-        // =====================================================
+                    if (quantity > currentStock) {
 
-        orderData.put(
-                "sellerName",
-                getSafeValue(
-                        sellerName,
-                        "Seller"
-                )
-        );
+                        throw new RuntimeException(
+                                "INSUFFICIENT_STOCK:"
+                                        + currentStock
+                        );
+                    }
 
-        // =====================================================
-        // PRODUCT
-        // =====================================================
+                    // =================================================
+                    // CALCULATE REMAINING STOCK
+                    // =================================================
 
-        orderData.put(
-                "productName",
-                getSafeValue(
-                        productName,
-                        "Product"
-                )
-        );
+                    int remainingStock =
+                            currentStock - quantity;
 
-        orderData.put(
-                "productImage",
-                getSafeValue(
-                        productImageUrl,
-                        ""
-                )
-        );
+                    // =================================================
+                    // UPDATE PRODUCT STOCK
+                    // =================================================
 
-        // =====================================================
-        // QUANTITY
-        // =====================================================
+                    transaction.update(
+                            productReference,
+                            "totalStock",
+                            remainingStock
+                    );
 
-        orderData.put(
-                "quantity",
-                (long) quantity
-        );
+                    // =================================================
+                    // KEEP ORDER DATA IN SYNC WITH REAL PRODUCT
+                    // =================================================
 
-        // =====================================================
-        // PRICE
-        // =====================================================
+                    String firestoreProductName =
+                            productSnapshot.getString(
+                                    "name"
+                            );
 
-        orderData.put(
-                "unitPrice",
-                unitPrice
-        );
+                    if (!TextUtils.isEmpty(
+                            firestoreProductName
+                    )) {
 
-        orderData.put(
-                "amount",
-                productTotal
-        );
+                        productName =
+                                firestoreProductName;
+                    }
 
-        orderData.put(
-                "productAmount",
-                productTotal
-        );
+                    String firestoreSellerId =
+                            productSnapshot.getString(
+                                    "sellerId"
+                            );
 
-        // =====================================================
-        // DELIVERY
-        // =====================================================
+                    if (!TextUtils.isEmpty(
+                            firestoreSellerId
+                    )) {
 
-        orderData.put(
-                "deliveryService",
-                deliveryService
-        );
+                        sellerId =
+                                firestoreSellerId;
+                    }
 
-        orderData.put(
-                "deliveryCharges",
-                deliveryCharges
-        );
+                    String firestoreSellerName =
+                            productSnapshot.getString(
+                                    "sellerName"
+                            );
 
-        // =====================================================
-        // TOTAL
-        // =====================================================
+                    if (!TextUtils.isEmpty(
+                            firestoreSellerName
+                    )) {
 
-        orderData.put(
-                "totalAmount",
-                totalAmount
-        );
+                        sellerName =
+                                firestoreSellerName;
+                    }
 
-        // =====================================================
-        // ADDRESS
-        // =====================================================
+                    Object firestorePrice =
+                            productSnapshot.get(
+                                    "price"
+                            );
 
-        orderData.put(
-                "customerAddress",
-                deliveryAddress
-        );
+                    if (firestorePrice != null) {
 
-        orderData.put(
-                "buyerAddress",
-                deliveryAddress
-        );
+                        unitPrice =
+                                parseObjectDouble(
+                                        firestorePrice,
+                                        unitPrice
+                                );
+                    }
 
-        // =====================================================
-        // PHONE
-        // =====================================================
+                    String firestoreImage =
+                            getImageUrl(
+                                    productSnapshot
+                            );
 
-        orderData.put(
-                "customerPhone",
-                deliveryPhone
-        );
+                    if (!TextUtils.isEmpty(
+                            firestoreImage
+                    )) {
 
-        orderData.put(
-                "buyerPhone",
-                deliveryPhone
-        );
+                        productImageUrl =
+                                firestoreImage;
+                    }
 
-        // =====================================================
-        // PAYMENT
-        // =====================================================
+                    // =================================================
+                    // CREATE ORDER DATA
+                    // =================================================
 
-        orderData.put(
-                "paymentMethod",
-                "Cash on Delivery"
-        );
+                    Map<String, Object> orderData =
+                            new HashMap<>();
 
-        orderData.put(
-                "paymentStatus",
-                "pending"
-        );
+                    // =================================================
+                    // IDs
+                    // =================================================
 
-        orderData.put(
-                "sellerPaymentStatus",
-                "pending"
-        );
+                    orderData.put(
+                            "id",
+                            orderId
+                    );
 
-        // =====================================================
-        // STATUS
-        // =====================================================
+                    orderData.put(
+                            "orderId",
+                            orderId
+                    );
 
-        orderData.put(
-                "status",
-                "pending"
-        );
+                    orderData.put(
+                            "buyerId",
+                            buyerId
+                    );
 
-        orderData.put(
-                "orderAge",
-                "new"
-        );
+                    orderData.put(
+                            "sellerId",
+                            sellerId
+                    );
 
-        // =====================================================
-        // TIMESTAMP
-        // =====================================================
+                    orderData.put(
+                            "productId",
+                            productId
+                    );
 
-        Timestamp now =
-                Timestamp.now();
+                    // =================================================
+                    // BUYER EMAIL
+                    // =================================================
 
-        orderData.put(
-                "createdAt",
-                now
-        );
+                    orderData.put(
+                            "buyerEmail",
+                            getSafeValue(
+                                    currentUser.getEmail(),
+                                    ""
+                            )
+                    );
 
-        orderData.put(
-                "updatedAt",
-                now
-        );
+                    // =================================================
+                    // BUYER NAME
+                    // =================================================
 
-        orderData.put(
-                "orderDate",
-                String.valueOf(
-                        System.currentTimeMillis()
-                )
-        );
+                    orderData.put(
+                            "customerName",
+                            buyerName
+                    );
 
-        // =====================================================
-        // NOTIFICATIONS
-        // =====================================================
+                    orderData.put(
+                            "buyerName",
+                            buyerName
+                    );
 
-        orderData.put(
-                "sellerNotificationSent",
-                false
-        );
+                    // =================================================
+                    // SELLER
+                    // =================================================
 
-        orderData.put(
-                "buyerNotificationSent",
-                false
-        );
+                    orderData.put(
+                            "sellerName",
+                            getSafeValue(
+                                    sellerName,
+                                    "Seller"
+                            )
+                    );
 
-        // =====================================================
-        // SAVE ORDER
-        // =====================================================
+                    // =================================================
+                    // PRODUCT
+                    // =================================================
 
-        orderReference
-                .set(orderData)
-                .addOnSuccessListener(unused -> {
+                    orderData.put(
+                            "productName",
+                            getSafeValue(
+                                    productName,
+                                    "Product"
+                            )
+                    );
+
+                    orderData.put(
+                            "productImage",
+                            getSafeValue(
+                                    productImageUrl,
+                                    ""
+                            )
+                    );
+
+                    // =================================================
+                    // QUANTITY
+                    // =================================================
+
+                    orderData.put(
+                            "quantity",
+                            (long) quantity
+                    );
+
+                    // =================================================
+                    // PRICE
+                    // =================================================
+
+                    orderData.put(
+                            "unitPrice",
+                            unitPrice
+                    );
+
+                    orderData.put(
+                            "amount",
+                            productTotal
+                    );
+
+                    orderData.put(
+                            "productAmount",
+                            productTotal
+                    );
+
+                    // =================================================
+                    // DELIVERY
+                    // =================================================
+
+                    orderData.put(
+                            "deliveryService",
+                            deliveryService
+                    );
+
+                    orderData.put(
+                            "deliveryCharges",
+                            deliveryCharges
+                    );
+
+                    // =================================================
+                    // TOTAL
+                    // =================================================
+
+                    orderData.put(
+                            "totalAmount",
+                            totalAmount
+                    );
+
+                    // =================================================
+                    // ADDRESS
+                    // =================================================
+
+                    orderData.put(
+                            "customerAddress",
+                            deliveryAddress
+                    );
+
+                    orderData.put(
+                            "buyerAddress",
+                            deliveryAddress
+                    );
+
+                    // =================================================
+                    // PHONE
+                    // =================================================
+
+                    orderData.put(
+                            "customerPhone",
+                            deliveryPhone
+                    );
+
+                    orderData.put(
+                            "buyerPhone",
+                            deliveryPhone
+                    );
+
+                    // =================================================
+                    // PAYMENT
+                    // =================================================
+
+                    orderData.put(
+                            "paymentMethod",
+                            "Cash on Delivery"
+                    );
+
+                    orderData.put(
+                            "paymentStatus",
+                            "pending"
+                    );
+
+                    orderData.put(
+                            "sellerPaymentStatus",
+                            "pending"
+                    );
+
+                    // =================================================
+                    // STATUS
+                    // =================================================
+
+                    orderData.put(
+                            "status",
+                            "pending"
+                    );
+
+                    orderData.put(
+                            "orderAge",
+                            "new"
+                    );
+
+                    // =================================================
+                    // STOCK INFO AT ORDER TIME
+                    // =================================================
+
+                    orderData.put(
+                            "stockBeforeOrder",
+                            (long) currentStock
+                    );
+
+                    orderData.put(
+                            "stockAfterOrder",
+                            (long) remainingStock
+                    );
+
+                    orderData.put(
+                            "stockDeducted",
+                            (long) quantity
+                    );
+
+                    // =================================================
+                    // TIMESTAMP
+                    // =================================================
+
+                    Timestamp now =
+                            Timestamp.now();
+
+                    orderData.put(
+                            "createdAt",
+                            now
+                    );
+
+                    orderData.put(
+                            "updatedAt",
+                            now
+                    );
+
+                    orderData.put(
+                            "orderDate",
+                            String.valueOf(
+                                    System.currentTimeMillis()
+                            )
+                    );
+
+                    // =================================================
+                    // NOTIFICATIONS
+                    // =================================================
+
+                    orderData.put(
+                            "sellerNotificationSent",
+                            false
+                    );
+
+                    orderData.put(
+                            "buyerNotificationSent",
+                            false
+                    );
+
+                    // =================================================
+                    // CREATE ORDER
+                    // =================================================
+
+                    transaction.set(
+                            orderReference,
+                            orderData
+                    );
+
+                    return remainingStock;
+                })
+                .addOnSuccessListener(remainingStock -> {
 
                     if (!isAdded()) {
                         return;
                     }
+
+                    // =================================================
+                    // UPDATE LOCAL STOCK
+                    // =================================================
+
+                    availableStock =
+                            remainingStock;
+
+                    // =================================================
+                    // REMOVE CART ITEM
+                    // =================================================
+
+                    btnPlaceOrder.setText(
+                            "Order Placed"
+                    );
 
                     removeOrderedCartItem(
                             buyerId,
@@ -1327,10 +1680,85 @@ public class BuyerCheckoutFragment extends Fragment {
                             "Confirm Order"
                     );
 
+                    String message =
+                            e.getMessage();
+
+                    if ("OUT_OF_STOCK".equals(message)) {
+
+                        availableStock = 0;
+
+                        updateQuantityUI();
+
+                        Toast.makeText(
+                                requireContext(),
+                                "Sorry, this product is out of stock.",
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                        return;
+                    }
+
+                    if ("PRODUCT_NOT_FOUND".equals(message)) {
+
+                        Toast.makeText(
+                                requireContext(),
+                                "Product is no longer available.",
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                        return;
+                    }
+
+                    if (message != null &&
+                            message.startsWith(
+                                    "INSUFFICIENT_STOCK:"
+                            )) {
+
+                        String stockValue =
+                                message.substring(
+                                        "INSUFFICIENT_STOCK:"
+                                                .length()
+                                );
+
+                        int latestStock =
+                                parseIntSafe(
+                                        stockValue,
+                                        0
+                                );
+
+                        availableStock =
+                                latestStock;
+
+                        if (quantity > availableStock) {
+
+                            quantity =
+                                    Math.max(
+                                            availableStock,
+                                            0
+                                    );
+                        }
+
+                        updateQuantityUI();
+
+                        Toast.makeText(
+                                requireContext(),
+                                "Only "
+                                        + latestStock
+                                        + " items are currently available.",
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                        return;
+                    }
+
                     Toast.makeText(
                             requireContext(),
-                            "Failed to place order: " +
-                                    e.getMessage(),
+                            "Failed to place order: "
+                                    + (
+                                    message != null
+                                            ? message
+                                            : "Unknown error"
+                            ),
                             Toast.LENGTH_LONG
                     ).show();
                 });
@@ -1403,8 +1831,8 @@ public class BuyerCheckoutFragment extends Fragment {
 
         Toast.makeText(
                 requireContext(),
-                "Order placed successfully.\nOrder ID: " +
-                        orderId,
+                "Order placed successfully.\nOrder ID: "
+                        + orderId,
                 Toast.LENGTH_LONG
         ).show();
 

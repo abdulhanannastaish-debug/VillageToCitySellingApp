@@ -3,9 +3,11 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
+
     app:cardCornerRadius="14dp"
     app:cardElevation="4dp"
     android:backgroundTint="#FFFFFF">
@@ -16,7 +18,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ================= PRODUCT NAME ================= -->
+        <!-- PRODUCT NAME -->
 
         <TextView
             android:id="@+id/txtProductName"
@@ -29,7 +31,7 @@
             android:maxLines="2"
             android:ellipsize="end" />
 
-        <!-- ================= PRICE ================= -->
+        <!-- PRICE -->
 
         <TextView
             android:id="@+id/txtProductPrice"
@@ -41,18 +43,18 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <!-- ================= QUANTITY ================= -->
+        <!-- STOCK -->
 
         <TextView
             android:id="@+id/txtProductQuantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Quantity: 0"
+            android:text="Available Stock: 0"
             android:textColor="#555555"
             android:textSize="15sp" />
 
-        <!-- ================= DESCRIPTION ================= -->
+        <!-- DESCRIPTION -->
 
         <TextView
             android:id="@+id/txtProductDescription"
@@ -65,19 +67,30 @@
             android:maxLines="3"
             android:ellipsize="end" />
 
-        <!-- ================= STATUS ================= -->
+        <!-- STATUS -->
 
         <TextView
             android:id="@+id/txtProductStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="available"
+            android:text="ACTIVE"
             android:textColor="#2E7D32"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <!-- ================= EDIT BUTTON ================= -->
+        <!-- DATE -->
+
+        <TextView
+            android:id="@+id/txtProductAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Added today"
+            android:textColor="#757575"
+            android:textSize="13sp" />
+
+        <!-- EDIT BUTTON -->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEditProduct"
@@ -91,6 +104,21 @@
             android:textStyle="bold"
             android:backgroundTint="#4CAF50"
             android:contentDescription="Edit Product" />
+
+        <!-- DELETE BUTTON -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDeleteProduct"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:text="Delete Product"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="#C62828"
+            android:contentDescription="Delete Product" />
 
     </LinearLayout>
 

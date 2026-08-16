@@ -64,7 +64,6 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-
                 <!-- ================= TITLE ================= -->
 
                 <TextView
@@ -75,8 +74,6 @@
                     android:textStyle="bold"
                     android:textColor="#000000"
                     android:gravity="center"/>
-
-
 
 
                 <!-- ================= PRODUCT IMAGE ================= -->
@@ -178,23 +175,74 @@
                     android:textColorHint="#777777"/>
 
 
-                <!-- ================= QUANTITY ================= -->
+                <!-- ================= AVAILABLE STOCK ================= -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Available Quantity"
+                    android:text="Available Stock"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
 
                 <EditText
-                    android:id="@+id/etProductQuantity"
+                    android:id="@+id/etProductStock"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
-                    android:hint="Enter available quantity"
+                    android:hint="Enter available stock"
+                    android:inputType="number"
+                    android:background="@drawable/bg_gradient"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#777777"/>
+
+
+                <!-- ================= UNIT ================= -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Unit"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/etProductUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:hint="e.g. kg, piece, dozen, liter"
+                    android:inputType="textCapSentences"
+                    android:background="@drawable/bg_gradient"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#777777"/>
+
+
+
+                <!-- ================= MINIMUM ORDER ================= -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Minimum Order"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/etMinimumOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:hint="Enter minimum order quantity"
                     android:inputType="number"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="14dp"
@@ -243,21 +291,6 @@
                     android:background="@drawable/btn_white_rounded"
                     android:backgroundTint="#4CAF50"/>
 
-
-                <!-- ================= DELETE BUTTON ================= -->
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnDeleteProduct"
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:layout_marginTop="12dp"
-                    android:text="Delete Product"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:background="@drawable/btn_white_rounded"
-                    android:backgroundTint="#E53935"/>
 
             </LinearLayout>
 

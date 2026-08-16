@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +10,10 @@
     android:background="@drawable/bg_gradient"
     android:padding="24dp">
 
+    <!-- ===================================================== -->
+    <!-- TITLE -->
+    <!-- ===================================================== -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +22,11 @@
         android:textStyle="bold"
         android:textColor="#000000"
         android:gravity="center"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
+
+    <!-- ===================================================== -->
+    <!-- SUB TITLE -->
+    <!-- ===================================================== -->
 
     <TextView
         android:layout_width="match_parent"
@@ -27,29 +36,39 @@
         android:textStyle="bold"
         android:textColor="#000000"
         android:gravity="center"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="50dp" />
 
-    <!-- Buyer Card -->
+    <!-- ===================================================== -->
+    <!-- BUYER CARD -->
+    <!-- ===================================================== -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardBuyer"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:foreground="@null"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        android:backgroundTint="#FFFFFF">
+        app:cardBackgroundColor="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🛒"
-                android:textSize="36sp"/>
+                android:textSize="36sp"
+                android:clickable="false"
+                android:focusable="false" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,31 +76,44 @@
                 android:text="I am a Buyer"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#2E7D32"/>
+                android:textColor="#2E7D32"
+                android:clickable="false"
+                android:focusable="false" />
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
-    <!-- Seller Card -->
+    <!-- ===================================================== -->
+    <!-- SELLER CARD -->
+    <!-- ===================================================== -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardSeller"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:foreground="@null"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        android:backgroundTint="#FFFFFF">
+        app:cardBackgroundColor="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🌾"
-                android:textSize="36sp"/>
+                android:textSize="36sp"
+                android:clickable="false"
+                android:focusable="false" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,9 +121,12 @@
                 android:text="I am a Seller"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#2E7D32"/>
+                android:textColor="#2E7D32"
+                android:clickable="false"
+                android:focusable="false" />
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

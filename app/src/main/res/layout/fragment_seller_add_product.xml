@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +13,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ========== Top App Bar ========== -->
+        <!-- ================================================= -->
+        <!-- TOP APP BAR -->
+        <!-- ================================================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -29,7 +34,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_arrow_white"
                 android:contentDescription="Back Button"
-                app:tint="#F8F4F4"/>
+                app:tint="#FFFFFF"/>
 
             <TextView
                 android:id="@+id/tv_add_item_title"
@@ -39,17 +44,24 @@
                 android:text="Add New Product"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FAF9F9"/>
+                android:textColor="#FFFFFF"/>
+
         </LinearLayout>
 
-        <!-- ========== Image Upload Box ========== -->
+
+        <!-- ================================================= -->
+        <!-- PRODUCT IMAGE -->
+        <!-- ================================================= -->
+
         <FrameLayout
+            android:id="@+id/imageUploadBox"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
             android:background="@android:color/darker_gray"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless">
 
             <ImageView
@@ -69,17 +81,24 @@
                 android:layout_gravity="center"
                 android:background="#80000000"
                 android:padding="4dp"/>
+
         </FrameLayout>
 
-        <!-- ========== Item Name ========== -->
+
+        <!-- ================================================= -->
+        <!-- PRODUCT NAME -->
+        <!-- ================================================= -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Product Name"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="#222222"
             android:layout_marginTop="24dp"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
 
         <EditText
             android:id="@+id/et_item_name"
@@ -87,11 +106,44 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/item_name"
+            android:layout_marginTop="8dp"
+            android:hint="Enter product name"
             android:background="@android:drawable/edit_text"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:singleLine="true"/>
 
-        <!-- ========== Price & Quantity ========== -->
+
+        <!-- ================================================= -->
+        <!-- CATEGORY -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_category"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
+
+
+        <!-- ================================================= -->
+        <!-- PRICE PER UNIT + UNIT -->
+        <!-- ================================================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +153,8 @@
             android:layout_marginEnd="16dp"
             android:weightSum="2">
 
-            <!-- Price -->
+            <!-- PRICE -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -112,21 +165,26 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_price"
+                    android:text="Price Per Unit"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textSize="16sp"/>
+                    android:textColor="#222222"/>
 
                 <EditText
                     android:id="@+id/et_item_price"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="@string/item_price"
+                    android:layout_marginTop="8dp"
+                    android:hint="e.g. 250"
                     android:inputType="numberDecimal"
                     android:background="@android:drawable/edit_text"
                     android:padding="12dp"/>
+
             </LinearLayout>
 
-            <!-- Quantity -->
+
+            <!-- UNIT -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -137,29 +195,95 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_quantity"
+                    android:text="Unit"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textSize="16sp"/>
+                    android:textColor="#222222"/>
 
-                <EditText
-                    android:id="@+id/et_item_quantity"
+                <Spinner
+                    android:id="@+id/spinner_unit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="@string/item_quantity"
+                    android:layout_marginTop="8dp"
                     android:background="@android:drawable/edit_text"
-                    android:padding="12dp"/>
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"/>
+
             </LinearLayout>
+
         </LinearLayout>
 
-        <!-- ========== Description (FIXED) ========== -->
+
+        <!-- ================================================= -->
+        <!-- TOTAL STOCK -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Stock"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <EditText
+            android:id="@+id/et_item_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:hint="e.g. 100"
+            android:inputType="numberDecimal"
+            android:background="@android:drawable/edit_text"
+            android:padding="12dp"/>
+
+
+        <!-- ================================================= -->
+        <!-- MINIMUM ORDER -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Minimum Order Quantity"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <EditText
+            android:id="@+id/et_min_order_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:hint="e.g. 1"
+            android:inputType="numberDecimal"
+            android:background="@android:drawable/edit_text"
+            android:padding="12dp"/>
+
+
+        <!-- ================================================= -->
+        <!-- DESCRIPTION -->
+        <!-- ================================================= -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_description"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="#222222"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
 
         <EditText
             android:id="@+id/et_item_description"
@@ -168,18 +292,60 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:hint="Enter Your Description....."
+            android:hint="Enter your product description..."
             android:background="@android:drawable/edit_text"
             android:padding="12dp"
             android:gravity="top"
             android:inputType="textMultiLine"/>
 
-        <!-- ========== Add Button ========== -->
+
+        <!-- ================================================= -->
+        <!-- STOCK PREVIEW -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#E8F5E9"
+            android:padding="14dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stock Preview"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#2E7D32"/>
+
+            <TextView
+                android:id="@+id/txtStockPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rs. 0 / Unit • Stock: 0"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginTop="6dp"/>
+
+        </LinearLayout>
+
+
+        <!-- ================================================= -->
+        <!-- ADD PRODUCT -->
+        <!-- ================================================= -->
+
         <Button
             android:id="@+id/btn_add_item"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:backgroundTint="#4CAF50"
             android:text="@string/add_item"
             android:textColor="@android:color/white"

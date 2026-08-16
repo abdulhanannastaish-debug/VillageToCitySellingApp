@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#F5F5F5"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,15 +13,53 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+
+        <!-- ================= GREEN HEADER ================= -->
+
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:text="Seller Verification"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:gravity="center"
-            android:layout_marginBottom="20dp"/>
+            android:background="#388E3C"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Seller Verification header"/>
+
+
+        <!-- ================= VERIFICATION STATUS ================= -->
+
+        <TextView
+            android:id="@+id/txtVerificationStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verification Required"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="#EEEEEE"
+            android:layout_marginBottom="8dp"/>
+
+
+        <!-- ================= VERIFICATION MESSAGE ================= -->
+
+        <TextView
+            android:id="@+id/txtVerificationMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please complete your seller verification."
+            android:textSize="14sp"
+            android:textColor="#555555"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"/>
+
+
+        <!-- ================= SELLER NAME ================= -->
 
         <EditText
             android:id="@+id/etFullName"
@@ -30,6 +69,9 @@
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:layout_marginBottom="12dp"/>
+
+
+        <!-- ================= PHONE ================= -->
 
         <EditText
             android:id="@+id/etPhone"
@@ -41,6 +83,9 @@
             android:inputType="phone"
             android:layout_marginBottom="12dp"/>
 
+
+        <!-- ================= EMAIL ================= -->
+
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
@@ -51,7 +96,8 @@
             android:inputType="textEmailAddress"
             android:layout_marginBottom="12dp"/>
 
-        <!-- ================= SELLER ADDRESS ================= -->
+
+        <!-- ================= ADDRESS ================= -->
 
         <EditText
             android:id="@+id/etAddress"
@@ -62,15 +108,21 @@
             android:padding="12dp"
             android:layout_marginBottom="12dp"/>
 
+
+        <!-- ================= CNIC ================= -->
+
         <EditText
             android:id="@+id/etCnic"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Owner CNIC (13 digits e.g. 34401358...)"
+            android:hint="Owner CNIC (13 digits)"
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:inputType="number"
             android:layout_marginBottom="20dp"/>
+
+
+        <!-- ================= CNIC FRONT ================= -->
 
         <TextView
             android:layout_width="match_parent"
@@ -79,6 +131,7 @@
             android:textStyle="bold"
             android:textColor="#333333"
             android:layout_marginBottom="8dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +145,8 @@
                 android:id="@+id/imgCnicFront"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/camera_icon"/>
+                android:src="@drawable/camera_icon"
+                android:contentDescription="CNIC front image"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -101,7 +155,9 @@
                 android:textColor="#888888"
                 android:textSize="12sp"
                 android:layout_marginTop="8dp"/>
+
         </LinearLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnUploadCnicFront"
@@ -112,6 +168,9 @@
             android:backgroundTint="#6AC32F"
             android:layout_marginBottom="20dp"/>
 
+
+        <!-- ================= CNIC BACK ================= -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,6 +178,7 @@
             android:textStyle="bold"
             android:textColor="#333333"
             android:layout_marginBottom="8dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,7 +192,8 @@
                 android:id="@+id/imgCnicBack"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/camera_icon"/>
+                android:src="@drawable/camera_icon"
+                android:contentDescription="CNIC back image"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,7 +202,9 @@
                 android:textColor="#888888"
                 android:textSize="12sp"
                 android:layout_marginTop="8dp"/>
+
         </LinearLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnUploadCnicBack"
@@ -152,6 +215,9 @@
             android:backgroundTint="#6AC32F"
             android:layout_marginBottom="24dp"/>
 
+
+        <!-- ================= SUBMIT ================= -->
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
@@ -159,7 +225,8 @@
             android:text="Register as Seller"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:backgroundTint="#6AC32F"/>
+            android:backgroundTint="#6AC32F"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 

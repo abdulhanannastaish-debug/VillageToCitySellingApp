@@ -11,216 +11,350 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.villagetocityreseilingapp.R;
 import com.example.villagetocityreseilingapp.activity.buyer_MainActivity;
-
+import com.example.villagetocityreseilingapp.activity.seller_MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login_Fragment extends Fragment {
 
+    // =====================================================
+    // FIREBASE AUTH
+    // =====================================================
+
     private FirebaseAuth auth;
 
-    // Google Sign-In
+    private FirebaseFirestore db;
+
+    // =====================================================
+    // GOOGLE SIGN-IN
+    // =====================================================
+
     private GoogleSignInClient googleSignInClient;
+
     private static final int RC_SIGN_IN = 9001;
 
-    // User Role
+    // =====================================================
+    // USER ROLE
+    // =====================================================
+
     private String role;
 
+    // =====================================================
+    // ON CREATE VIEW
+    // =====================================================
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(
+                R.layout.fragment_login,
+                container,
+                false
+        );
 
-        // ================= FIREBASE AUTHENTICATION =================
+        // =================================================
+        // FIREBASE
+        // =================================================
 
         auth = FirebaseAuth.getInstance();
 
+        db = FirebaseFirestore.getInstance();
 
-        // ================= GOOGLE SIGN-IN =================
+        // =================================================
+        // GOOGLE SIGN-IN
+        // =================================================
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
-                GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+        GoogleSignInOptions gso =
+                new GoogleSignInOptions.Builder(
+                        GoogleSignInOptions.DEFAULT_SIGN_IN
+                )
+                        .requestIdToken(
+                                getString(
+                                        R.string.default_web_client_id
+                                )
+                        )
+                        .requestEmail()
+                        .build();
 
-        googleSignInClient = GoogleSignIn.getClient(
-                requireActivity(),
-                gso
-        );
+        googleSignInClient =
+                GoogleSignIn.getClient(
+                        requireActivity(),
+                        gso
+                );
 
+        // =================================================
+        // ROLE
+        // =================================================
 
-        // ================= ROLE CHECK =================
+        SharedPreferences prefs =
+                requireActivity()
+                        .getSharedPreferences(
+                                "role",
+                                0
+                        );
 
-        SharedPreferences prefs = requireActivity()
-                .getSharedPreferences("role", 0);
+        role =
+                prefs.getString(
+                        "user_role",
+                        "buyer"
+                );
 
-        role = prefs.getString("user_role", "buyer");
+        TextView txtRoleTitle =
+                view.findViewById(
+                        R.id.txtRoleTitle
+                );
 
-        TextView txtRoleTitle = view.findViewById(R.id.txtRoleTitle);
+        if ("seller".equals(role)) {
 
-        if (role.equals("seller")) {
-            txtRoleTitle.setText("Seller Login");
+            txtRoleTitle.setText(
+                    "Seller Login"
+            );
+
         } else {
-            txtRoleTitle.setText("Buyer Login");
+
+            txtRoleTitle.setText(
+                    "Buyer Login"
+            );
         }
 
+        // =================================================
+        // EMAIL / PASSWORD
+        // =================================================
 
-        // ================= EMAIL & PASSWORD =================
+        EditText etEmail =
+                view.findViewById(
+                        R.id.etEmail
+                );
 
-        EditText etEmail = view.findViewById(R.id.etEmail);
-        EditText etPassword = view.findViewById(R.id.etPassword);
+        EditText etPassword =
+                view.findViewById(
+                        R.id.etPassword
+                );
 
+        // =================================================
+        // PASSWORD VISIBILITY
+        // =================================================
 
-        // ================= PASSWORD VISIBILITY =================
+        etPassword.setOnTouchListener(
+                (v, event) -> {
 
-        etPassword.setOnTouchListener((v, event) -> {
+                    if (event.getAction()
+                            == android.view.MotionEvent.ACTION_UP) {
 
-            if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        if (etPassword
+                                .getCompoundDrawables()[2] != null
+                                &&
+                                event.getX()
+                                        >=
+                                        (
+                                                etPassword.getWidth()
+                                                        -
+                                                        etPassword.getPaddingEnd()
+                                                        -
+                                                        etPassword
+                                                                .getCompoundDrawables()[2]
+                                                                .getBounds()
+                                                                .width()
+                                        )) {
 
-                if (etPassword.getCompoundDrawables()[2] != null &&
-                        event.getX() >=
-                                (etPassword.getWidth()
-                                        - etPassword.getPaddingEnd()
-                                        - etPassword.getCompoundDrawables()[2]
-                                        .getBounds().width())) {
+                            if (etPassword
+                                    .getTransformationMethod()
+                                    == null) {
 
-                    if (etPassword.getTransformationMethod() == null) {
+                                etPassword.setTransformationMethod(
+                                        android.text.method
+                                                .PasswordTransformationMethod
+                                                .getInstance()
+                                );
 
-                        // Hide password
-                        etPassword.setTransformationMethod(
-                                android.text.method.PasswordTransformationMethod
-                                        .getInstance()
-                        );
+                            } else {
 
-                    } else {
+                                etPassword.setTransformationMethod(
+                                        android.text.method
+                                                .HideReturnsTransformationMethod
+                                                .getInstance()
+                                );
+                            }
 
-                        // Show password
-                        etPassword.setTransformationMethod(
-                                android.text.method.HideReturnsTransformationMethod
-                                        .getInstance()
-                        );
+                            etPassword.setSelection(
+                                    etPassword
+                                            .getText()
+                                            .length()
+                            );
+
+                            v.performClick();
+
+                            return true;
+                        }
                     }
 
-                    etPassword.setSelection(
-                            etPassword.getText().length()
-                    );
-
-                    v.performClick();
-
-                    return true;
+                    return false;
                 }
-            }
+        );
 
-            return false;
-        });
+        // =================================================
+        // LOGIN BUTTON
+        // =================================================
 
-
-        // ================= LOGIN BUTTON =================
-
-        AppCompatButton btnLogin = view.findViewById(R.id.btnLogin);
+        AppCompatButton btnLogin =
+                view.findViewById(
+                        R.id.btnLogin
+                );
 
         btnLogin.setOnClickListener(v -> {
 
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
+            String email =
+                    etEmail
+                            .getText()
+                            .toString()
+                            .trim();
 
-            // Empty email
+            String password =
+                    etPassword
+                            .getText()
+                            .toString()
+                            .trim();
+
+            // =============================================
+            // EMAIL
+            // =============================================
+
             if (TextUtils.isEmpty(email)) {
-                etEmail.setError("Enter your email");
+
+                etEmail.setError(
+                        "Enter your email"
+                );
+
                 etEmail.requestFocus();
+
                 return;
             }
 
-            // Empty password
+            // =============================================
+            // PASSWORD
+            // =============================================
+
             if (TextUtils.isEmpty(password)) {
-                etPassword.setError("Enter your password");
+
+                etPassword.setError(
+                        "Enter your password"
+                );
+
                 etPassword.requestFocus();
+
                 return;
             }
 
-            // Firebase Authentication Login
+            // =============================================
+            // DISABLE
+            // =============================================
+
             btnLogin.setEnabled(false);
 
-            auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(requireActivity(), task -> {
+            btnLogin.setText(
+                    "Logging in..."
+            );
 
-                        btnLogin.setEnabled(true);
+            // =============================================
+            // FIREBASE LOGIN
+            // =============================================
 
-                        if (task.isSuccessful()) {
+            auth.signInWithEmailAndPassword(
+                            email,
+                            password
+                    )
+                    .addOnCompleteListener(
+                            requireActivity(),
+                            task -> {
 
-                            Toast.makeText(
-                                    getContext(),
-                                    "Login successful",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                                if (!task.isSuccessful()) {
 
-                            if (role.equals("seller")) {
+                                    btnLogin.setEnabled(true);
 
-                                Navigation.findNavController(v)
-                                        .navigate(
-                                                R.id.action_login_to_verification
-                                        );
+                                    btnLogin.setText(
+                                            "Login"
+                                    );
 
-                            } else {
+                                    String errorMessage;
 
-                                Intent intent = new Intent(
-                                        getActivity(),
-                                        buyer_MainActivity.class
-                                );
+                                    if (task.getException()
+                                            != null) {
 
-                                startActivity(intent);
+                                        errorMessage =
+                                                task.getException()
+                                                        .getMessage();
 
-                                requireActivity().finish();
+                                    } else {
+
+                                        errorMessage =
+                                                "Invalid email or password";
+                                    }
+
+                                    Toast.makeText(
+                                            getContext(),
+                                            "Login failed: "
+                                                    + errorMessage,
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
+                                    return;
+                                }
+
+                                // =================================
+                                // SUCCESS
+                                // =================================
+
+                                if ("seller".equals(role)) {
+
+                                    checkSellerStatusAndNavigate(
+                                            v,
+                                            btnLogin
+                                    );
+
+                                } else {
+
+                                    openBuyerMainActivity();
+                                }
                             }
-
-                        } else {
-
-                            String errorMessage;
-
-                            if (task.getException() != null) {
-                                errorMessage =
-                                        task.getException().getMessage();
-                            } else {
-                                errorMessage =
-                                        "Invalid email or password";
-                            }
-
-                            Toast.makeText(
-                                    getContext(),
-                                    "Login failed: " + errorMessage,
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
-                    });
+                    );
         });
 
-
-        // ================= GOOGLE LOGIN BUTTON =================
+        // =====================================================
+        // GOOGLE LOGIN
+        // =====================================================
 
         AppCompatButton btnGoogleLogin =
-                view.findViewById(R.id.btnGoogleLogin);
+                view.findViewById(
+                        R.id.btnGoogleLogin
+                );
 
         btnGoogleLogin.setOnClickListener(v -> {
 
             btnGoogleLogin.setEnabled(false);
 
             Intent signInIntent =
-                    googleSignInClient.getSignInIntent();
+                    googleSignInClient
+                            .getSignInIntent();
 
             startActivityForResult(
                     signInIntent,
@@ -228,40 +362,222 @@ public class Login_Fragment extends Fragment {
             );
         });
 
-
-        // ================= SIGNUP =================
+        // =====================================================
+        // SIGN UP
+        // =====================================================
 
         TextView txtSignup =
-                view.findViewById(R.id.txtRegister);
+                view.findViewById(
+                        R.id.txtRegister
+                );
 
         txtSignup.setOnClickListener(v -> {
 
-            Navigation.findNavController(v)
+            Navigation
+                    .findNavController(v)
                     .navigate(
                             R.id.action_login_to_signup
                     );
         });
 
-
-        // ================= FORGOT PASSWORD =================
+        // =====================================================
+        // FORGOT PASSWORD
+        // =====================================================
 
         TextView txtForgot =
-                view.findViewById(R.id.txtForgot);
+                view.findViewById(
+                        R.id.txtForgot
+                );
 
         txtForgot.setOnClickListener(v -> {
 
-            Navigation.findNavController(v)
+            Navigation
+                    .findNavController(v)
                     .navigate(
                             R.id.action_login_to_forgot_password
                     );
         });
 
-
         return view;
     }
 
+    // =====================================================
+    // CHECK SELLER STATUS
+    // =====================================================
 
-    // ================= GOOGLE LOGIN RESULT =================
+    private void checkSellerStatusAndNavigate(
+            View clickedView,
+            AppCompatButton btnLogin) {
+
+        FirebaseUser currentUser =
+                auth.getCurrentUser();
+
+        if (currentUser == null) {
+
+            btnLogin.setEnabled(true);
+
+            btnLogin.setText(
+                    "Login"
+            );
+
+            Toast.makeText(
+                    getContext(),
+                    "User session not found. Please login again.",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+        String uid =
+                currentUser.getUid();
+
+        /*
+         * IMPORTANT:
+         *
+         * sellers
+         *    └── Firebase UID
+         *
+         * status:
+         *
+         * verified
+         * pending
+         * rejected
+         */
+
+        db.collection("sellers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            btnLogin.setEnabled(true);
+
+                            btnLogin.setText(
+                                    "Login"
+                            );
+
+                            // =====================================
+                            // SELLER DOCUMENT NOT FOUND
+                            // =====================================
+
+                            if (!documentSnapshot.exists()) {
+
+                                navigateToVerification(
+                                        clickedView
+                                );
+
+                                return;
+                            }
+
+                            String status =
+                                    documentSnapshot.getString(
+                                            "status"
+                                    );
+
+                            if (status == null) {
+
+                                status = "pending";
+                            }
+
+                            status =
+                                    status.trim()
+                                            .toLowerCase();
+
+                            // =====================================
+                            // VERIFIED
+                            // =====================================
+
+                            if ("verified".equals(status)) {
+
+                                openSellerMainActivity();
+
+                            }
+
+                            // =====================================
+                            // PENDING
+                            // =====================================
+
+                            else if ("pending".equals(status)) {
+
+                                navigateToVerification(
+                                        clickedView
+                                );
+
+                            }
+
+                            // =====================================
+                            // REJECTED
+                            // =====================================
+
+                            else if ("rejected".equals(status)) {
+
+                                navigateToVerification(
+                                        clickedView
+                                );
+
+                            }
+
+                            // =====================================
+                            // UNKNOWN STATUS
+                            // =====================================
+
+                            else {
+
+                                navigateToVerification(
+                                        clickedView
+                                );
+                            }
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            btnLogin.setEnabled(true);
+
+                            btnLogin.setText(
+                                    "Login"
+                            );
+
+                            Toast.makeText(
+                                    getContext(),
+                                    "Unable to check seller verification: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
+    }
+
+    // =====================================================
+    // NAVIGATE TO VERIFICATION
+    // =====================================================
+
+    private void navigateToVerification(
+            View view) {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        Navigation
+                .findNavController(view)
+                .navigate(
+                        R.id.action_login_to_verification
+                );
+    }
+
+    // =====================================================
+    // GOOGLE LOGIN RESULT
+    // =====================================================
 
     @Override
     public void onActivityResult(
@@ -284,7 +600,9 @@ public class Login_Fragment extends Fragment {
             GoogleSignInAccount account =
                     GoogleSignIn
                             .getSignedInAccountFromIntent(data)
-                            .getResult(ApiException.class);
+                            .getResult(
+                                    ApiException.class
+                            );
 
             if (account == null) {
 
@@ -297,9 +615,12 @@ public class Login_Fragment extends Fragment {
                 return;
             }
 
+            // =================================================
+            // ID TOKEN
+            // =================================================
 
-            // Google ID Token
-            String idToken = account.getIdToken();
+            String idToken =
+                    account.getIdToken();
 
             if (idToken == null) {
 
@@ -312,62 +633,33 @@ public class Login_Fragment extends Fragment {
                 return;
             }
 
+            // =================================================
+            // CREDENTIAL
+            // =================================================
 
-            // Firebase Credential
             AuthCredential credential =
                     GoogleAuthProvider.getCredential(
                             idToken,
                             null
                     );
 
+            // =================================================
+            // FIREBASE GOOGLE LOGIN
+            // =================================================
 
-            // Firebase Login
-            auth.signInWithCredential(credential)
+            auth.signInWithCredential(
+                            credential
+                    )
                     .addOnCompleteListener(
                             requireActivity(),
                             task -> {
 
-                                if (task.isSuccessful()) {
-
-                                    Toast.makeText(
-                                            getContext(),
-                                            "Google Login successful",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-
-
-                                    // ================= SELLER =================
-
-                                    if (role.equals("seller")) {
-
-                                        Navigation.findNavController(
-                                                requireView()
-                                        ).navigate(
-                                                R.id.action_login_to_verification
-                                        );
-
-
-                                        // ================= BUYER =================
-
-                                    } else {
-
-                                        Intent intent =
-                                                new Intent(
-                                                        getActivity(),
-                                                        buyer_MainActivity.class
-                                                );
-
-                                        startActivity(intent);
-
-                                        requireActivity().finish();
-                                    }
-
-
-                                } else {
+                                if (!task.isSuccessful()) {
 
                                     String errorMessage;
 
-                                    if (task.getException() != null) {
+                                    if (task.getException()
+                                            != null) {
 
                                         errorMessage =
                                                 task.getException()
@@ -385,10 +677,30 @@ public class Login_Fragment extends Fragment {
                                                     + errorMessage,
                                             Toast.LENGTH_LONG
                                     ).show();
+
+                                    return;
+                                }
+
+                                // =================================
+                                // SELLER GOOGLE LOGIN
+                                // =================================
+
+                                if ("seller".equals(role)) {
+
+                                    checkSellerStatusAfterGoogleLogin();
+
+                                }
+
+                                // =================================
+                                // BUYER GOOGLE LOGIN
+                                // =================================
+
+                                else {
+
+                                    openBuyerMainActivity();
                                 }
                             }
                     );
-
 
         } catch (ApiException e) {
 
@@ -399,5 +711,159 @@ public class Login_Fragment extends Fragment {
                     Toast.LENGTH_LONG
             ).show();
         }
+    }
+
+    // =====================================================
+    // CHECK SELLER AFTER GOOGLE LOGIN
+    // =====================================================
+
+    private void checkSellerStatusAfterGoogleLogin() {
+
+        FirebaseUser currentUser =
+                auth.getCurrentUser();
+
+        if (currentUser == null) {
+
+            Toast.makeText(
+                    getContext(),
+                    "User session not found.",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+        String uid =
+                currentUser.getUid();
+
+        db.collection("sellers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            if (!documentSnapshot.exists()) {
+
+                                navigateToVerificationFromCurrentFragment();
+
+                                return;
+                            }
+
+                            String status =
+                                    documentSnapshot.getString(
+                                            "status"
+                                    );
+
+                            if (status == null) {
+
+                                status = "pending";
+                            }
+
+                            status =
+                                    status.trim()
+                                            .toLowerCase();
+
+                            if ("verified".equals(status)) {
+
+                                openSellerMainActivity();
+
+                            } else {
+
+                                navigateToVerificationFromCurrentFragment();
+                            }
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
+
+                            if (!isAdded()) {
+                                return;
+                            }
+
+                            Toast.makeText(
+                                    getContext(),
+                                    "Unable to check seller verification: "
+                                            + e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
+    }
+
+    // =====================================================
+    // NAVIGATE FROM CURRENT FRAGMENT
+    // =====================================================
+
+    private void navigateToVerificationFromCurrentFragment() {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        Navigation
+                .findNavController(
+                        requireView()
+                )
+                .navigate(
+                        R.id.action_login_to_verification
+                );
+    }
+
+    // =====================================================
+    // OPEN BUYER
+    // =====================================================
+
+    private void openBuyerMainActivity() {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        Intent intent =
+                new Intent(
+                        requireActivity(),
+                        buyer_MainActivity.class
+                );
+
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+
+        startActivity(intent);
+
+        requireActivity().finish();
+    }
+
+    // =====================================================
+    // OPEN SELLER DASHBOARD
+    // =====================================================
+
+    private void openSellerMainActivity() {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        Intent intent =
+                new Intent(
+                        requireActivity(),
+                        seller_MainActivity.class
+                );
+
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+
+        startActivity(intent);
+
+        requireActivity().finish();
     }
 }
