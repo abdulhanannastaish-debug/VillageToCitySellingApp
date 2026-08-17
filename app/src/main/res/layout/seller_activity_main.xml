@@ -40,55 +40,9 @@
 
             <ImageView
                 android:layout_width="24dp"
-<<<<<<<< HEAD:app/src/main/res/layout/buyer_fragment_loader.xml
-                android:layout_height="24dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cart"
-                android:textSize="12sp"/>
-        </LinearLayout>
-
-        <!-- Orders -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/orders_layout"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageView
-                android:src="@drawable/order"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/orders"
-                android:textSize="12sp"/>
-        </LinearLayout>
-
-        <!-- Dashboard -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/dashboard_layout"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageView
-                android:src="@drawable/dashboard"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
-========
                 android:layout_height="24dp"
                 android:src="@drawable/ic_dashboard"
                 android:contentDescription="@null" />
->>>>>>>> origin/hannan:app/src/main/res/layout/seller_activity_main.xml
 
             <TextView
                 android:layout_width="wrap_content"
