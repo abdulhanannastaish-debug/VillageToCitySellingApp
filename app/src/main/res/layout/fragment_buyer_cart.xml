@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F2F4F7"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F7F5">
 
-    <!-- Top Bar -->
+    <!-- ================= HEADER ================= -->
 
     <LinearLayout
-        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2F6BFF"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="60dp"
+        android:background="#4CAF50"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:elevation="4dp">
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="My Cart"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCartCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add To Cart"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:text="0 Items"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
-    <!-- Cart Items -->
+    <!-- ================= CART ITEMS ================= -->
 
-    <ScrollView
-        android:layout_below="@id/topBar"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCartItems"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp"
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="false"
+        android:importantForAccessibility="no" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!-- ITEM 1 -->
-            <include
-                android:id="@+id/item1"
-                layout="@layout/buyer_cart_include_cart_item"/>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</RelativeLayout>
-
+</LinearLayout>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F4F7"
@@ -27,7 +30,6 @@
 
     </LinearLayout>
 
-
     <!-- ================= ORDER FILTER TABS ================= -->
 
     <LinearLayout
@@ -37,6 +39,8 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal">
+
+        <!-- ALL -->
 
         <TextView
             android:id="@+id/tabAll"
@@ -49,6 +53,8 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+        <!-- ACTIVE -->
+
         <TextView
             android:id="@+id/tabActive"
             android:layout_width="0dp"
@@ -59,6 +65,8 @@
             android:textColor="#666666"
             android:textSize="14sp" />
 
+        <!-- DELIVERED -->
+
         <TextView
             android:id="@+id/tabDelivered"
             android:layout_width="0dp"
@@ -68,6 +76,8 @@
             android:text="Delivered"
             android:textColor="#666666"
             android:textSize="14sp" />
+
+        <!-- CANCELLED -->
 
         <TextView
             android:id="@+id/tabCancelled"
@@ -81,22 +91,25 @@
 
     </LinearLayout>
 
-
-    <!-- ================= ORDER LIST (SCROLLABLE) ================= -->
+    <!-- ================= ORDERS SCROLL AREA ================= -->
 
     <ScrollView
+        android:id="@+id/ordersScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        android:contentDescription="Orders list"
+        tools:ignore="HardcodedText,SpeakableTextPresentCheck">
 
         <LinearLayout
+            android:id="@+id/orderContentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/seller_order_card" />
-
-        </LinearLayout>
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="16dp" />
 
     </ScrollView>
 

@@ -1,49 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp">
 
-    <!-- Title -->
+    <!-- ================= TITLE ================= -->
 
     <TextView
-        android:text="Featured Products"
-        android:textSize="18sp"
+        android:id="@+id/txtSelectedCategoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Products"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textColor="@color/black"
+        android:layout_marginBottom="14dp"/>
 
-    <!-- Row 1 -->
 
-    <LinearLayout
+    <!-- ================= NO PRODUCTS ================= -->
+
+    <TextView
+        android:id="@+id/txtNoProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="No products found"
+        android:textSize="16sp"
+        android:textColor="#777777"
+        android:gravity="center"
+        android:padding="20dp"
+        android:visibility="gone"/>
 
-        <include layout="@layout/fragment_buyer_home_product"/>
-        <include layout="@layout/fragment_buyer_home_product"/>
 
-    </LinearLayout>
+    <!-- ================= PRODUCTS ================= -->
 
-    <!-- Row 2 -->
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerFeaturedProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <include layout="@layout/fragment_buyer_home_product"/>
-        <include layout="@layout/fragment_buyer_home_product"/>
-
-    </LinearLayout>
+        android:nestedScrollingEnabled="false"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        android:contentDescription="Products"/>
 
 </LinearLayout>
-
-
-
-
-

@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- ================= HEADER ================= -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/green"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/btnBuyerTermsBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_white"
+            android:contentDescription="Back"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Terms &amp; Conditions"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <!-- ================= INTRO ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_bg"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Village to City"
+                    android:textColor="@color/green"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Buyer Terms &amp; Conditions"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Please read these Terms &amp; Conditions carefully before using your buyer account on Village to City."
+                    android:textColor="#555555"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="4dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 1 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Buyer Account"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="The buyer must provide accurate and up-to-date information when creating and maintaining a buyer account. The buyer is responsible for keeping account credentials secure and must not share the account with unauthorized persons."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 2 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2. Product Information"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Buyers should carefully review product names, descriptions, prices, images and other available information before placing an order. Buyers should make purchasing decisions based on the information provided on the product listing."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 3 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3. Placing an Order"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Before placing an order, buyers should confirm the selected product, quantity, delivery address and applicable charges. An order should only be placed when the buyer is ready to complete the purchase according to the application's order process."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 4 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="4. Order Confirmation"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="The buyer must confirm the order before it is placed. Once the buyer confirms and places an order, the order will be sent through the application's order process for seller acceptance and delivery."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 5 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5. Delivery Charges"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Applicable delivery charges may be paid in advance by the buyer according to the platform's current delivery policy. The buyer is responsible for providing a correct and complete delivery address."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 6 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="6. Cash on Delivery"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Where Cash on Delivery (COD) is applicable, the buyer will pay the product price according to the order at the time of delivery. The buyer should keep the required amount available to complete the payment."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 7 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="7. Delivery &amp; Receiving Orders"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="The buyer should remain available to receive the order at the provided delivery address. The buyer should cooperate with the applicable courier and delivery procedures and provide correct contact information for successful delivery."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 8 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="8. Order Cancellation"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Order cancellation must follow the application's current cancellation policy. Buyers should avoid unnecessary or repeated cancellations after placing orders."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 9 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="9. Returns &amp; Complaints"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="If a buyer receives a damaged, incorrect or significantly different product, the buyer may submit a complaint through the available complaint or support process. Any return or resolution will be handled according to the platform's applicable policies."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 10 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10. Buyer Responsibilities"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Buyers must provide accurate contact and delivery information, use the platform honestly, confirm genuine orders and cooperate with sellers and delivery services when necessary."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 11 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="11. Prohibited Activities"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Fraud, fake orders, impersonation, misuse of another person's account, manipulation of orders, false complaints and any unlawful or deceptive activity are not permitted on the platform."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 12 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12. Privacy &amp; Personal Information"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Buyer information provided to Village to City may be used for account management, order processing, delivery, customer support and other legitimate platform purposes according to the application's privacy and security practices."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 13 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="13. Account Suspension"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Village to City may suspend, restrict or terminate a buyer account if the buyer violates these Terms &amp; Conditions, creates fraudulent orders, provides false information or misuses the platform."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 14 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="14. Changes to Terms"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="These Terms &amp; Conditions may be updated when necessary to reflect changes in the application, services, policies or applicable requirements. Buyers are responsible for reviewing the latest version."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= SECTION 15 ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/card_bg"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="15. Acceptance of Terms"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="By using the Village to City buyer platform, you confirm that you have read, understood and agreed to comply with these Terms &amp; Conditions."
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= FOOTER ================= -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="Thank you for being a part of Village to City."
+                android:textColor="#777777"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

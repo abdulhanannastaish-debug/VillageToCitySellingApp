@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F7F5">
+
+    <!-- ================= TOP BAR ================= -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:background="#4CAF50"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnCheckoutBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_white"
+            android:contentDescription="Back"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Checkout"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- ================= CHECKOUT CARD ================= -->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+
+                    <!-- ================= PRODUCT ROW ================= -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- PRODUCT IMAGE -->
+
+                        <ImageView
+                            android:id="@+id/checkoutProductImage"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="#E8F5E9"
+                            android:padding="6dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/baseline_home_24"
+                            android:contentDescription="Product Image" />
+
+
+                        <!-- PRODUCT INFORMATION -->
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/checkoutProductName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Pure Desi Ghee"
+                                android:textColor="#222222"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
+
+                            <TextView
+                                android:id="@+id/checkoutProductSeller"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Village Chak 123"
+                                android:textColor="#777777"
+                                android:textSize="12sp"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
+
+                            <!-- PRODUCT PRICE -->
+
+                            <TextView
+                                android:id="@+id/checkoutProductPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="Rs 1500"
+                                android:textColor="#4CAF50"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+                        <!-- ================= QUANTITY CONTROLS ================= -->
+
+                        <LinearLayout
+                            android:layout_width="48dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_marginStart="6dp">
+
+                            <!-- PLUS -->
+
+                            <TextView
+                                android:id="@+id/btnIncreaseQuantity"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:gravity="center"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:text="+"
+                                android:textColor="#4CAF50"
+                                android:textSize="22sp"
+                                android:textStyle="bold"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="Increase quantity" />
+
+
+                            <!-- QUANTITY -->
+
+                            <TextView
+                                android:id="@+id/checkoutProductQuantity"
+                                android:layout_width="48dp"
+                                android:layout_height="40dp"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="#222222"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:contentDescription="Current quantity" />
+
+
+                            <!-- MINUS -->
+
+                            <TextView
+                                android:id="@+id/btnDecreaseQuantity"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:gravity="center"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:text="−"
+                                android:textColor="#4CAF50"
+                                android:textSize="22sp"
+                                android:textStyle="bold"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="Decrease quantity" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <!-- ================= DIVIDER ================= -->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#E0E0E0" />
+
+                    <!-- ================= ENTER YOUR DETAILS ================= -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="EnterYour Details"
+                        android:textColor="#222222"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <!-- ================= BUYER NAME ================= -->
+
+                    <EditText
+                        android:id="@+id/etBuyerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="18dp"
+                        android:hint="Enter your name"
+                        android:inputType="textPersonName"
+                        android:padding="12dp"
+                        android:textColor="#222222"
+                        android:textColorHint="#999999"
+                        android:background="@drawable/bg_gradient" />
+
+
+                    <EditText
+                        android:id="@+id/etDeliveryAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="8dp"
+                        android:hint="Enter delivery address"
+                        android:inputType="textPostalAddress"
+                        android:padding="12dp"
+                        android:textColor="#222222"
+                        android:textColorHint="#999999"
+                        android:background="@drawable/bg_gradient" />
+
+
+                    <!-- ================= PHONE ================= -->
+
+                    <EditText
+                        android:id="@+id/etDeliveryPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="10dp"
+                        android:hint="Phone Number"
+                        android:inputType="phone"
+                        android:padding="12dp"
+                        android:textColor="#222222"
+                        android:textColorHint="#999999"
+                        android:background="@drawable/bg_gradient" />
+
+
+                    <!-- ================= DIVIDER ================= -->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="18dp"
+                        android:background="#E0E0E0" />
+
+
+                    <!-- ================= DELIVERY SERVICE ================= -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="Delivery Service"
+                        android:textColor="#222222"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Select your preferred courier service"
+                        android:textColor="#777777"
+                        android:textSize="13sp" />
+
+                    <RadioGroup
+                        android:id="@+id/radioDeliveryService"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+
+                        <!-- TCS -->
+
+                        <RadioButton
+                            android:id="@+id/radioTcs"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:buttonTint="#4CAF50"
+                            android:gravity="center_vertical"
+                            android:text="TCS   —   Rs 200"
+                            android:textColor="#333333"
+                            android:textSize="15sp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp" />
+
+                        <!-- LEOPARDS -->
+
+                        <RadioButton
+                            android:id="@+id/radioLeopards"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:buttonTint="#4CAF50"
+                            android:gravity="center_vertical"
+                            android:text="Leopards Courier   —   Rs 180"
+                            android:textColor="#333333"
+                            android:textSize="15sp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp" />
+
+                    </RadioGroup>
+
+
+                    <!-- ================= DIVIDER ================= -->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="#E0E0E0" />
+
+
+                    <!-- ================= PAYMENT ================= -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="Payment Method"
+                        android:textColor="#222222"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtPaymentMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Cash on Delivery"
+                        android:textColor="#2E7D32"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                    <!-- ================= ORDER SUMMARY ================= -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="Order Summary"
+                        android:textColor="#222222"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <!-- PRODUCT PRICE -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Product Price"
+                            android:textColor="#666666"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/txtSummaryPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rs 1500"
+                            android:textColor="#333333"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+
+                    <!-- DELIVERY -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtDeliveryServiceName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="TCS Delivery Charges"
+                            android:textColor="#666666"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/txtSummaryDelivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rs 200"
+                            android:textColor="#333333"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+
+                    <!-- ================= DIVIDER ================= -->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="#E5E5E5" />
+
+
+                    <!-- TOTAL -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Total Amount"
+                            android:textColor="#222222"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTotalAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rs 1700"
+                            android:textColor="#4CAF50"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                    <!-- ================= CONFIRM ORDER ================= -->
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnPlaceOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="22dp"
+                        android:text="Confirm Order"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/btn_white_rounded"
+                        android:backgroundTint="#4CAF50" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

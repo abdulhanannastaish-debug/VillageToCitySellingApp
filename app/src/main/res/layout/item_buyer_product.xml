@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="6dp"
+
+    android:clickable="true"
+    android:focusable="true"
+
+    app:cardCornerRadius="14dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="10dp"
+
+        android:clickable="false"
+        android:focusable="false">
+
+        <!-- ================================================= -->
+        <!-- PRODUCT IMAGE -->
+        <!-- ================================================= -->
+
+        <ImageView
+
+            android:id="@+id/productImage"
+
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+
+            android:contentDescription="Product Image"
+
+            android:scaleType="centerCrop"
+
+            android:src="@drawable/baseline_menu_24"
+
+            android:clickable="false"
+            android:focusable="false" />
+
+
+        <!-- ================================================= -->
+        <!-- PRODUCT NAME -->
+        <!-- ================================================= -->
+
+        <TextView
+
+            android:id="@+id/txtProductName"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+
+            android:text="Product Name"
+
+            android:textColor="#222222"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            android:maxLines="2" />
+
+
+        <!-- ================================================= -->
+        <!-- CATEGORY -->
+        <!-- ================================================= -->
+
+        <TextView
+
+            android:id="@+id/txtProductCategory"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="4dp"
+
+            android:text="Category"
+
+            android:textColor="#777777"
+            android:textSize="13sp" />
+
+
+        <!-- ================================================= -->
+        <!-- PRICE -->
+        <!-- ================================================= -->
+
+        <TextView
+
+            android:id="@+id/txtProductPrice"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="6dp"
+
+            android:text="Rs 1500"
+
+            android:textColor="#4CAF50"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <!-- ================================================= -->
+        <!-- UPLOAD TIME -->
+        <!-- ================================================= -->
+
+        <TextView
+
+            android:id="@+id/txtProductTime"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="4dp"
+
+            android:text="Recently added"
+
+            android:textColor="#888888"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

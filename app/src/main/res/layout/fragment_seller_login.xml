@@ -55,6 +55,7 @@
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:background="@drawable/bg_gradient"
+                android:drawableEnd="@drawable/ic_visibility"
                 android:drawablePadding="10dp"
                 android:paddingStart="12dp"/>
 

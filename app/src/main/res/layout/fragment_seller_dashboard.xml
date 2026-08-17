@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F4F7">
 
-    <!-- ================= HEADER ================= -->
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
 
     <LinearLayout
         android:id="@+id/headerLayout"
@@ -14,89 +18,89 @@
         android:layout_height="200dp"
         android:background="@drawable/village"
         android:orientation="vertical"
-        android:scaleType="centerCrop"
         android:padding="10dp"
         tools:ignore="ExtraText">
-
 
     </LinearLayout>
 
 
-
-    <!-- ================= CONTENT ================= -->
+    <!-- ===================================================== -->
+    <!-- CONTENT -->
+    <!-- ===================================================== -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/headerLayout"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="12dp"
+        android:fillViewport="true">
 
-        <!-- IMPORTANT FIX -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- ================================================= -->
+            <!-- WELCOME -->
+            <!-- ================================================= -->
+
             <TextView
                 android:id="@+id/txtWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-6dp"
                 android:text="Welcome Back!"
-                android:textSize="26sp"
-                android:textStyle="bold"
                 android:textColor="#0B0B0B"
-                android:layout_marginTop="-6dp"/>
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
 
-            <!-- ================= VERIFICATION STATUS CARD ================= -->
+            <!-- ================================================= -->
+            <!-- VERIFICATION STATUS -->
+            <!-- ================================================= -->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardVerificationStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#FBFAFA"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="5dp"
-                app:cardBackgroundColor="#FBFAFA">
+                app:cardElevation="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:padding="16dp">
-
-                    <!-- Status Icon -->
 
                     <LinearLayout
                         android:id="@+id/layoutVerificationIcon"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:gravity="center"
-                        android:background="#D3D3D3">
+                        android:background="#6CC76C"
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/imgVerificationStatus"
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_verified"
-                            android:contentDescription="Verification Status"/>
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_verified" />
 
                     </LinearLayout>
-
-
-                    <!-- Verification Information -->
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="14dp">
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/txtVerificationTitle"
@@ -105,26 +109,28 @@
                             android:text="Verified Seller"
                             android:textColor="#0B0B0B"
                             android:textSize="17sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtVerificationMessage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:maxLines="2"
                             android:text="Your seller account has been verified."
                             android:textColor="#090909"
-                            android:textSize="13sp"
-                            android:maxLines="2"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
-
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
 
+            <!-- ================================================= -->
+            <!-- DASHBOARD CARDS -->
+            <!-- ================================================= -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -132,23 +138,27 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-
-                <!-- First Row -->
+                <!-- ================================================= -->
+                <!-- FIRST ROW -->
+                <!-- ================================================= -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
 
-                    <!-- Orders -->
+                    <!-- ================= COMPLAINT BOX ================= -->
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardOrders"
+                        android:id="@+id/cardComplaint"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
-                        android:layout_weight="1"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardCornerRadius="16dp">
 
                         <LinearLayout
@@ -158,42 +168,47 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imgOrders"
+                                android:id="@+id/imgComplaint"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/ic_orders"
-                                android:contentDescription="@null"
-                                app:tint="#2979FF"/>
+                                android:contentDescription="Complaint Box"
+                                android:src="@drawable/ic_complaint"
+                                app:tint="#E53935" />
 
                             <TextView
-                                android:id="@+id/txtOrdersLabel"
+                                android:id="@+id/txtComplaintLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Total Orders"
-                                android:textSize="15sp"
-                                android:layout_marginTop="10dp"/>
+                                android:layout_marginTop="10dp"
+                                android:text="Complaint Box"
+                                android:textColor="#212121"
+                                android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/txtOrdersCount"
+                                android:id="@+id/txtComplaintCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textStyle="bold"
+                                android:textColor="#212121"
                                 android:textSize="24sp"
-                                android:textColor="#212121"/>
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Revenue -->
+
+                    <!-- ================= REVENUE ================= -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardRevenue"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardCornerRadius="16dp">
 
                         <LinearLayout
@@ -206,45 +221,54 @@
                                 android:id="@+id/imgRevenue"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/ic_total_revenue"
                                 android:contentDescription="@null"
-                                app:tint="#31B315"/>
+                                android:src="@drawable/ic_total_revenue"
+                                app:tint="#31B315" />
 
                             <TextView
                                 android:id="@+id/txtRevenueLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:text="Revenue"
-                                android:textSize="15sp"
-                                android:layout_marginTop="10dp"/>
+                                android:textSize="15sp" />
 
                             <TextView
                                 android:id="@+id/txtRevenue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Rs. 0"
-                                android:textStyle="bold"
+                                android:textColor="#212121"
                                 android:textSize="24sp"
-                                android:textColor="#212121"/>
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
+
                 </LinearLayout>
+
+
+                <!-- ================================================= -->
+                <!-- SECOND ROW -->
+                <!-- ================================================= -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- Menu Items Card -->
+                    <!-- ================= PRODUCTS ================= -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardMenuItems"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
-                        android:layout_weight="1"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardCornerRadius="16dp">
 
                         <LinearLayout
@@ -257,38 +281,45 @@
                                 android:id="@+id/imgMenu"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/ic_menu"
                                 android:contentDescription="@null"
-                                app:tint="#E90C0C"/>
+                                android:src="@drawable/ic_menu"
+                                app:tint="#E90C0C" />
 
                             <TextView
                                 android:id="@+id/txtMenuLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="My Products"
-                                android:layout_marginTop="10dp"/>
+                                android:layout_marginTop="10dp"
+                                android:text="My Products" />
 
                             <TextView
                                 android:id="@+id/txtMenuCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="24"
-                                android:textStyle="bold"
-                                android:textSize="24sp"/>
+                                android:text="0"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Rating Card -->
+
+                    <!-- ================================================= -->
+                    <!-- RATING CARD -->
+                    <!-- ================================================= -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardRating"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        app:cardCornerRadius="16dp">
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="3dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -300,150 +331,164 @@
                                 android:id="@+id/imgRating"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/ic_star"
                                 android:contentDescription="@null"
-                                app:tint="#FFFF00"/>
+                                android:src="@drawable/ic_star"
+                                app:tint="#FFC107" />
 
                             <TextView
                                 android:id="@+id/txtRatingLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:text="Rating"
-                                android:layout_marginTop="10dp"/>
+                                android:textSize="15sp" />
 
                             <TextView
                                 android:id="@+id/txtRating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="4.8 ★"
-                                android:textStyle="bold"
-                                android:textSize="24sp"/>
+                                android:text="0.0 ★"
+                                android:textColor="#212121"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
+
                 </LinearLayout>
 
-                    <!-- Quick Access -->
 
-                    <TextView
-                        android:id="@+id/txtQuickAccess"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quick Access"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginBottom="10dp"/>
+                <!-- ================================================= -->
+                <!-- QUICK ACCESS -->
+                <!-- ================================================= -->
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardQuickAccess"
+                <TextView
+                    android:id="@+id/txtQuickAccess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Quick Access"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardQuickAccess"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="16dp">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="16dp">
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- ================= PROFILE ================= -->
 
                         <LinearLayout
+                            android:id="@+id/layoutRestaurantProfile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:minHeight="56dp"
+                            android:padding="12dp">
 
-                            <LinearLayout
-                                android:id="@+id/layoutRestaurantProfile"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_profile"
+                                app:tint="#070707" />
+
+                            <TextView
+                                android:id="@+id/txtRestaurantProfile"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="12dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_profile"
-                                    android:contentDescription="@null"
-                                    app:tint="#070707"/>
-
-                                <TextView
-                                    android:id="@+id/txtRestaurantProfile"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Seller Profile"
-                                    android:textSize="16sp"
-                                    android:layout_marginStart="16dp"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutManageMenu"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="12dp"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_menu"
-                                    android:contentDescription="@null"
-                                    app:tint="#0B0B0B"/>
-
-                                <TextView
-                                    android:id="@+id/txtManageMenu"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Manage Product"
-                                    android:textSize="16sp"
-                                    android:layout_marginStart="16dp"/>
-
-                            </LinearLayout>
-                            <!-- ================= SELLER WALLET ================= -->
-
-                            <LinearLayout
-                                android:id="@+id/layoutSellerWallet"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="12dp"
-                                android:gravity="center_vertical"
-                                android:clickable="true"
-                                android:focusable="true">
-
-                                <ImageView
-                                    android:id="@+id/imgSellerWallet"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_wallet"
-                                    android:contentDescription="Seller Wallet"
-                                    app:tint="#050505"/>
-
-                                <TextView
-                                    android:id="@+id/txtSellerWallet"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Seller Wallet"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#000000"
-                                    android:layout_marginStart="16dp"/>
-
-                            </LinearLayout>
-
+                                android:layout_marginStart="16dp"
+                                android:text="Seller Profile"
+                                android:textSize="16sp" />
 
                         </LinearLayout>
 
-                    </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
+                        <!-- ================= MANAGE PRODUCT ================= -->
+
+                        <LinearLayout
+                            android:id="@+id/layoutManageMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:minHeight="56dp"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_menu"
+                                app:tint="#0B0B0B" />
+
+                            <TextView
+                                android:id="@+id/txtManageMenu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="Manage Product"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
 
 
+                        <!-- ================= SELLER WALLET ================= -->
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/layoutSellerWallet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:minHeight="56dp"
+                            android:padding="12dp">
 
+                            <ImageView
+                                android:id="@+id/imgSellerWallet"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="Seller Wallet"
+                                android:src="@drawable/ic_wallet"
+                                app:tint="#050505" />
 
+                            <TextView
+                                android:id="@+id/txtSellerWallet"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="Seller Wallet"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
 
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 
 </RelativeLayout>
-
-

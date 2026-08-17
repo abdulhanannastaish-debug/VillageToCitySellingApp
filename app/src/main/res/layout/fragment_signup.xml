@@ -13,6 +13,7 @@
         android:gravity="center_horizontal"
         android:padding="24dp">
 
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,11 +26,11 @@
 
         <!-- Profile Image -->
         <ImageView
-            android:id="@+id/imgProfile"
+            android:id="@+id/txtSignup"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/user"
-            android:background="@drawable/bg_circle_green"
+            android:src="@drawable/profile"
+            android:background="@drawable/circle_bg"
             android:clipToOutline="true"
             android:scaleType="centerCrop"/>
 
@@ -45,6 +46,7 @@
             android:background="@drawable/btn_white_rounded"
             android:backgroundTint="#4CAF50"/>
 
+        <!-- Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,9 +66,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Full Name"
-                    android:background="@drawable/bg_edittext"
+                    android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/baseline_snowshoeing_24"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -76,9 +77,8 @@
                     android:layout_marginTop="12dp"
                     android:hint="Email Address"
                     android:inputType="textEmailAddress"
-                    android:background="@drawable/bg_edittext"
+                    android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -88,9 +88,8 @@
                     android:layout_marginTop="12dp"
                     android:hint="Phone (e.g 03194416405)"
                     android:inputType="phone"
-                    android:background="@drawable/bg_edittext"
+                    android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_phone_call"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -100,9 +99,9 @@
                     android:layout_marginTop="12dp"
                     android:hint="Password"
                     android:inputType="textPassword"
-                    android:background="@drawable/bg_edittext"
+                    android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_password"
+                    android:drawableEnd="@drawable/ic_visibility"
                     android:drawablePadding="8dp"/>
 
                 <EditText
@@ -112,13 +111,14 @@
                     android:layout_marginTop="12dp"
                     android:hint="Confirm Password"
                     android:inputType="textPassword"
-                    android:background="@drawable/bg_edittext"
+                    android:background="@drawable/bg_gradient"
                     android:paddingStart="12dp"
-                    android:drawableStart="@drawable/ic_password"
+                    android:drawableEnd="@drawable/ic_visibility"
                     android:drawablePadding="8dp"/>
 
+                <!-- Register Button -->
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnSignup"
+                    android:id="@+id/btnRegister"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="20dp"
@@ -129,6 +129,7 @@
                     android:background="@drawable/btn_white_rounded"
                     android:backgroundTint="#4CAF50"/>
 
+                <!-- Continue with Google -->
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnGoogle"
                     android:layout_width="match_parent"
@@ -137,11 +138,12 @@
                     android:text="Continue with Google"
                     android:textAllCaps="false"
                     android:textColor="#000000"
-                    android:drawableStart="@drawable/ic_location"
+                    android:drawableStart="@drawable/ic_google"
                     android:drawablePadding="8dp"
                     android:paddingStart="16dp"
                     android:background="@drawable/btn_white_rounded"/>
 
+                <!-- Login -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,7 +159,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/txtLogin"
+                        android:id="@+id/btnSignup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Login"

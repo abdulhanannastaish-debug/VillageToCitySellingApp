@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#F5F5F5"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ================== HEADER ================= -->
+        <!-- ================= HEADER ================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,9 +29,11 @@
                 android:clipToOutline="true"
                 android:padding="3dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/hanan" />
+                android:src="@drawable/hanan"
+                android:contentDescription="@null" />
 
             <TextView
+                android:id="@+id/txtSellerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -38,15 +43,18 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/txtSellerStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Verifird Seller"
+                android:layout_marginTop="4dp"
+                android:text="Verification Pending"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- ================= Profile Card ================= -->
+
+        <!-- ================= PROFILE INFORMATION ================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,11 +78,14 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/ic_phone_call"
+                    android:contentDescription="@null"
                     app:tint="@color/black" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtSellerPhone"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
                     android:text="@string/user_phone"
                     android:textColor="@android:color/black"
@@ -86,6 +97,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E0E0E0" />
+
+
+            <!-- EMAIL -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_email"
+                    android:contentDescription="@null"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtSellerEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="N/A"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0" />
+
 
             <!-- ADDRESS -->
 
@@ -100,11 +146,14 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_home_24"
+                    android:contentDescription="@null"
                     app:tint="@color/black" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtSellerAddress"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
                     android:text="@string/user_address"
                     android:textColor="@android:color/black"
@@ -116,6 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E0E0E0" />
+
 
             <!-- CNIC -->
 
@@ -130,11 +180,14 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/ic_cnic"
+                    android:contentDescription="@null"
                     app:tint="@color/black" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtSellerCnic"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
                     android:text="@string/user_cnic"
                     android:textColor="@android:color/black"
@@ -142,61 +195,33 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0" />
-
-            <!-- ACCOUNT NUMBER -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="14dp">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/ic_bank"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="NBP1234567898765"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0" />
-
-
         </LinearLayout>
 
-        <!-- ================= Other Info ================= -->
+
+        <!-- ================= OTHER OPTIONS ================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/card_bg"
             android:elevation="6dp"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- TERMS -->
+
+            <!-- TERMS & CONDITIONS -->
 
             <LinearLayout
+                android:id="@+id/layoutTerms"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#E8F5E9"
+                android:layout_height="60dp"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="14dp">
@@ -205,56 +230,70 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/ic_term"
+                    android:contentDescription="@null"
                     app:tint="@color/black" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="16dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
                     android:text="@string/terms_conditions"
+                    android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
             </LinearLayout>
 
+
             <!-- EDIT PROFILE -->
 
             <LinearLayout
+                android:id="@+id/layoutEditProfile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="14dp">
 
                 <ImageView
                     android:layout_width="26dp"
-                    android:layout_height="24dp"
+                    android:layout_height="26dp"
                     android:src="@drawable/ic_profile"
+                    android:contentDescription="@null"
                     app:tint="@color/black" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/txtEditProfile"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="16dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
                     android:text="@string/profile_edit"
+                    android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- ================= Logout button ================= -->
+
+        <!-- ================= LOGOUT ================= -->
 
         <TextView
+            android:id="@+id/txtLogout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="32dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/logout_button_bg"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="Logout"
             android:textColor="@android:color/white"
@@ -264,4 +303,3 @@
     </LinearLayout>
 
 </ScrollView>
-
