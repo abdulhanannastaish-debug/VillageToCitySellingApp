@@ -34,6 +34,12 @@ public class SellerProfileFragment extends Fragment {
     private View layoutTerms;
     private View layoutEditProfile;
 
+    // =========================================================
+    // CHANGE LANGUAGE - ADDED
+    // =========================================================
+
+    private View layoutChangeLanguage;
+
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
@@ -107,6 +113,13 @@ public class SellerProfileFragment extends Fragment {
         layoutEditProfile =
                 view.findViewById(R.id.layoutEditProfile);
 
+        // =====================================================
+        // CHANGE LANGUAGE - ADDED
+        // =====================================================
+
+        layoutChangeLanguage =
+                view.findViewById(R.id.layoutChangeLanguage);
+
         txtLogout =
                 view.findViewById(R.id.txtLogout);
 
@@ -175,6 +188,39 @@ public class SellerProfileFragment extends Fragment {
                                 .replace(
                                         R.id.fragment_container,
                                         new SellerEditProfileFragment()
+                                )
+                                .addToBackStack(null)
+                                .commit();
+                    }
+            );
+        });
+
+        // =====================================================
+        // CHANGE LANGUAGE - ADDED
+        // =====================================================
+
+        layoutChangeLanguage.setOnClickListener(v -> {
+
+            if (!isAdded()) {
+                return;
+            }
+
+            // Single light-green blink
+            blinkView(
+                    layoutChangeLanguage,
+                    () -> {
+
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .setReorderingAllowed(true)
+                                .replace(
+                                        R.id.fragment_container,
+                                        new SellerChooseLanguageFragment()
                                 )
                                 .addToBackStack(null)
                                 .commit();

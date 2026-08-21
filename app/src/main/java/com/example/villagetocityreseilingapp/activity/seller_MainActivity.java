@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.villagetocityreseilingapp.LocaleHelper;
 import com.example.villagetocityreseilingapp.R;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerDashboardFragment;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerProductFragment;
@@ -18,6 +19,15 @@ import com.example.villagetocityreseilingapp.ui.main.seller.SellerOrderFragment;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerProfileFragment;
 
 public class seller_MainActivity extends AppCompatActivity {
+
+    // =========================================================
+    // LANGUAGE (LOCALE)
+    // =========================================================
+
+    @Override
+    protected void attachBaseContext(android.content.Context newBase) {
+        super.attachBaseContext(LocaleHelper.setLocale(newBase));
+    }
 
     // =========================================================
     // BOTTOM NAVIGATION
