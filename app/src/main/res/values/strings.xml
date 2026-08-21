@@ -76,4 +76,10 @@
     <string name="urdu" translatable="false">\u0627\u0631\u062F\u0648</string>
     <string name="english" translatable="false">English</string>
 
+    <string name="tab_all">All</string>
+    <string name="tab_active">Active</string>
+    <string name="tab_delivered">Delivered</string>
+    <string name="tab_cancelled">Cancelled</string>
+    <string name="no_pending_orders">No pending orders</string>
+
 </resources>

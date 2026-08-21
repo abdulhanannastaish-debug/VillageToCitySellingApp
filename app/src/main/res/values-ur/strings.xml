@@ -72,5 +72,13 @@
     <string name="upload_image">تصویر اپ لوڈ کریں</string>
 
     <string name="choose_language">زبان منتخب کریں</string>
+    <string name="urdu">اردو</string>
+    <string name="english">English</string>
+
+    <string name="tab_all">سب</string>
+    <string name="tab_active">فعال</string>
+    <string name="tab_delivered">ڈیلیور</string>
+    <string name="tab_cancelled">منسوخ</string>
+    <string name="no_pending_orders">کوئی آرڈر نہیں</string>
 
 </resources>

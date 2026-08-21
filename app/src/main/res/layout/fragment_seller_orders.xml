@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F4F7"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="locale">
 
     <!-- ================= TOP BAR ================= -->
 
@@ -23,7 +24,7 @@
             android:id="@+id/appbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order Section"
+            android:text="@string/orders"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
