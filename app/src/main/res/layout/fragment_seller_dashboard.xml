@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F4F7">
+    android:background="#F2F4F7"
+    android:layoutDirection="locale">
 
     <!-- ===================================================== -->
     <!-- HEADER -->
@@ -22,7 +23,6 @@
         tools:ignore="ExtraText">
 
     </LinearLayout>
-
 
     <!-- ===================================================== -->
     <!-- CONTENT -->
@@ -50,11 +50,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-6dp"
-                android:text="Welcome Back!"
+                android:text="@string/greeting"
                 android:textColor="#0B0B0B"
                 android:textSize="26sp"
                 android:textStyle="bold" />
-
 
             <!-- ================================================= -->
             <!-- VERIFICATION STATUS -->
@@ -127,7 +126,6 @@
 
             </androidx.cardview.widget.CardView>
 
-
             <!-- ================================================= -->
             <!-- DASHBOARD CARDS -->
             <!-- ================================================= -->
@@ -197,7 +195,6 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-
                     <!-- ================= REVENUE ================= -->
 
                     <com.google.android.material.card.MaterialCardView
@@ -248,7 +245,6 @@
 
                 </LinearLayout>
 
-
                 <!-- ================================================= -->
                 <!-- SECOND ROW -->
                 <!-- ================================================= -->
@@ -290,7 +286,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="My Products" />
+                                android:text="@string/my_products" />
 
                             <TextView
                                 android:id="@+id/txtMenuCount"
@@ -303,7 +299,6 @@
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
-
 
                     <!-- ================================================= -->
                     <!-- RATING CARD -->
@@ -358,7 +353,6 @@
 
                 </LinearLayout>
 
-
                 <!-- ================================================= -->
                 <!-- QUICK ACCESS -->
                 <!-- ================================================= -->
@@ -372,7 +366,6 @@
                     android:text="Quick Access"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardQuickAccess"
@@ -411,11 +404,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Seller Profile"
+                                android:text="@string/profile"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
-
 
                         <!-- ================= MANAGE PRODUCT ================= -->
 
@@ -442,11 +434,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Manage Product"
+                                android:text="@string/products"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
-
 
                         <!-- ================= SELLER WALLET ================= -->
 
@@ -474,7 +465,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Seller Wallet"
+                                android:text="@string/wallet"
                                 android:textColor="#000000"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />

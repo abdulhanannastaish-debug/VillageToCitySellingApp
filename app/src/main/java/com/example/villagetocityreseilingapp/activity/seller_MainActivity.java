@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.villagetocityreseilingapp.LocaleHelper;
 import com.example.villagetocityreseilingapp.R;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerDashboardFragment;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerProductFragment;
@@ -18,6 +19,15 @@ import com.example.villagetocityreseilingapp.ui.main.seller.SellerOrderFragment;
 import com.example.villagetocityreseilingapp.ui.main.seller.SellerProfileFragment;
 
 public class seller_MainActivity extends AppCompatActivity {
+
+    // =========================================================
+    // LANGUAGE (LOCALE)
+    // =========================================================
+
+    @Override
+    protected void attachBaseContext(android.content.Context newBase) {
+        super.attachBaseContext(LocaleHelper.setLocale(newBase));
+    }
 
     // =========================================================
     // BOTTOM NAVIGATION
@@ -32,13 +42,8 @@ public class seller_MainActivity extends AppCompatActivity {
     // COLORS
     // =========================================================
 
-    // Unselected icon + text
-    private static final int BLACK =
-            Color.BLACK;
-
-    // Selected icon + text
-    private static final int GREEN =
-            Color.parseColor("#4CAF50");
+    private static final int BLACK = Color.BLACK;
+    private static final int GREEN = Color.parseColor("#4CAF50");
 
     // =========================================================
     // ON CREATE
@@ -49,44 +54,39 @@ public class seller_MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(
-                R.layout.seller_activity_main
-        );
+        // =====================================================
+        // RTL / LTR LAYOUT DIRECTION
+        // =====================================================
+
+        String lang = LocaleHelper.getSavedLanguage(this);
+
+        if ("ur".equals(lang)) {
+            getWindow().getDecorView().setLayoutDirection(
+                    View.LAYOUT_DIRECTION_RTL
+            );
+        } else {
+            getWindow().getDecorView().setLayoutDirection(
+                    View.LAYOUT_DIRECTION_LTR
+            );
+        }
+
+        setContentView(R.layout.seller_activity_main);
 
         // =====================================================
         // FIND BOTTOM NAVIGATION
         // =====================================================
 
-        homeBtn =
-                findViewById(
-                        R.id.home_layout
-                );
-
-        menuBtn =
-                findViewById(
-                        R.id.menu_layout
-                );
-
-        ordersBtn =
-                findViewById(
-                        R.id.orders_layout
-                );
-
-        profileBtn =
-                findViewById(
-                        R.id.profile_layout
-                );
+        homeBtn = findViewById(R.id.home_layout);
+        menuBtn = findViewById(R.id.menu_layout);
+        ordersBtn = findViewById(R.id.orders_layout);
+        profileBtn = findViewById(R.id.profile_layout);
 
         // =====================================================
         // DEFAULT SCREEN = DASHBOARD
         // =====================================================
 
         if (savedInstanceState == null) {
-
-            loadFragment(
-                    new SellerDashboardFragment()
-            );
-
+            loadFragment(new SellerDashboardFragment());
             setSelectedTab(0);
         }
 
@@ -94,77 +94,49 @@ public class seller_MainActivity extends AppCompatActivity {
         // HOME / DASHBOARD
         // =====================================================
 
-        homeBtn.setOnClickListener(
-                v -> {
-
-                    loadFragment(
-                            new SellerDashboardFragment()
-                    );
-
-                    setSelectedTab(0);
-                }
-        );
+        homeBtn.setOnClickListener(v -> {
+            loadFragment(new SellerDashboardFragment());
+            setSelectedTab(0);
+        });
 
         // =====================================================
         // PRODUCTS
         // =====================================================
 
-        menuBtn.setOnClickListener(
-                v -> {
-
-                    loadFragment(
-                            new SellerProductFragment()
-                    );
-
-                    setSelectedTab(1);
-                }
-        );
+        menuBtn.setOnClickListener(v -> {
+            loadFragment(new SellerProductFragment());
+            setSelectedTab(1);
+        });
 
         // =====================================================
         // ORDERS
         // =====================================================
 
-        ordersBtn.setOnClickListener(
-                v -> {
-
-                    loadFragment(
-                            new SellerOrderFragment()
-                    );
-
-                    setSelectedTab(2);
-                }
-        );
+        ordersBtn.setOnClickListener(v -> {
+            loadFragment(new SellerOrderFragment());
+            setSelectedTab(2);
+        });
 
         // =====================================================
         // PROFILE
         // =====================================================
 
-        profileBtn.setOnClickListener(
-                v -> {
-
-                    loadFragment(
-                            new SellerProfileFragment()
-                    );
-
-                    setSelectedTab(3);
-                }
-        );
+        profileBtn.setOnClickListener(v -> {
+            loadFragment(new SellerProfileFragment());
+            setSelectedTab(3);
+        });
     }
 
     // =========================================================
     // LOAD FRAGMENT
     // =========================================================
 
-    private void loadFragment(
-            Fragment fragment) {
+    private void loadFragment(Fragment fragment) {
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(
-                        R.id.fragment_container,
-                        fragment
-                )
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
@@ -172,91 +144,29 @@ public class seller_MainActivity extends AppCompatActivity {
     // SELECTED TAB
     // =========================================================
 
-    private void setSelectedTab(
-            int position) {
+    private void setSelectedTab(int position) {
 
-        // =====================================================
-        // RESET ALL NAVIGATION ITEMS
-        // ICON + TEXT = BLACK
-        // =====================================================
-
-        setNavigationColor(
-                homeBtn,
-                BLACK
-        );
-
-        setNavigationColor(
-                menuBtn,
-                BLACK
-        );
-
-        setNavigationColor(
-                ordersBtn,
-                BLACK
-        );
-
-        setNavigationColor(
-                profileBtn,
-                BLACK
-        );
-
-        // =====================================================
-        // SELECTED ITEM
-        // ICON + TEXT = GREEN
-        // =====================================================
+        setNavigationColor(homeBtn, BLACK);
+        setNavigationColor(menuBtn, BLACK);
+        setNavigationColor(ordersBtn, BLACK);
+        setNavigationColor(profileBtn, BLACK);
 
         switch (position) {
 
-            // =================================================
-            // HOME / DASHBOARD
-            // =================================================
-
             case 0:
-
-                setNavigationColor(
-                        homeBtn,
-                        GREEN
-                );
-
+                setNavigationColor(homeBtn, GREEN);
                 break;
-
-            // =================================================
-            // PRODUCTS
-            // =================================================
 
             case 1:
-
-                setNavigationColor(
-                        menuBtn,
-                        GREEN
-                );
-
+                setNavigationColor(menuBtn, GREEN);
                 break;
-
-            // =================================================
-            // ORDERS
-            // =================================================
 
             case 2:
-
-                setNavigationColor(
-                        ordersBtn,
-                        GREEN
-                );
-
+                setNavigationColor(ordersBtn, GREEN);
                 break;
 
-            // =================================================
-            // PROFILE
-            // =================================================
-
             case 3:
-
-                setNavigationColor(
-                        profileBtn,
-                        GREEN
-                );
-
+                setNavigationColor(profileBtn, GREEN);
                 break;
         }
     }
@@ -265,104 +175,38 @@ public class seller_MainActivity extends AppCompatActivity {
     // CHANGE ICON + TEXT COLOR
     // =========================================================
 
-    private void setNavigationColor(
-            View parent,
-            int color) {
+    private void setNavigationColor(View parent, int color) {
 
-        if (parent == null) {
-            return;
-        }
-
-        // =====================================================
-        // DIRECT IMAGEVIEW
-        // =====================================================
+        if (parent == null) return;
 
         if (parent instanceof ImageView) {
-
-            ImageView imageView =
-                    (ImageView) parent;
-
-            imageView.setImageTintList(
-                    ColorStateList.valueOf(
-                            color
-                    )
+            ((ImageView) parent).setImageTintList(
+                    ColorStateList.valueOf(color)
             );
-
             return;
         }
-
-        // =====================================================
-        // DIRECT TEXTVIEW
-        // =====================================================
 
         if (parent instanceof TextView) {
-
-            TextView textView =
-                    (TextView) parent;
-
-            textView.setTextColor(
-                    color
-            );
-
+            ((TextView) parent).setTextColor(color);
             return;
         }
-
-        // =====================================================
-        // VIEWGROUP KE ANDAR ICON + TEXT FIND KARNA
-        // =====================================================
 
         if (parent instanceof ViewGroup) {
 
-            ViewGroup group =
-                    (ViewGroup) parent;
+            ViewGroup group = (ViewGroup) parent;
 
-            for (int i = 0;
-                 i < group.getChildCount();
-                 i++) {
+            for (int i = 0; i < group.getChildCount(); i++) {
 
-                View child =
-                        group.getChildAt(i);
-
-                // =================================================
-                // IMAGE / ICON
-                // =================================================
+                View child = group.getChildAt(i);
 
                 if (child instanceof ImageView) {
-
-                    ImageView imageView =
-                            (ImageView) child;
-
-                    imageView.setImageTintList(
-                            ColorStateList.valueOf(
-                                    color
-                            )
+                    ((ImageView) child).setImageTintList(
+                            ColorStateList.valueOf(color)
                     );
-                }
-
-                // =================================================
-                // TEXT / NAME
-                // =================================================
-
-                else if (child instanceof TextView) {
-
-                    TextView textView =
-                            (TextView) child;
-
-                    textView.setTextColor(
-                            color
-                    );
-                }
-
-                // =================================================
-                // NESTED LAYOUT
-                // =================================================
-
-                else if (child instanceof ViewGroup) {
-
-                    setNavigationColor(
-                            child,
-                            color
-                    );
+                } else if (child instanceof TextView) {
+                    ((TextView) child).setTextColor(color);
+                } else if (child instanceof ViewGroup) {
+                    setNavigationColor(child, color);
                 }
             }
         }

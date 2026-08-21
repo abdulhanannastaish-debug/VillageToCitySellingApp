@@ -1,9 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
     <string name="app_name" translatable="false">Rural Reach</string>
 
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
-
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="name">Name</string>
@@ -13,21 +14,18 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_now">Login Now</string>
     <string name="signup_now">Sign Up Now</string>
-
     <string name="google_login">Continue with Google</string>
 
-    <string name="no_account">Don’t have an account? <font color='#4CAF50'>Sign up</font></string>
-    <string name="have_account">Already have an account? <font color='#4CAF50'>Login</font></string>
+    <string name="no_account">Don\'t have an account? Sign up</string>
+    <string name="have_account">Already have an account? Login</string>
 
-
-    <string name="home" translatable="false">Home</string>
-    <string name="menu" translatable="false">Menu</string>
-    <string name="profile" translatable="false">Profile</string>
-
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="menu">Menu</string>
+    <string name="profile">Profile</string>
 
     <string name="greeting">Good Morning</string>
     <string name="user_name">ABDUL HANNAN</string>
+
     <string name="products">Products</string>
     <string name="orders">Orders</string>
     <string name="total_sales">Total Sales</string>
@@ -35,47 +33,53 @@
     <string name="my_products">My Products</string>
     <string name="balance">Balance</string>
     <string name="messages">Messages</string>
-    <string name="recent_notifications" translatable="false">Recent Notifications</string>
+    <string name="recent_notifications">Recent Notifications</string>
 
-    <!--    menu1 -->
+    <string name="order_received">New order received</string>
+    <string name="order_desc">Desi ghee approval received</string>
+    <string name="time_ago">2 hours ago</string>
 
-
-    <string name="user_status">Seller</string>
-    <string name="user_phone">0300-1234567</string>
-    <string name="user_address">Village Chak No. 123, District Kasur</string>
-    <string name="user_cnic">35202-1234567-1</string>
-
-    <!-- Options -->
     <string name="profile_edit">Edit Profile</string>
     <string name="info_order">Information Settings</string>
-    <string name="help_support">Help  Support</string>
-    <string name="terms_conditions">Terms  Conditions</string>
+    <string name="help_support">Help Support</string>
+    <string name="terms_conditions">Terms Conditions</string>
 
-    <!-- Misc -->
     <string name="logout">Logout</string>
     <string name="version">Version 1.0.0</string>
 
-    <!-- Accessibility -->
     <string name="phone">Phone Number</string>
     <string name="address">Address</string>
     <string name="cnic">National ID</string>
     <string name="wallet">Wallet</string>
 
+    <string name="user_status">Sold</string>
+    <string name="user_phone">0300-1234567</string>
+    <string name="user_address">Village Chak No. 123, District Kasur</string>
+    <string name="user_cnic">35202-1234567-1</string>
 
-    <!--    menu-->
-
-    <string name="add_new_item" translatable="false">Add New Item</string>
+    <string name="add_new_item">Add New Item</string>
     <string name="item_image">Item Image</string>
     <string name="active">Active</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
 
-    <!--    menu item add-->
     <string name="item_name">Item Name</string>
     <string name="item_price">Price</string>
     <string name="item_quantity">Quantity</string>
     <string name="item_description">Description</string>
     <string name="add_item">Add Item</string>
     <string name="upload_image">Upload Image</string>
+
     <string name="or" translatable="false">OR</string>
+
+    <string name="choose_language">Select Language</string>
+    <string name="urdu" translatable="false">\u0627\u0631\u062F\u0648</string>
+    <string name="english" translatable="false">English</string>
+
+    <string name="tab_all">All</string>
+    <string name="tab_active">Active</string>
+    <string name="tab_delivered">Delivered</string>
+    <string name="tab_cancelled">Cancelled</string>
+    <string name="no_pending_orders">No pending orders</string>
+
 </resources>
