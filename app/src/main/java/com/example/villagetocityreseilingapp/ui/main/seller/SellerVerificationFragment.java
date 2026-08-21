@@ -15,9 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.villagetocityreseilingapp.R;
-import com.example.villagetocityreseilingapp.activity.seller_MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -90,125 +90,39 @@ public class SellerVerificationFragment extends Fragment {
                 false
         );
 
-        // =================================================
-        // FIREBASE
-        // =================================================
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        auth =
-                FirebaseAuth.getInstance();
+        etFullName = view.findViewById(R.id.etFullName);
+        etPhone = view.findViewById(R.id.etPhone);
+        etEmail = view.findViewById(R.id.etEmail);
+        etAddress = view.findViewById(R.id.etAddress);
+        etCnic = view.findViewById(R.id.etCnic);
 
-        db =
-                FirebaseFirestore.getInstance();
+        btnUploadCnicFront = view.findViewById(R.id.btnUploadCnicFront);
+        btnUploadCnicBack = view.findViewById(R.id.btnUploadCnicBack);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
 
-        // =================================================
-        // FORM IDS
-        // =================================================
-
-        etFullName =
-                view.findViewById(
-                        R.id.etFullName
-                );
-
-        etPhone =
-                view.findViewById(
-                        R.id.etPhone
-                );
-
-        etEmail =
-                view.findViewById(
-                        R.id.etEmail
-                );
-
-        etAddress =
-                view.findViewById(
-                        R.id.etAddress
-                );
-
-        etCnic =
-                view.findViewById(
-                        R.id.etCnic
-                );
-
-        // =================================================
-        // BUTTON IDS
-        // =================================================
-
-        btnUploadCnicFront =
-                view.findViewById(
-                        R.id.btnUploadCnicFront
-                );
-
-        btnUploadCnicBack =
-                view.findViewById(
-                        R.id.btnUploadCnicBack
-                );
-
-        btnSubmit =
-                view.findViewById(
-                        R.id.btnSubmit
-                );
-
-        // =================================================
-        // STATUS IDS
-        // =================================================
-
-        txtVerificationStatus =
-                view.findViewById(
-                        R.id.txtVerificationStatus
-                );
-
-        txtVerificationMessage =
-                view.findViewById(
-                        R.id.txtVerificationMessage
-                );
-
-        // =================================================
-        // INITIAL STATUS
-        // =================================================
+        txtVerificationStatus = view.findViewById(R.id.txtVerificationStatus);
+        txtVerificationMessage = view.findViewById(R.id.txtVerificationMessage);
 
         showLoadingStatus();
 
-        // =================================================
-        // CNIC FRONT
-        // =================================================
-
-        btnUploadCnicFront.setOnClickListener(
-                v -> {
-
-                    Toast.makeText(
-                            getContext(),
-                            "CNIC Front image baad mein add karenge",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
+        btnUploadCnicFront.setOnClickListener(v ->
+                Toast.makeText(getContext(),
+                        "CNIC Front image baad mein add karenge",
+                        Toast.LENGTH_SHORT).show()
         );
 
-        // =================================================
-        // CNIC BACK
-        // =================================================
-
-        btnUploadCnicBack.setOnClickListener(
-                v -> {
-
-                    Toast.makeText(
-                            getContext(),
-                            "CNIC Back image baad mein add karenge",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
+        btnUploadCnicBack.setOnClickListener(v ->
+                Toast.makeText(getContext(),
+                        "CNIC Back image baad mein add karenge",
+                        Toast.LENGTH_SHORT).show()
         );
 
-        // =================================================
-        // SUBMIT / RESUBMIT
-        // =================================================
-
-        btnSubmit.setOnClickListener(
-                v -> submitSellerVerification()
+        btnSubmit.setOnClickListener(v ->
+                submitSellerVerification()
         );
-
-        // =================================================
-        // LOAD EXISTING SELLER DATA
-        // =================================================
 
         loadSellerVerification();
 
@@ -221,167 +135,74 @@ public class SellerVerificationFragment extends Fragment {
 
     private void loadSellerVerification() {
 
-        FirebaseUser currentUser =
-                auth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
 
         if (currentUser == null) {
-
-            Toast.makeText(
-                    getContext(),
+            Toast.makeText(getContext(),
                     "Please login again.",
-                    Toast.LENGTH_LONG
-            ).show();
-
+                    Toast.LENGTH_LONG).show();
             return;
         }
 
-        String uid =
-                currentUser.getUid();
+        String uid = currentUser.getUid();
 
         db.collection("sellers")
                 .document(uid)
                 .get()
-                .addOnSuccessListener(
-                        documentSnapshot -> {
+                .addOnSuccessListener(documentSnapshot -> {
 
-                            if (!isAdded()) {
-                                return;
-                            }
+                    if (!isAdded()) return;
 
-                            if (!documentSnapshot.exists()) {
+                    if (!documentSnapshot.exists()) {
+                        currentStatus = "new";
+                        enableFormForNewSeller();
+                        return;
+                    }
 
-                                currentStatus =
-                                        "new";
+                    loadExistingData(documentSnapshot);
 
-                                enableFormForNewSeller();
+                    String status = documentSnapshot.getString("status");
+                    if (status == null) status = "pending";
 
-                                return;
-                            }
+                    currentStatus = status.trim().toLowerCase();
+                    applyStatusUI(currentStatus);
+                })
+                .addOnFailureListener(e -> {
 
-                            // =================================
-                            // LOAD PREVIOUS DATA
-                            // =================================
+                    if (!isAdded()) return;
 
-                            loadExistingData(
-                                    documentSnapshot
-                            );
+                    Toast.makeText(getContext(),
+                            "Failed to load verification data: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
 
-                            // =================================
-                            // STATUS
-                            // =================================
-
-                            String status =
-                                    documentSnapshot.getString(
-                                            "status"
-                                    );
-
-                            if (status == null) {
-
-                                status = "pending";
-                            }
-
-                            currentStatus =
-                                    status.trim()
-                                            .toLowerCase();
-
-                            applyStatusUI(
-                                    currentStatus
-                            );
-                        }
-                )
-                .addOnFailureListener(
-                        e -> {
-
-                            if (!isAdded()) {
-                                return;
-                            }
-
-                            Toast.makeText(
-                                    getContext(),
-                                    "Failed to load verification data: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-                            enableFormForNewSeller();
-                        }
-                );
+                    enableFormForNewSeller();
+                });
     }
 
     // =====================================================
     // LOAD EXISTING DATA
     // =====================================================
 
-    private void loadExistingData(
-            DocumentSnapshot snapshot) {
+    private void loadExistingData(DocumentSnapshot snapshot) {
 
-        String name =
-                snapshot.getString(
-                        "name"
-                );
+        String name = snapshot.getString("name");
+        String phone = snapshot.getString("phone");
+        String email = snapshot.getString("email");
+        String address = snapshot.getString("address");
+        String cnic = snapshot.getString("cnic");
 
-        String phone =
-                snapshot.getString(
-                        "phone"
-                );
-
-        String email =
-                snapshot.getString(
-                        "email"
-                );
-
-        String address =
-                snapshot.getString(
-                        "address"
-                );
-
-        String cnic =
-                snapshot.getString(
-                        "cnic"
-                );
-
-        if (name != null) {
-
-            etFullName.setText(
-                    name
-            );
-        }
-
-        if (phone != null) {
-
-            etPhone.setText(
-                    phone
-            );
-        }
-
-        if (email != null) {
-
-            etEmail.setText(
-                    email
-            );
-        }
-
-        if (address != null) {
-
-            etAddress.setText(
-                    address
-            );
-        }
-
-        if (cnic != null) {
-
-            etCnic.setText(
-                    cnic
-            );
-        }
+        if (name != null) etFullName.setText(name);
+        if (phone != null) etPhone.setText(phone);
+        if (email != null) etEmail.setText(email);
+        if (address != null) etAddress.setText(address);
+        if (cnic != null) etCnic.setText(cnic);
     }
 
     // =====================================================
     // APPLY STATUS UI
     // =====================================================
 
-    private void applyStatusUI(
-            String status) {
+    private void applyStatusUI(String status) {
 
         // =================================================
         // VERIFIED
@@ -389,45 +210,24 @@ public class SellerVerificationFragment extends Fragment {
 
         if ("verified".equals(status)) {
 
-            txtVerificationStatus.setVisibility(
-                    View.VISIBLE
-            );
+            txtVerificationStatus.setVisibility(View.VISIBLE);
+            txtVerificationStatus.setText("VERIFIED");
+            txtVerificationStatus.setTextColor(Color.parseColor("#2E7D32"));
 
-            txtVerificationStatus.setText(
-                    "VERIFIED"
-            );
-
-            txtVerificationStatus.setTextColor(
-                    Color.parseColor(
-                            "#2E7D32"
-                    )
-            );
-
-            txtVerificationMessage.setVisibility(
-                    View.VISIBLE
-            );
-
-            txtVerificationMessage.setText(
-                    "Your seller account has been verified."
-            );
-
-            txtVerificationMessage.setTextColor(
-                    Color.parseColor(
-                            "#2E7D32"
-                    )
-            );
+            txtVerificationMessage.setVisibility(View.VISIBLE);
+            txtVerificationMessage.setText("Your seller account has been verified.");
+            txtVerificationMessage.setTextColor(Color.parseColor("#2E7D32"));
 
             disableForm();
 
-            btnSubmit.setText(
-                    "Verified"
-            );
+            btnSubmit.setText("Verified");
+            btnSubmit.setEnabled(false);
 
-            btnSubmit.setEnabled(
-                    false
-            );
+            // =============================================
+            // CHOOSE LANGUAGE SCREEN PAR JAYE
+            // =============================================
 
-            openSellerMainActivity();
+            openChooseLanguage();
 
             return;
         }
@@ -438,55 +238,22 @@ public class SellerVerificationFragment extends Fragment {
 
         if ("pending".equals(status)) {
 
-            txtVerificationStatus.setVisibility(
-                    View.VISIBLE
-            );
+            txtVerificationStatus.setVisibility(View.VISIBLE);
+            txtVerificationStatus.setText("PENDING");
+            txtVerificationStatus.setTextColor(Color.parseColor("#F9A825"));
 
-            txtVerificationStatus.setText(
-                    "PENDING"
-            );
-
-            txtVerificationStatus.setTextColor(
-                    Color.parseColor(
-                            "#F9A825"
-                    )
-            );
-
-            txtVerificationMessage.setVisibility(
-                    View.VISIBLE
-            );
-
-            txtVerificationMessage.setText(
-                    "Your verification request is pending admin approval."
-            );
-
-            txtVerificationMessage.setTextColor(
-                    Color.parseColor(
-                            "#F9A825"
-                    )
-            );
+            txtVerificationMessage.setVisibility(View.VISIBLE);
+            txtVerificationMessage.setText("Your verification request is pending admin approval.");
+            txtVerificationMessage.setTextColor(Color.parseColor("#F9A825"));
 
             disableForm();
 
-            btnSubmit.setText(
-                    "PENDING"
-            );
-
-            btnSubmit.setTextColor(
-                    Color.WHITE
-            );
-
+            btnSubmit.setText("PENDING");
+            btnSubmit.setTextColor(Color.WHITE);
             btnSubmit.setBackgroundTintList(
                     android.content.res.ColorStateList.valueOf(
-                            Color.parseColor(
-                                    "#F9A825"
-                            )
-                    )
-            );
-
-            btnSubmit.setEnabled(
-                    false
-            );
+                            Color.parseColor("#F9A825")));
+            btnSubmit.setEnabled(false);
 
             return;
         }
@@ -497,55 +264,22 @@ public class SellerVerificationFragment extends Fragment {
 
         if ("rejected".equals(status)) {
 
-            txtVerificationStatus.setVisibility(
-                    View.VISIBLE
-            );
+            txtVerificationStatus.setVisibility(View.VISIBLE);
+            txtVerificationStatus.setText("REJECTED");
+            txtVerificationStatus.setTextColor(Color.parseColor("#D32F2F"));
 
-            txtVerificationStatus.setText(
-                    "REJECTED"
-            );
-
-            txtVerificationStatus.setTextColor(
-                    Color.parseColor(
-                            "#D32F2F"
-                    )
-            );
-
-            txtVerificationMessage.setVisibility(
-                    View.VISIBLE
-            );
-
-            txtVerificationMessage.setText(
-                    "Your verification request was rejected. Resubmit the request."
-            );
-
-            txtVerificationMessage.setTextColor(
-                    Color.parseColor(
-                            "#D32F2F"
-                    )
-            );
+            txtVerificationMessage.setVisibility(View.VISIBLE);
+            txtVerificationMessage.setText("Your verification request was rejected. Resubmit the request.");
+            txtVerificationMessage.setTextColor(Color.parseColor("#D32F2F"));
 
             enableForm();
 
-            btnSubmit.setText(
-                    "Resubmit the Request"
-            );
-
-            btnSubmit.setTextColor(
-                    Color.WHITE
-            );
-
+            btnSubmit.setText("Resubmit the Request");
+            btnSubmit.setTextColor(Color.WHITE);
             btnSubmit.setBackgroundTintList(
                     android.content.res.ColorStateList.valueOf(
-                            Color.parseColor(
-                                    "#6AC32F"
-                            )
-                    )
-            );
-
-            btnSubmit.setEnabled(
-                    true
-            );
+                            Color.parseColor("#6AC32F")));
+            btnSubmit.setEnabled(true);
 
             return;
         }
@@ -563,35 +297,17 @@ public class SellerVerificationFragment extends Fragment {
 
     private void enableFormForNewSeller() {
 
-        txtVerificationStatus.setVisibility(
-                View.GONE
-        );
-
-        txtVerificationMessage.setVisibility(
-                View.GONE
-        );
+        txtVerificationStatus.setVisibility(View.GONE);
+        txtVerificationMessage.setVisibility(View.GONE);
 
         enableForm();
 
-        btnSubmit.setText(
-                "Register as Seller"
-        );
-
-        btnSubmit.setTextColor(
-                Color.WHITE
-        );
-
+        btnSubmit.setText("Register as Seller");
+        btnSubmit.setTextColor(Color.WHITE);
         btnSubmit.setBackgroundTintList(
                 android.content.res.ColorStateList.valueOf(
-                        Color.parseColor(
-                                "#6AC32F"
-                        )
-                )
-        );
-
-        btnSubmit.setEnabled(
-                true
-        );
+                        Color.parseColor("#6AC32F")));
+        btnSubmit.setEnabled(true);
     }
 
     // =====================================================
@@ -599,34 +315,13 @@ public class SellerVerificationFragment extends Fragment {
     // =====================================================
 
     private void enableForm() {
-
-        etFullName.setEnabled(
-                true
-        );
-
-        etPhone.setEnabled(
-                true
-        );
-
-        etEmail.setEnabled(
-                true
-        );
-
-        etAddress.setEnabled(
-                true
-        );
-
-        etCnic.setEnabled(
-                true
-        );
-
-        btnUploadCnicFront.setEnabled(
-                true
-        );
-
-        btnUploadCnicBack.setEnabled(
-                true
-        );
+        etFullName.setEnabled(true);
+        etPhone.setEnabled(true);
+        etEmail.setEnabled(true);
+        etAddress.setEnabled(true);
+        etCnic.setEnabled(true);
+        btnUploadCnicFront.setEnabled(true);
+        btnUploadCnicBack.setEnabled(true);
     }
 
     // =====================================================
@@ -634,34 +329,13 @@ public class SellerVerificationFragment extends Fragment {
     // =====================================================
 
     private void disableForm() {
-
-        etFullName.setEnabled(
-                false
-        );
-
-        etPhone.setEnabled(
-                false
-        );
-
-        etEmail.setEnabled(
-                false
-        );
-
-        etAddress.setEnabled(
-                false
-        );
-
-        etCnic.setEnabled(
-                false
-        );
-
-        btnUploadCnicFront.setEnabled(
-                false
-        );
-
-        btnUploadCnicBack.setEnabled(
-                false
-        );
+        etFullName.setEnabled(false);
+        etPhone.setEnabled(false);
+        etEmail.setEnabled(false);
+        etAddress.setEnabled(false);
+        etCnic.setEnabled(false);
+        btnUploadCnicFront.setEnabled(false);
+        btnUploadCnicBack.setEnabled(false);
     }
 
     // =====================================================
@@ -670,29 +344,14 @@ public class SellerVerificationFragment extends Fragment {
 
     private void showLoadingStatus() {
 
-        txtVerificationStatus.setVisibility(
-                View.VISIBLE
-        );
+        txtVerificationStatus.setVisibility(View.VISIBLE);
+        txtVerificationStatus.setText("Checking verification status...");
+        txtVerificationStatus.setTextColor(Color.DKGRAY);
 
-        txtVerificationStatus.setText(
-                "Checking verification status..."
-        );
+        txtVerificationMessage.setVisibility(View.VISIBLE);
+        txtVerificationMessage.setText("Please wait...");
 
-        txtVerificationStatus.setTextColor(
-                Color.DKGRAY
-        );
-
-        txtVerificationMessage.setVisibility(
-                View.VISIBLE
-        );
-
-        txtVerificationMessage.setText(
-                "Please wait..."
-        );
-
-        btnSubmit.setEnabled(
-                false
-        );
+        btnSubmit.setEnabled(false);
     }
 
     // =====================================================
@@ -701,322 +360,129 @@ public class SellerVerificationFragment extends Fragment {
 
     private void submitSellerVerification() {
 
-        String name =
-                etFullName
-                        .getText()
-                        .toString()
-                        .trim();
-
-        String phone =
-                etPhone
-                        .getText()
-                        .toString()
-                        .trim();
-
-        String email =
-                etEmail
-                        .getText()
-                        .toString()
-                        .trim();
-
-        String address =
-                etAddress
-                        .getText()
-                        .toString()
-                        .trim();
-
-        String cnic =
-                etCnic
-                        .getText()
-                        .toString()
-                        .trim();
-
-        // =================================================
-        // VALIDATION
-        // =================================================
+        String name = etFullName.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String address = etAddress.getText().toString().trim();
+        String cnic = etCnic.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
-
-            etFullName.setError(
-                    "Enter your name"
-            );
-
+            etFullName.setError("Enter your name");
             etFullName.requestFocus();
-
             return;
         }
 
         if (TextUtils.isEmpty(phone)) {
-
-            etPhone.setError(
-                    "Enter your phone number"
-            );
-
+            etPhone.setError("Enter your phone number");
             etPhone.requestFocus();
-
             return;
         }
 
         if (TextUtils.isEmpty(email)) {
-
-            etEmail.setError(
-                    "Enter your email"
-            );
-
+            etEmail.setError("Enter your email");
             etEmail.requestFocus();
-
             return;
         }
 
         if (TextUtils.isEmpty(address)) {
-
-            etAddress.setError(
-                    "Enter your address"
-            );
-
+            etAddress.setError("Enter your address");
             etAddress.requestFocus();
-
             return;
         }
 
         if (TextUtils.isEmpty(cnic)) {
-
-            etCnic.setError(
-                    "Enter your CNIC"
-            );
-
+            etCnic.setError("Enter your CNIC");
             etCnic.requestFocus();
-
             return;
         }
 
         if (cnic.length() != 13) {
-
-            etCnic.setError(
-                    "CNIC must contain 13 digits"
-            );
-
+            etCnic.setError("CNIC must contain 13 digits");
             etCnic.requestFocus();
-
             return;
         }
 
-        // =================================================
-        // USER
-        // =================================================
-
-        FirebaseUser currentUser =
-                auth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
 
         if (currentUser == null) {
-
-            Toast.makeText(
-                    getContext(),
+            Toast.makeText(getContext(),
                     "User is not logged in. Please login again.",
-                    Toast.LENGTH_LONG
-            ).show();
-
+                    Toast.LENGTH_LONG).show();
             return;
         }
 
-        String uid =
-                currentUser.getUid();
+        String uid = currentUser.getUid();
 
-        // =================================================
-        // BUTTON
-        // =================================================
+        btnSubmit.setEnabled(false);
+        btnSubmit.setText("Submitting...");
 
-        btnSubmit.setEnabled(
-                false
-        );
-
-        btnSubmit.setText(
-                "Submitting..."
-        );
-
-        // =================================================
-        // SELLER DATA
-        // =================================================
-
-        Map<String, Object> sellerData =
-                new HashMap<>();
-
-        sellerData.put(
-                "uid",
-                uid
-        );
-
-        sellerData.put(
-                "name",
-                name
-        );
-
-        sellerData.put(
-                "phone",
-                phone
-        );
-
-        sellerData.put(
-                "email",
-                email
-        );
-
-        sellerData.put(
-                "address",
-                address
-        );
-
-        sellerData.put(
-                "cnic",
-                cnic
-        );
-
-        sellerData.put(
-                "status",
-                "pending"
-        );
-
-        sellerData.put(
-                "submittedAt",
-                FieldValue.serverTimestamp()
-        );
-
-        /*
-         * IMPORTANT:
-         *
-         * set(..., merge) use kar rahe hain
-         * taake existing seller document ke
-         * doosre fields delete na hon.
-         */
+        Map<String, Object> sellerData = new HashMap<>();
+        sellerData.put("uid", uid);
+        sellerData.put("name", name);
+        sellerData.put("phone", phone);
+        sellerData.put("email", email);
+        sellerData.put("address", address);
+        sellerData.put("cnic", cnic);
+        sellerData.put("status", "pending");
+        sellerData.put("submittedAt", FieldValue.serverTimestamp());
 
         db.collection("sellers")
                 .document(uid)
-                .set(
-                        sellerData,
-                        com.google.firebase.firestore.SetOptions.merge()
-                )
-                .addOnSuccessListener(
-                        unused -> {
+                .set(sellerData,
+                        com.google.firebase.firestore.SetOptions.merge())
+                .addOnSuccessListener(unused -> {
 
-                            // =================================
-                            // UPDATE USERS
-                            // =================================
+                    Map<String, Object> userUpdate = new HashMap<>();
+                    userUpdate.put("name", name);
+                    userUpdate.put("email", email);
+                    userUpdate.put("phone", phone);
+                    userUpdate.put("address", address);
+                    userUpdate.put("role", "seller");
+                    userUpdate.put("status", "pending");
 
-                            Map<String, Object> userUpdate =
-                                    new HashMap<>();
+                    db.collection("users")
+                            .document(uid)
+                            .update(userUpdate)
+                            .addOnSuccessListener(unused2 -> {
 
-                            userUpdate.put(
-                                    "name",
-                                    name
-                            );
+                                if (!isAdded()) return;
 
-                            userUpdate.put(
-                                    "email",
-                                    email
-                            );
+                                currentStatus = "pending";
+                                applyStatusUI("pending");
 
-                            userUpdate.put(
-                                    "phone",
-                                    phone
-                            );
+                                Toast.makeText(getContext(),
+                                        "Verification request submitted successfully!",
+                                        Toast.LENGTH_LONG).show();
+                            })
+                            .addOnFailureListener(e -> {
 
-                            userUpdate.put(
-                                    "address",
-                                    address
-                            );
+                                if (!isAdded()) return;
 
-                            userUpdate.put(
-                                    "role",
-                                    "seller"
-                            );
+                                currentStatus = "pending";
+                                applyStatusUI("pending");
 
-                            userUpdate.put(
-                                    "status",
-                                    "pending"
-                            );
+                                Toast.makeText(getContext(),
+                                        "Verification submitted, but user status update failed: "
+                                                + e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            });
+                })
+                .addOnFailureListener(e -> {
 
-                            db.collection("users")
-                                    .document(uid)
-                                    .update(
-                                            userUpdate
-                                    )
-                                    .addOnSuccessListener(
-                                            unused2 -> {
+                    if (!isAdded()) return;
 
-                                                if (!isAdded()) {
-                                                    return;
-                                                }
+                    btnSubmit.setEnabled(true);
 
-                                                currentStatus =
-                                                        "pending";
+                    if ("rejected".equals(currentStatus)) {
+                        btnSubmit.setText("Resubmit the Request");
+                    } else {
+                        btnSubmit.setText("Register as Seller");
+                    }
 
-                                                applyStatusUI(
-                                                        "pending"
-                                                );
-
-                                                Toast.makeText(
-                                                        getContext(),
-                                                        "Verification request submitted successfully!",
-                                                        Toast.LENGTH_LONG
-                                                ).show();
-                                            }
-                                    )
-                                    .addOnFailureListener(
-                                            e -> {
-
-                                                if (!isAdded()) {
-                                                    return;
-                                                }
-
-                                                currentStatus =
-                                                        "pending";
-
-                                                applyStatusUI(
-                                                        "pending"
-                                                );
-
-                                                Toast.makeText(
-                                                        getContext(),
-                                                        "Verification submitted, but user status update failed: "
-                                                                + e.getMessage(),
-                                                        Toast.LENGTH_LONG
-                                                ).show();
-                                            }
-                                    );
-                        }
-                )
-                .addOnFailureListener(
-                        e -> {
-
-                            if (!isAdded()) {
-                                return;
-                            }
-
-                            btnSubmit.setEnabled(
-                                    true
-                            );
-
-                            if ("rejected".equals(currentStatus)) {
-
-                                btnSubmit.setText(
-                                        "Resubmit the Request"
-                                );
-
-                            } else {
-
-                                btnSubmit.setText(
-                                        "Register as Seller"
-                                );
-                            }
-
-                            Toast.makeText(
-                                    getContext(),
-                                    "Failed to submit verification: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
-                );
+                    Toast.makeText(getContext(),
+                            "Failed to submit verification: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                });
     }
 
     // =====================================================
@@ -1025,135 +491,63 @@ public class SellerVerificationFragment extends Fragment {
 
     private void listenForSellerVerification() {
 
-        FirebaseUser currentUser =
-                auth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) return;
 
-        if (currentUser == null) {
-            return;
-        }
+        String uid = currentUser.getUid();
 
-        String uid =
-                currentUser.getUid();
+        sellerStatusListener = db.collection("sellers")
+                .document(uid)
+                .addSnapshotListener((snapshot, error) -> {
 
-        sellerStatusListener =
-                db.collection("sellers")
-                        .document(uid)
-                        .addSnapshotListener(
-                                (snapshot, error) -> {
+                    if (!isAdded()) return;
 
-                                    if (!isAdded()) {
-                                        return;
-                                    }
+                    if (error != null) {
+                        Toast.makeText(getContext(),
+                                "Unable to check verification status",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                                    if (error != null) {
+                    if (snapshot == null || !snapshot.exists()) return;
 
-                                        Toast.makeText(
-                                                getContext(),
-                                                "Unable to check verification status",
-                                                Toast.LENGTH_SHORT
-                                        ).show();
+                    String status = snapshot.getString("status");
+                    if (status == null) return;
 
-                                        return;
-                                    }
+                    status = status.trim().toLowerCase();
 
-                                    if (snapshot == null
-                                            ||
-                                            !snapshot.exists()) {
+                    if ("verified".equals(status)) {
+                        currentStatus = "verified";
+                        openChooseLanguage();
 
-                                        return;
-                                    }
+                    } else if ("rejected".equals(status)) {
+                        currentStatus = "rejected";
+                        loadExistingData(snapshot);
+                        applyStatusUI("rejected");
 
-                                    String status =
-                                            snapshot.getString(
-                                                    "status"
-                                            );
-
-                                    if (status == null) {
-                                        return;
-                                    }
-
-                                    status =
-                                            status.trim()
-                                                    .toLowerCase();
-
-                                    // =================================
-                                    // VERIFIED
-                                    // =================================
-
-                                    if ("verified".equals(status)) {
-
-                                        currentStatus =
-                                                "verified";
-
-                                        openSellerMainActivity();
-                                    }
-
-                                    // =================================
-                                    // REJECTED
-                                    // =================================
-
-                                    else if ("rejected".equals(status)) {
-
-                                        currentStatus =
-                                                "rejected";
-
-                                        loadExistingData(
-                                                snapshot
-                                        );
-
-                                        applyStatusUI(
-                                                "rejected"
-                                        );
-                                    }
-
-                                    // =================================
-                                    // PENDING
-                                    // =================================
-
-                                    else if ("pending".equals(status)) {
-
-                                        currentStatus =
-                                                "pending";
-
-                                        loadExistingData(
-                                                snapshot
-                                        );
-
-                                        applyStatusUI(
-                                                "pending"
-                                        );
-                                    }
-                                }
-                        );
+                    } else if ("pending".equals(status)) {
+                        currentStatus = "pending";
+                        loadExistingData(snapshot);
+                        applyStatusUI("pending");
+                    }
+                });
     }
 
     // =====================================================
-    // OPEN SELLER DASHBOARD
+    // OPEN CHOOSE LANGUAGE
     // =====================================================
 
-    private void openSellerMainActivity() {
+    private void openChooseLanguage() {
 
-        if (!isAdded()) {
-            return;
-        }
+        if (!isAdded()) return;
 
-        Intent intent =
-                new Intent(
-                        requireActivity(),
-                        seller_MainActivity.class
+        View view = getView();
+        if (view == null) return;
+
+        Navigation.findNavController(view)
+                .navigate(
+                        R.id.action_verification_to_choose_language
                 );
-
-        intent.addFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK
-                        |
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK
-        );
-
-        startActivity(
-                intent
-        );
-
-        requireActivity().finish();
     }
 
     // =====================================================
@@ -1162,16 +556,8 @@ public class SellerVerificationFragment extends Fragment {
 
     @Override
     public void onStart() {
-
         super.onStart();
-
-        /*
-         * Listener ko yahan start karne ki wajah se
-         * admin ke status changes live milenge.
-         */
-
         if (sellerStatusListener == null) {
-
             listenForSellerVerification();
         }
     }
@@ -1182,14 +568,10 @@ public class SellerVerificationFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-
         if (sellerStatusListener != null) {
-
             sellerStatusListener.remove();
-
             sellerStatusListener = null;
         }
-
         super.onDestroyView();
     }
 }
