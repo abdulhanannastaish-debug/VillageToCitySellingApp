@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F2F4F7">
+    android:background="#F2F4F7"
+    android:layoutDirection="locale">
 
     <!-- HEADER -->
 
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Seller Complaints"
+            android:text="@string/complaint_box"
             android:textColor="#FDFBFB"
             android:textSize="20sp"
             android:textStyle="bold" />
