@@ -9,9 +9,7 @@
     android:background="#F2F4F7"
     android:layoutDirection="locale">
 
-    <!-- ===================================================== -->
     <!-- HEADER -->
-    <!-- ===================================================== -->
 
     <LinearLayout
         android:id="@+id/headerLayout"
@@ -24,9 +22,7 @@
 
     </LinearLayout>
 
-    <!-- ===================================================== -->
     <!-- CONTENT -->
-    <!-- ===================================================== -->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -41,9 +37,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- ================================================= -->
             <!-- WELCOME -->
-            <!-- ================================================= -->
 
             <TextView
                 android:id="@+id/txtWelcome"
@@ -55,9 +49,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <!-- ================================================= -->
             <!-- VERIFICATION STATUS -->
-            <!-- ================================================= -->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardVerificationStatus"
@@ -105,7 +97,7 @@
                             android:id="@+id/txtVerificationTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Verified Seller"
+                            android:text="@string/verified_seller"
                             android:textColor="#0B0B0B"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -116,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:maxLines="2"
-                            android:text="Your seller account has been verified."
+                            android:text="@string/seller_verified_message"
                             android:textColor="#090909"
                             android:textSize="13sp" />
 
@@ -126,9 +118,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- ================================================= -->
             <!-- DASHBOARD CARDS -->
-            <!-- ================================================= -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,9 +126,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- ================================================= -->
                 <!-- FIRST ROW -->
-                <!-- ================================================= -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,7 +134,7 @@
                     android:layout_marginBottom="16dp"
                     android:orientation="horizontal">
 
-                    <!-- ================= COMPLAINT BOX ================= -->
+                    <!-- COMPLAINT BOX -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardComplaint"
@@ -169,7 +157,7 @@
                                 android:id="@+id/imgComplaint"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:contentDescription="Complaint Box"
+                                android:contentDescription="@string/complaint_box"
                                 android:src="@drawable/ic_complaint"
                                 app:tint="#E53935" />
 
@@ -178,7 +166,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="Complaint Box"
+                                android:text="@string/complaint_box"
                                 android:textColor="#212121"
                                 android:textSize="15sp" />
 
@@ -195,7 +183,7 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- ================= REVENUE ================= -->
+                    <!-- REVENUE -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardRevenue"
@@ -227,7 +215,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="Revenue"
+                                android:text="@string/revenue"
                                 android:textSize="15sp" />
 
                             <TextView
@@ -245,16 +233,14 @@
 
                 </LinearLayout>
 
-                <!-- ================================================= -->
                 <!-- SECOND ROW -->
-                <!-- ================================================= -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- ================= PRODUCTS ================= -->
+                    <!-- PRODUCTS -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardMenuItems"
@@ -300,9 +286,7 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- ================================================= -->
                     <!-- RATING CARD -->
-                    <!-- ================================================= -->
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardRating"
@@ -335,7 +319,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="Rating"
+                                android:text="@string/rating"
                                 android:textSize="15sp" />
 
                             <TextView
@@ -353,9 +337,7 @@
 
                 </LinearLayout>
 
-                <!-- ================================================= -->
                 <!-- QUICK ACCESS -->
-                <!-- ================================================= -->
 
                 <TextView
                     android:id="@+id/txtQuickAccess"
@@ -363,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Quick Access"
+                    android:text="@string/quick_access"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -379,7 +361,7 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <!-- ================= PROFILE ================= -->
+                        <!-- PROFILE -->
 
                         <LinearLayout
                             android:id="@+id/layoutRestaurantProfile"
@@ -409,7 +391,7 @@
 
                         </LinearLayout>
 
-                        <!-- ================= MANAGE PRODUCT ================= -->
+                        <!-- MANAGE PRODUCT -->
 
                         <LinearLayout
                             android:id="@+id/layoutManageMenu"
@@ -439,7 +421,7 @@
 
                         </LinearLayout>
 
-                        <!-- ================= SELLER WALLET ================= -->
+                        <!-- SELLER WALLET -->
 
                         <LinearLayout
                             android:id="@+id/layoutSellerWallet"
@@ -456,7 +438,7 @@
                                 android:id="@+id/imgSellerWallet"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:contentDescription="Seller Wallet"
+                                android:contentDescription="@string/wallet"
                                 android:src="@drawable/ic_wallet"
                                 app:tint="#050505" />
 

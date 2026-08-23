@@ -73,7 +73,7 @@
     <string name="or" translatable="false">OR</string>
 
     <string name="choose_language">Select Language</string>
-    <string name="urdu" translatable="false">\u0627\u0631\u062F\u0648</string>
+    <string name="urdu" translatable="false">اردو</string>
     <string name="english" translatable="false">English</string>
 
     <string name="tab_all">All</string>
@@ -81,5 +81,90 @@
     <string name="tab_delivered">Delivered</string>
     <string name="tab_cancelled">Cancelled</string>
     <string name="no_pending_orders">No pending orders</string>
+
+    <string name="update_product">Update Product</string>
+    <string name="available_stock">Available Stock</string>
+    <string name="minimum_order">Minimum Order Quantity</string>
+    <string name="change_image">Change Image</string>
+    <string name="price_per_unit">Price Per Unit</string>
+    <string name="stock_preview">Stock Preview</string>
+    <string name="category">Category</string>
+    <string name="unit">Unit</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="cnic_number">CNIC Number</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="cancel">Cancel</string>
+    <string name="update_profile">Update Profile</string>
+
+    <string name="order_details">Order Details</string>
+    <string name="accept_order">Accept Order</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="quantity">Quantity</string>
+
+    <string name="product_information">Product Information</string>
+    <string name="buyer_information">Buyer Information</string>
+    <string name="payment_information">Payment Information</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="product_total">Product Total</string>
+    <string name="delivery_charges">Delivery Charges</string>
+    <string name="total_amount">Total Amount</string>
+
+    <string name="my_wallet">My Wallet</string>
+    <string name="available_balance">Available Balance</string>
+    <string name="pending_balance">Pending</string>
+    <string name="automatic_payment">Automatic Payment</string>
+    <string name="automatic_payment_info">After delivery, your earning becomes available. Payment will be automatically sent to your registered account after 24 hours.</string>
+    <string name="automatic_payment_enabled">Automatic payment is enabled</string>
+    <string name="total_earned">Total Earned</string>
+    <string name="total_paid">Total Paid</string>
+    <string name="payment_account">Payment Account</string>
+    <string name="payment_account_status">Registered for automatic payment</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="order_earning">Order Earning</string>
+    <string name="payment_sent">Payment sent to registered account</string>
+    <string name="view_all_transactions">View All Transactions</string>
+
+    <string name="account_details">Account Details</string>
+    <string name="account_holder_name">Account Holder Name</string>
+    <string name="account_number">Account / Mobile Number</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="bank_account">Bank Account</string>
+    <string name="save_payment_account">Save Payment Account</string>
+    <string name="payment_account_note">Note: Please make sure your account details are correct. Your earnings will be sent to the saved account automatically.</string>
+
+    <string name="verified_seller">Verified Seller</string>
+    <string name="seller_verified_message">Your seller account has been verified.</string>
+    <string name="complaint_box">Complaint Box</string>
+    <string name="revenue">Revenue</string>
+    <string name="rating">Rating</string>
+    <string name="quick_access">Quick Access</string>
+    <string name="transaction_history">Transaction History</string>
+    <string name="available_wallet_balance">Available Wallet Balance</string>
+    <string name="all_transactions">All Transactions</string>
+    <string name="order_payment">Order Payment</string>
+    <string name="available">Available</string>
+    <string name="paid_automatically">Paid Automatically</string>
+    <string name="no_transactions">No transactions found</string>
+    <string name="seller_verification">Seller Verification</string>
+    <string name="verification_required">Verification Required</string>
+    <string name="complete_verification">Please complete your seller verification.</string>
+    <string name="seller_name">Seller Name</string>
+    <string name="seller_address">Seller Address</string>
+    <string name="owner_cnic">Owner CNIC (13 digits)</string>
+    <string name="upload_cnic_front">Upload CNIC Front Image</string>
+    <string name="upload_cnic_back">Upload CNIC Back Image</string>
+    <string name="choose_cnic_front">Choose CNIC Front Image</string>
+    <string name="choose_cnic_back">Choose CNIC Back Image</string>
+    <string name="tap_to_upload">Tap to upload</string>
+    <string name="register_as_seller">Register as Seller</string>
+
+    <string name="complaint_detail">Seller Complaint Detail</string>
+    <string name="seller_id">Seller ID</string>
+    <string name="seller_name">Seller Name</string>
+    <string name="complaint_detail_label">Complaint Detail</string>
+    <string name="accept_complaint">Accept Complaint</string>
+    <string name="seller_complaints">Seller Complaints</string>
 
 </resources>

@@ -81,4 +81,89 @@
     <string name="tab_cancelled">منسوخ</string>
     <string name="no_pending_orders">کوئی آرڈر نہیں</string>
 
+    <string name="update_product">پروڈکٹ اپ ڈیٹ کریں</string>
+    <string name="available_stock">دستیاب اسٹاک</string>
+    <string name="minimum_order">کم از کم آرڈر مقدار</string>
+    <string name="change_image">تصویر تبدیل کریں</string>
+    <string name="price_per_unit">فی یونٹ قیمت</string>
+    <string name="stock_preview">اسٹاک جائزہ</string>
+    <string name="category">زمرہ</string>
+    <string name="unit">اکائی</string>
+
+    <string name="full_name">پورا نام</string>
+    <string name="email_address">ای میل ایڈریس</string>
+    <string name="cnic_number">شناختی کارڈ نمبر</string>
+    <string name="save_changes">تبدیلیاں محفوظ کریں</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="update_profile">پروفائل اپ ڈیٹ کریں</string>
+
+    <string name="order_details">آرڈر کی تفصیل</string>
+    <string name="accept_order">آرڈر قبول کریں</string>
+    <string name="cancel_order">آرڈر منسوخ کریں</string>
+    <string name="quantity">مقدار</string>
+
+    <string name="product_information">پروڈکٹ کی معلومات</string>
+    <string name="buyer_information">خریدار کی معلومات</string>
+    <string name="payment_information">ادائیگی کی معلومات</string>
+    <string name="payment_method">ادائیگی کا طریقہ</string>
+    <string name="product_total">پروڈکٹ کی کل قیمت</string>
+    <string name="delivery_charges">ڈیلیوری چارجز</string>
+    <string name="total_amount">کل رقم</string>
+
+    <string name="my_wallet">میرا والٹ</string>
+    <string name="available_balance">دستیاب بیلنس</string>
+    <string name="pending_balance">زیر التواء</string>
+    <string name="automatic_payment">خودکار ادائیگی</string>
+    <string name="automatic_payment_info">ڈیلیوری کے بعد آپ کی کمائی دستیاب ہو جائے گی۔ 24 گھنٹے بعد خودکار طور پر آپ کے رجسٹرڈ اکاؤنٹ میں بھیج دی جائے گی۔</string>
+    <string name="automatic_payment_enabled">خودکار ادائیگی فعال ہے</string>
+    <string name="total_earned">کل کمائی</string>
+    <string name="total_paid">کل ادائیگی</string>
+    <string name="payment_account">ادائیگی اکاؤنٹ</string>
+    <string name="payment_account_status">خودکار ادائیگی کے لیے رجسٹرڈ</string>
+    <string name="recent_transactions">حالیہ لین دین</string>
+    <string name="order_earning">آرڈر کی کمائی</string>
+    <string name="payment_sent">رجسٹرڈ اکاؤنٹ میں ادائیگی بھیج دی گئی</string>
+    <string name="view_all_transactions">تمام لین دین دیکھیں</string>
+
+    <string name="account_details">اکاؤنٹ کی تفصیل</string>
+    <string name="account_holder_name">اکاؤنٹ ہولڈر کا نام</string>
+    <string name="account_number">اکاؤنٹ / موبائل نمبر</string>
+    <string name="bank_name">بینک کا نام</string>
+    <string name="bank_account">بینک اکاؤنٹ</string>
+    <string name="save_payment_account">ادائیگی اکاؤنٹ محفوظ کریں</string>
+    <string name="payment_account_note">نوٹ: براہ کرم اپنے اکاؤنٹ کی تفصیلات درست کریں۔ آپ کی کمائی خودکار طور پر محفوظ اکاؤنٹ میں بھیج دی جائے گی۔</string>
+
+    <string name="verified_seller">تصدیق شدہ بیچنے والا</string>
+    <string name="seller_verified_message">آپ کا سیلر اکاؤنٹ تصدیق ہو گیا ہے۔</string>
+    <string name="complaint_box">شکایت باکس</string>
+    <string name="revenue">آمدنی</string>
+    <string name="rating">ریٹنگ</string>
+    <string name="quick_access">فوری رسائی</string>
+    <string name="transaction_history">لین دین کی تاریخ</string>
+    <string name="available_wallet_balance">دستیاب والٹ بیلنس</string>
+    <string name="all_transactions">تمام لین دین</string>
+    <string name="order_payment">آرڈر کی ادائیگی</string>
+    <string name="available">دستیاب</string>
+    <string name="paid_automatically">خودکار ادائیگی ہو گئی</string>
+    <string name="no_transactions">کوئی لین دین نہیں ملا</string>
+    <string name="seller_verification">سیلر کی تصدیق</string>
+    <string name="verification_required">تصدیق ضروری ہے</string>
+    <string name="complete_verification">براہ کرم اپنی سیلر تصدیق مکمل کریں۔</string>
+    <string name="seller_name">سیلر کا نام</string>
+    <string name="seller_address">سیلر کا پتہ</string>
+    <string name="owner_cnic">مالک کا شناختی کارڈ (13 ہندسے)</string>
+    <string name="upload_cnic_front">شناختی کارڈ کا سامنے والا حصہ اپ لوڈ کریں</string>
+    <string name="upload_cnic_back">شناختی کارڈ کا پچھلا حصہ اپ لوڈ کریں</string>
+    <string name="choose_cnic_front">شناختی کارڈ کا سامنے والا حصہ منتخب کریں</string>
+    <string name="choose_cnic_back">شناختی کارڈ کا پچھلا حصہ منتخب کریں</string>
+    <string name="tap_to_upload">اپ لوڈ کرنے کے لیے دبائیں</string>
+    <string name="register_as_seller">سیلر کے طور پر رجسٹر کریں</string>
+
+    <string name="complaint_detail">سیلر شکایت کی تفصیل</string>
+    <string name="seller_id">سیلر آئی ڈی</string>
+    <string name="seller_name">سیلر کا نام</string>
+    <string name="complaint_detail_label">شکایت کی تفصیل</string>
+    <string name="accept_complaint">شکایت قبول کریں</string>
+    <string name="seller_complaints">سیلر کی شکایات</string>
+
 </resources>
