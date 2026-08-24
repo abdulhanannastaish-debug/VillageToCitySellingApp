@@ -162,7 +162,6 @@
 
     <string name="complaint_detail">Seller Complaint Detail</string>
     <string name="seller_id">Seller ID</string>
-    <string name="seller_name">Seller Name</string>
     <string name="complaint_detail_label">Complaint Detail</string>
     <string name="accept_complaint">Accept Complaint</string>
     <string name="seller_complaints">Seller Complaints</string>
