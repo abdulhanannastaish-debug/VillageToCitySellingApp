@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:layoutDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ================= TOP APP BAR ================= -->
+        <!-- TOP APP BAR -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,15 +41,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="Order Details"
+                android:text="@string/order_details"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
-
-        <!-- ================= ORDER CARD ================= -->
+        <!-- ORDER CARD -->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -64,8 +64,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-
-                <!-- ================= ORDER HEADER ================= -->
+                <!-- ORDER HEADER -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,7 +76,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Order Details"
+                        android:text="@string/order_details"
                         android:textColor="#000000"
                         android:textSize="22sp"
                         android:textStyle="bold"/>
@@ -98,7 +97,6 @@
 
                 </LinearLayout>
 
-
                 <!-- ORDER ID -->
 
                 <TextView
@@ -110,29 +108,22 @@
                     android:textColor="#666666"
                     android:textSize="14sp"/>
 
-
-                <!-- DIVIDER -->
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="18dp"
                     android:background="#E0E0E0"/>
 
-
-                <!-- ================= PRODUCT SECTION ================= -->
+                <!-- PRODUCT SECTION -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Product Information"
+                    android:text="@string/product_information"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
-
-
-                <!-- PRODUCT IMAGE + NAME -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -171,7 +162,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="Quantity: 2"
+                            android:text="@string/quantity"
                             android:textColor="#666666"
                             android:textSize="14sp"/>
 
@@ -180,7 +171,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="Price: Rs. 1,500"
+                            android:text="Rs. 1,500"
                             android:textColor="#2E7D32"
                             android:textSize="15sp"
                             android:textStyle="bold"/>
@@ -189,8 +180,7 @@
 
                 </LinearLayout>
 
-
-                <!-- ================= BUYER INFORMATION ================= -->
+                <!-- BUYER INFORMATION -->
 
                 <View
                     android:layout_width="match_parent"
@@ -202,13 +192,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Buyer Information"
+                    android:text="@string/buyer_information"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
-
-
-                <!-- BUYER NAME -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,14 +217,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
-                        android:text="Buyer Name"
+                        android:text="@string/name"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
 
                 </LinearLayout>
-
-
-                <!-- BUYER PHONE -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -265,9 +249,6 @@
 
                 </LinearLayout>
 
-
-                <!-- BUYER ADDRESS -->
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -288,14 +269,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
-                        android:text="Village Address, City, Punjab"
+                        android:text="@string/address"
                         android:textColor="#000000"
                         android:textSize="15sp"/>
 
                 </LinearLayout>
 
-
-                <!-- ================= PAYMENT ================= -->
+                <!-- PAYMENT -->
 
                 <View
                     android:layout_width="match_parent"
@@ -307,11 +287,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Payment Information"
+                    android:text="@string/payment_information"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -323,7 +302,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Payment Method"
+                        android:text="@string/payment_method"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
 
@@ -338,7 +317,6 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -349,7 +327,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Product Total"
+                        android:text="@string/product_total"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
 
@@ -363,7 +341,6 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -374,7 +351,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Delivery Charges"
+                        android:text="@string/delivery_charges"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
 
@@ -388,9 +365,6 @@
 
                 </LinearLayout>
 
-
-                <!-- TOTAL -->
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -402,7 +376,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Total Amount"
+                        android:text="@string/total_amount"
                         android:textColor="#000000"
                         android:textSize="17sp"
                         android:textStyle="bold"/>
@@ -418,15 +392,14 @@
 
                 </LinearLayout>
 
-
-                <!-- ================= ACTION BUTTONS ================= -->
+                <!-- ACTION BUTTONS -->
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnOrderAction"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="24dp"
-                    android:text="Accept Order"
+                    android:text="@string/accept_order"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -439,7 +412,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="12dp"
-                    android:text="Cancel Order"
+                    android:text="@string/cancel_order"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold"

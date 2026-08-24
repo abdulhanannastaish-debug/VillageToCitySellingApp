@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:layoutDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,29 +14,27 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-
-        <!-- ================= GREEN HEADER ================= -->
+        <!-- GREEN HEADER -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Seller Verification"
+            android:text="@string/seller_verification"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:gravity="center"
             android:background="#388E3C"
             android:layout_marginBottom="16dp"
-            android:contentDescription="Seller Verification header"/>
+            android:contentDescription="@string/seller_verification"/>
 
-
-        <!-- ================= VERIFICATION STATUS ================= -->
+        <!-- VERIFICATION STATUS -->
 
         <TextView
             android:id="@+id/txtVerificationStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Verification Required"
+            android:text="@string/verification_required"
             android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="#333333"
@@ -44,94 +43,86 @@
             android:background="#EEEEEE"
             android:layout_marginBottom="8dp"/>
 
-
-        <!-- ================= VERIFICATION MESSAGE ================= -->
+        <!-- VERIFICATION MESSAGE -->
 
         <TextView
             android:id="@+id/txtVerificationMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please complete your seller verification."
+            android:text="@string/complete_verification"
             android:textSize="14sp"
             android:textColor="#555555"
             android:gravity="center"
             android:padding="8dp"
             android:layout_marginBottom="16dp"/>
 
-
-        <!-- ================= SELLER NAME ================= -->
+        <!-- SELLER NAME -->
 
         <EditText
             android:id="@+id/etFullName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Seller Name"
+            android:hint="@string/seller_name"
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:layout_marginBottom="12dp"/>
 
-
-        <!-- ================= PHONE ================= -->
+        <!-- PHONE -->
 
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Phone (e.g. 03481234567)"
+            android:hint="@string/phone"
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:inputType="phone"
             android:layout_marginBottom="12dp"/>
 
-
-        <!-- ================= EMAIL ================= -->
+        <!-- EMAIL -->
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Email"
+            android:hint="@string/email"
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:inputType="textEmailAddress"
             android:layout_marginBottom="12dp"/>
 
-
-        <!-- ================= ADDRESS ================= -->
+        <!-- ADDRESS -->
 
         <EditText
             android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Seller Address"
+            android:hint="@string/seller_address"
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:layout_marginBottom="12dp"/>
 
-
-        <!-- ================= CNIC ================= -->
+        <!-- CNIC -->
 
         <EditText
             android:id="@+id/etCnic"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Owner CNIC (13 digits)"
+            android:hint="@string/owner_cnic"
             android:background="@drawable/bg_edittext"
             android:padding="12dp"
             android:inputType="number"
             android:layout_marginBottom="20dp"/>
 
-
-        <!-- ================= CNIC FRONT ================= -->
+        <!-- CNIC FRONT -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload CNIC Front Image"
+            android:text="@string/upload_cnic_front"
             android:textStyle="bold"
             android:textColor="#333333"
             android:layout_marginBottom="8dp"/>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,34 +142,31 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap to upload"
+                android:text="@string/tap_to_upload"
                 android:textColor="#888888"
                 android:textSize="12sp"
                 android:layout_marginTop="8dp"/>
 
         </LinearLayout>
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnUploadCnicFront"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Choose CNIC Front Image"
+            android:text="@string/choose_cnic_front"
             android:textColor="#FFFFFF"
             android:backgroundTint="#6AC32F"
             android:layout_marginBottom="20dp"/>
 
-
-        <!-- ================= CNIC BACK ================= -->
+        <!-- CNIC BACK -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload CNIC Back Image"
+            android:text="@string/upload_cnic_back"
             android:textStyle="bold"
             android:textColor="#333333"
             android:layout_marginBottom="8dp"/>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -198,31 +186,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap to upload"
+                android:text="@string/tap_to_upload"
                 android:textColor="#888888"
                 android:textSize="12sp"
                 android:layout_marginTop="8dp"/>
 
         </LinearLayout>
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnUploadCnicBack"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Choose CNIC Back Image"
+            android:text="@string/choose_cnic_back"
             android:textColor="#FFFFFF"
             android:backgroundTint="#6AC32F"
             android:layout_marginBottom="24dp"/>
 
-
-        <!-- ================= SUBMIT ================= -->
+        <!-- SUBMIT -->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:text="Register as Seller"
+            android:text="@string/register_as_seller"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:backgroundTint="#6AC32F"

@@ -12,6 +12,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
+    android:layoutDirection="locale"
     app:cardCornerRadius="16dp"
     app:cardElevation="5dp"
     app:cardBackgroundColor="#FFFFFF">
@@ -152,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="Quantity: 2"
+                    android:text="@string/quantity"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -181,8 +182,6 @@
             android:paddingTop="4dp"
             android:paddingBottom="16dp">
 
-            <!-- DETAILS + STATUS -->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +193,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
-                    android:text="Order Details"
+                    android:text="@string/order_details"
                     android:textAllCaps="false"
                     android:textColor="#4CAF50"
                     android:textSize="13sp"
@@ -209,7 +208,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    android:text="Accept Order"
+                    android:text="@string/accept_order"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="13sp"
@@ -227,7 +226,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginTop="10dp"
-                android:text="Cancel Order"
+                android:text="@string/cancel_order"
                 android:textAllCaps="false"
                 android:textColor="#D32F2F"
                 android:textSize="13sp"

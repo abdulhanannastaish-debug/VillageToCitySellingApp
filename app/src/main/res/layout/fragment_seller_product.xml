@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:layoutDirection="locale">
 
     <!-- ================= TOOLBAR ================= -->
 
@@ -14,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:background="#4CAF50"
-        app:title="My Products"
+        app:title="@string/my_products"
         app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +27,7 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:text="+ Add Product"
+        android:text="@string/add_new_product"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:backgroundTint="#43A047"
@@ -53,7 +54,7 @@
         android:id="@+id/txtEmpty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="No product items yet. Click '+ Add Product' to create your product!"
+        android:text="@string/add_new_product"
         android:textSize="18sp"
         android:textColor="#9E9E9E"
         android:gravity="center"

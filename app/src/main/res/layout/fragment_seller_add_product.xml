@@ -6,16 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F4F7"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:layoutDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ================================================= -->
         <!-- TOP APP BAR -->
-        <!-- ================================================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,17 +40,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Add New Product"
+                android:text="@string/add_new_product"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
         </LinearLayout>
 
-
-        <!-- ================================================= -->
         <!-- PRODUCT IMAGE -->
-        <!-- ================================================= -->
 
         <FrameLayout
             android:id="@+id/imageUploadBox"
@@ -84,15 +80,12 @@
 
         </FrameLayout>
 
-
-        <!-- ================================================= -->
         <!-- PRODUCT NAME -->
-        <!-- ================================================= -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Product Name"
+            android:text="@string/item_name"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -107,20 +100,17 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:hint="Enter product name"
+            android:hint="@string/item_name"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"
             android:singleLine="true"/>
 
-
-        <!-- ================================================= -->
         <!-- CATEGORY -->
-        <!-- ================================================= -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/products"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -139,10 +129,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"/>
 
-
-        <!-- ================================================= -->
         <!-- PRICE PER UNIT + UNIT -->
-        <!-- ================================================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -165,7 +152,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price Per Unit"
+                    android:text="@string/item_price"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#222222"/>
@@ -182,7 +169,6 @@
 
             </LinearLayout>
 
-
             <!-- UNIT -->
 
             <LinearLayout
@@ -195,7 +181,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Unit"
+                    android:text="@string/item_quantity"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#222222"/>
@@ -213,15 +199,12 @@
 
         </LinearLayout>
 
-
-        <!-- ================================================= -->
         <!-- TOTAL STOCK -->
-        <!-- ================================================= -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total Stock"
+            android:text="@string/item_quantity"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -241,15 +224,12 @@
             android:background="@android:drawable/edit_text"
             android:padding="12dp"/>
 
-
-        <!-- ================================================= -->
         <!-- MINIMUM ORDER -->
-        <!-- ================================================= -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Minimum Order Quantity"
+            android:text="@string/item_quantity"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -269,10 +249,7 @@
             android:background="@android:drawable/edit_text"
             android:padding="12dp"/>
 
-
-        <!-- ================================================= -->
         <!-- DESCRIPTION -->
-        <!-- ================================================= -->
 
         <TextView
             android:layout_width="match_parent"
@@ -292,16 +269,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:hint="Enter your product description..."
+            android:hint="@string/item_description"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"
             android:gravity="top"
             android:inputType="textMultiLine"/>
 
-
-        <!-- ================================================= -->
         <!-- STOCK PREVIEW -->
-        <!-- ================================================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -317,7 +291,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stock Preview"
+                android:text="@string/total_sales"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#2E7D32"/>
@@ -333,10 +307,7 @@
 
         </LinearLayout>
 
-
-        <!-- ================================================= -->
         <!-- ADD PRODUCT -->
-        <!-- ================================================= -->
 
         <Button
             android:id="@+id/btn_add_item"
