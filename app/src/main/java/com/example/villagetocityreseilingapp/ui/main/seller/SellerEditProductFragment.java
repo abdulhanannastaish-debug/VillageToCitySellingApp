@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment;
 import com.example.villagetocityreseilingapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.Timestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +30,7 @@ public class SellerEditProductFragment extends Fragment {
     // PRODUCT ID
     // =========================================================
 
-    private static final String ARG_PRODUCT_ID =
-            "productId";
+    private static final String ARG_PRODUCT_ID = "productId";
 
     private String productId;
 
@@ -40,10 +41,11 @@ public class SellerEditProductFragment extends Fragment {
     private EditText etProductName;
     private EditText etProductPrice;
     private EditText etProductStock;
+    private EditText etProductUnit;
+    private EditText etMinimumOrder;
     private EditText etProductDescription;
 
     private AppCompatButton btnUpdateProduct;
-
     private ImageButton btnBack;
 
     // =========================================================
@@ -58,7 +60,6 @@ public class SellerEditProductFragment extends Fragment {
     // =========================================================
 
     public SellerEditProductFragment() {
-        // Required empty public constructor
     }
 
     // =========================================================
@@ -71,17 +72,14 @@ public class SellerEditProductFragment extends Fragment {
         SellerEditProductFragment fragment =
                 new SellerEditProductFragment();
 
-        Bundle args =
-                new Bundle();
+        Bundle args = new Bundle();
 
         args.putString(
                 ARG_PRODUCT_ID,
                 productId
         );
 
-        fragment.setArguments(
-                args
-        );
+        fragment.setArguments(args);
 
         return fragment;
     }
@@ -94,17 +92,13 @@ public class SellerEditProductFragment extends Fragment {
     public void onCreate(
             Bundle savedInstanceState) {
 
-        super.onCreate(
-                savedInstanceState
-        );
+        super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
 
             productId =
                     getArguments()
-                            .getString(
-                                    ARG_PRODUCT_ID
-                            );
+                            .getString(ARG_PRODUCT_ID);
         }
     }
 
@@ -173,6 +167,16 @@ public class SellerEditProductFragment extends Fragment {
                         R.id.etProductStock
                 );
 
+        etProductUnit =
+                view.findViewById(
+                        R.id.etProductUnit
+                );
+
+        etMinimumOrder =
+                view.findViewById(
+                        R.id.etMinimumOrder
+                );
+
         etProductDescription =
                 view.findViewById(
                         R.id.etProductDescription
@@ -184,7 +188,7 @@ public class SellerEditProductFragment extends Fragment {
                 );
 
         // =====================================================
-        // BACK
+        // BACK BUTTON
         // =====================================================
 
         btnBack.setOnClickListener(
@@ -215,7 +219,7 @@ public class SellerEditProductFragment extends Fragment {
         loadProduct();
 
         // =====================================================
-        // UPDATE
+        // UPDATE BUTTON
         // =====================================================
 
         btnUpdateProduct.setOnClickListener(
@@ -295,7 +299,7 @@ public class SellerEditProductFragment extends Fragment {
                             }
 
                             // =================================
-                            // NAME
+                            // PRODUCT NAME
                             // =================================
 
                             String name =
@@ -305,9 +309,7 @@ public class SellerEditProductFragment extends Fragment {
 
                             if (!TextUtils.isEmpty(name)) {
 
-                                etProductName.setText(
-                                        name
-                                );
+                                etProductName.setText(name);
                             }
 
                             // =================================
@@ -330,17 +332,13 @@ public class SellerEditProductFragment extends Fragment {
                             // PRICE
                             // =================================
 
-                            Object priceObject =
-                                    documentSnapshot.get(
-                                            "price"
-                                    );
+                            Object price =
+                                    documentSnapshot.get("price");
 
-                            if (priceObject != null) {
+                            if (price != null) {
 
                                 etProductPrice.setText(
-                                        formatNumber(
-                                                priceObject
-                                        )
+                                        formatNumber(price)
                                 );
                             }
 
@@ -348,39 +346,79 @@ public class SellerEditProductFragment extends Fragment {
                             // STOCK
                             // =================================
 
-                            Object stockObject =
+                            Object stock =
                                     documentSnapshot.get(
                                             "availableStock"
                                     );
 
-                            if (stockObject == null) {
+                            if (stock == null) {
 
-                                stockObject =
+                                stock =
                                         documentSnapshot.get(
                                                 "totalStock"
                                         );
                             }
 
-                            if (stockObject == null) {
+                            if (stock == null) {
 
-                                stockObject =
+                                stock =
                                         documentSnapshot.get(
                                                 "quantity"
                                         );
                             }
 
-                            if (stockObject != null) {
+                            if (stock != null) {
 
                                 etProductStock.setText(
-                                        formatNumber(
-                                                stockObject
-                                        )
+                                        formatNumber(stock)
                                 );
+                            }
 
-                            } else {
+                            // =================================
+                            // UNIT
+                            // =================================
 
-                                etProductStock.setText(
-                                        "0"
+                            String unit =
+                                    documentSnapshot.getString(
+                                            "unitType"
+                                    );
+
+                            if (TextUtils.isEmpty(unit)) {
+
+                                unit =
+                                        documentSnapshot.getString(
+                                                "unit"
+                                        );
+                            }
+
+                            if (!TextUtils.isEmpty(unit)) {
+
+                                etProductUnit.setText(unit);
+                            }
+
+                            // =================================
+                            // MINIMUM ORDER
+                            // =================================
+
+                            Object minimumOrder =
+                                    documentSnapshot.get(
+                                            "minimumOrder"
+                                    );
+
+                            if (minimumOrder == null) {
+
+                                minimumOrder =
+                                        documentSnapshot.get(
+                                                "minOrderQuantity"
+                                        );
+                            }
+
+                            if (minimumOrder != null) {
+
+                                etMinimumOrder.setText(
+                                        formatNumber(
+                                                minimumOrder
+                                        )
                                 );
                             }
                         }
@@ -408,6 +446,10 @@ public class SellerEditProductFragment extends Fragment {
 
     private void updateProduct() {
 
+        // =====================================================
+        // GET VALUES
+        // =====================================================
+
         String name =
                 etProductName
                         .getText()
@@ -426,6 +468,18 @@ public class SellerEditProductFragment extends Fragment {
                         .toString()
                         .trim();
 
+        String unit =
+                etProductUnit
+                        .getText()
+                        .toString()
+                        .trim();
+
+        String minimumOrderText =
+                etMinimumOrder
+                        .getText()
+                        .toString()
+                        .trim();
+
         String description =
                 etProductDescription
                         .getText()
@@ -433,7 +487,7 @@ public class SellerEditProductFragment extends Fragment {
                         .trim();
 
         // =====================================================
-        // NAME
+        // VALIDATE NAME
         // =====================================================
 
         if (TextUtils.isEmpty(name)) {
@@ -448,7 +502,7 @@ public class SellerEditProductFragment extends Fragment {
         }
 
         // =====================================================
-        // PRICE
+        // VALIDATE PRICE
         // =====================================================
 
         if (TextUtils.isEmpty(priceText)) {
@@ -463,7 +517,7 @@ public class SellerEditProductFragment extends Fragment {
         }
 
         // =====================================================
-        // STOCK
+        // VALIDATE STOCK
         // =====================================================
 
         if (TextUtils.isEmpty(stockText)) {
@@ -478,7 +532,37 @@ public class SellerEditProductFragment extends Fragment {
         }
 
         // =====================================================
-        // DESCRIPTION
+        // VALIDATE UNIT
+        // =====================================================
+
+        if (TextUtils.isEmpty(unit)) {
+
+            etProductUnit.setError(
+                    "Enter unit"
+            );
+
+            etProductUnit.requestFocus();
+
+            return;
+        }
+
+        // =====================================================
+        // VALIDATE MINIMUM ORDER
+        // =====================================================
+
+        if (TextUtils.isEmpty(minimumOrderText)) {
+
+            etMinimumOrder.setError(
+                    "Enter minimum order"
+            );
+
+            etMinimumOrder.requestFocus();
+
+            return;
+        }
+
+        // =====================================================
+        // VALIDATE DESCRIPTION
         // =====================================================
 
         if (TextUtils.isEmpty(description)) {
@@ -514,7 +598,7 @@ public class SellerEditProductFragment extends Fragment {
         // PRICE
         // =====================================================
 
-        double price;
+        final double price;
 
         try {
 
@@ -534,10 +618,10 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
-        if (price < 0) {
+        if (price <= 0) {
 
             etProductPrice.setError(
-                    "Price cannot be negative"
+                    "Price must be greater than 0"
             );
 
             etProductPrice.requestFocus();
@@ -549,12 +633,12 @@ public class SellerEditProductFragment extends Fragment {
         // STOCK
         // =====================================================
 
-        int availableStock;
+        final double stock;
 
         try {
 
-            availableStock =
-                    Integer.parseInt(
+            stock =
+                    Double.parseDouble(
                             stockText
                     );
 
@@ -569,7 +653,7 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
-        if (availableStock < 0) {
+        if (stock < 0) {
 
             etProductStock.setError(
                     "Stock cannot be negative"
@@ -581,12 +665,56 @@ public class SellerEditProductFragment extends Fragment {
         }
 
         // =====================================================
+        // MINIMUM ORDER
+        // =====================================================
+
+        final double minimumOrder;
+
+        try {
+
+            minimumOrder =
+                    Double.parseDouble(
+                            minimumOrderText
+                    );
+
+        } catch (NumberFormatException e) {
+
+            etMinimumOrder.setError(
+                    "Enter a valid minimum order"
+            );
+
+            etMinimumOrder.requestFocus();
+
+            return;
+        }
+
+        if (minimumOrder <= 0) {
+
+            etMinimumOrder.setError(
+                    "Minimum order must be greater than 0"
+            );
+
+            etMinimumOrder.requestFocus();
+
+            return;
+        }
+
+        if (minimumOrder > stock) {
+
+            etMinimumOrder.setError(
+                    "Minimum order cannot exceed stock"
+            );
+
+            etMinimumOrder.requestFocus();
+
+            return;
+        }
+
+        // =====================================================
         // DISABLE BUTTON
         // =====================================================
 
-        btnUpdateProduct.setEnabled(
-                false
-        );
+        btnUpdateProduct.setEnabled(false);
 
         // =====================================================
         // UPDATE DATA
@@ -606,18 +734,43 @@ public class SellerEditProductFragment extends Fragment {
         );
 
         updateData.put(
+                "pricePerUnit",
+                price
+        );
+
+        updateData.put(
                 "availableStock",
-                availableStock
+                stock
         );
 
         updateData.put(
                 "totalStock",
-                availableStock
+                stock
         );
 
         updateData.put(
                 "quantity",
-                availableStock
+                stock
+        );
+
+        updateData.put(
+                "unitType",
+                unit
+        );
+
+        updateData.put(
+                "unit",
+                unit
+        );
+
+        updateData.put(
+                "minimumOrder",
+                minimumOrder
+        );
+
+        updateData.put(
+                "minOrderQuantity",
+                minimumOrder
         );
 
         updateData.put(
@@ -625,11 +778,16 @@ public class SellerEditProductFragment extends Fragment {
                 description
         );
 
+        updateData.put(
+                "updatedAt",
+                Timestamp.now()
+        );
+
         // =====================================================
         // STATUS
         // =====================================================
 
-        if (availableStock <= 0) {
+        if (stock <= 0) {
 
             updateData.put(
                     "status",
@@ -640,12 +798,12 @@ public class SellerEditProductFragment extends Fragment {
 
             updateData.put(
                     "status",
-                    "active"
+                    "available"
             );
         }
 
         // =====================================================
-        // UPDATE FIRESTORE
+        // FIRESTORE UPDATE
         // =====================================================
 
         db.collection("products")
@@ -705,62 +863,45 @@ public class SellerEditProductFragment extends Fragment {
 
         if (value instanceof Number) {
 
-            double doubleValue =
+            double number =
                     ((Number) value)
                             .doubleValue();
 
-            if (
-                    doubleValue
-                            == Math.floor(
-                            doubleValue
-                    )
-            ) {
+            if (number == Math.floor(number)) {
 
                 return String.valueOf(
-                        (long) doubleValue
+                        (long) number
                 );
             }
 
-            return String.valueOf(
-                    doubleValue
-            );
+            return String.valueOf(number);
         }
 
-        String stringValue =
-                String.valueOf(
-                        value
-                ).trim();
+        String text =
+                String.valueOf(value)
+                        .trim();
 
-        if (TextUtils.isEmpty(stringValue)) {
+        if (text.isEmpty()) {
             return "";
         }
 
         try {
 
-            double doubleValue =
-                    Double.parseDouble(
-                            stringValue
-                    );
+            double number =
+                    Double.parseDouble(text);
 
-            if (
-                    doubleValue
-                            == Math.floor(
-                            doubleValue
-                    )
-            ) {
+            if (number == Math.floor(number)) {
 
                 return String.valueOf(
-                        (long) doubleValue
+                        (long) number
                 );
             }
 
-            return String.valueOf(
-                    doubleValue
-            );
+            return String.valueOf(number);
 
         } catch (Exception e) {
 
-            return stringValue;
+            return text;
         }
     }
 

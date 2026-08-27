@@ -110,7 +110,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/products"
+            android:text="@string/category"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -129,7 +129,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"/>
 
-        <!-- PRICE PER UNIT + UNIT -->
+        <!-- PRICE + UNIT -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,8 +139,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:weightSum="2">
-
-            <!-- PRICE -->
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -152,7 +150,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_price"
+                    android:text="@string/price_per_unit"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#222222"/>
@@ -162,14 +160,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:hint="e.g. 250"
+                    android:hint="@string/item_price"
                     android:inputType="numberDecimal"
                     android:background="@android:drawable/edit_text"
                     android:padding="12dp"/>
 
             </LinearLayout>
-
-            <!-- UNIT -->
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -181,7 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_quantity"
+                    android:text="@string/unit"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#222222"/>
@@ -204,7 +200,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_quantity"
+            android:text="@string/available_stock"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -219,7 +215,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:hint="e.g. 100"
+            android:hint="@string/item_quantity"
             android:inputType="numberDecimal"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"/>
@@ -229,7 +225,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_quantity"
+            android:text="@string/minimum_order"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -244,7 +240,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:hint="e.g. 1"
+            android:hint="@string/minimum_order"
             android:inputType="numberDecimal"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"/>
@@ -291,7 +287,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/total_sales"
+                android:text="@string/stock_preview"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#2E7D32"/>
@@ -307,7 +303,7 @@
 
         </LinearLayout>
 
-        <!-- ADD PRODUCT -->
+        <!-- ADD PRODUCT BUTTON -->
 
         <Button
             android:id="@+id/btn_add_item"

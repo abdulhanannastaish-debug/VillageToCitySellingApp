@@ -3,52 +3,29 @@
 
     <string name="login">لاگ ان</string>
     <string name="signup">اکاؤنٹ بنائیں</string>
-
     <string name="email">ای میل</string>
     <string name="password">پاس ورڈ</string>
     <string name="name">نام</string>
     <string name="profile_image">پروفائل تصویر</string>
     <string name="image_url">تصویر کا لنک</string>
-
-    <string name="forgot_password">پاس ورڈ بھول گئے</string>
+    <string name="forgot_password">پاس ورڈ بھول گئے؟</string>
     <string name="login_now">لاگ ان کریں</string>
     <string name="signup_now">سائن اپ کریں</string>
-
     <string name="google_login">گوگل سے سائن ان کریں</string>
-
     <string name="no_account">اکاؤنٹ نہیں ہے، سائن اپ کریں</string>
     <string name="have_account">پہلے سے اکاؤنٹ ہے، سائن ان کریں</string>
 
     <string name="home">ہوم</string>
+    <string name="menu">میری مصنوعات</string>
     <string name="profile">پروفائل</string>
-
     <string name="greeting">السلام علیکم</string>
     <string name="user_name">عبد الحنان</string>
 
     <string name="products">مصنوعات</string>
+    <string name="orders">آرڈرز</string>
     <string name="total_sales">کل فروخت</string>
     <string name="add_new_product">نئی چیز اپ لوڈ کریں</string>
-
-    <string name="user_status">بیچنے کے لیے</string>
-    <string name="user_phone">0300-1234567</string>
-    <string name="user_address">گاؤں چک نمبر 123، ضلع قصور</string>
-    <string name="user_cnic">35202-1234567-1</string>
-
-    <string name="profile_edit">پروفائل میں ترمیم</string>
-    <string name="info_order">اطلاعات کی ترتیبات</string>
-    <string name="help_support">مدد اور معاونت</string>
-    <string name="terms_conditions">شرائط و ضوابط</string>
-
-    <string name="logout">لاگ آؤٹ</string>
-    <string name="version">ورژن 1.0.0</string>
-
-    <string name="phone">فون نمبر</string>
-    <string name="address">پتہ</string>
-    <string name="cnic">شناختی کارڈ</string>
-    <string name="wallet">والٹ</string>
-
     <string name="my_products">میری چیزیں</string>
-    <string name="orders">آرڈرز</string>
     <string name="balance">بیلنس</string>
     <string name="messages">پیغامات</string>
     <string name="recent_notifications">حالیہ اطلاعات</string>
@@ -57,19 +34,34 @@
     <string name="order_desc">دیسی گھی کی منظوری مل گئی</string>
     <string name="time_ago">2 گھنٹے پہلے</string>
 
-    <string name="menu">میری مصنوعات</string>
+    <string name="profile_edit">پروفائل میں ترمیم</string>
+    <string name="info_order">اطلاعات کی ترتیبات</string>
+    <string name="help_support">مدد اور معاونت</string>
+    <string name="terms_conditions">شرائط و ضوابط</string>
+    <string name="logout">لاگ آؤٹ</string>
+    <string name="version">ورژن 1.0.0</string>
+
+    <string name="phone">فون نمبر</string>
+    <string name="address">پتہ</string>
+    <string name="cnic">شناختی کارڈ</string>
+    <string name="wallet">والٹ</string>
+    <string name="user_status">بیچنے کے لیے</string>
+    <string name="user_phone">0300-1234567</string>
+    <string name="user_address">گاؤں چک نمبر 123، ضلع قصور</string>
+    <string name="user_cnic">35202-1234567-1</string>
+
     <string name="add_new_item">نیا آئٹم شامل کریں</string>
     <string name="item_image">آئٹم تصویر</string>
     <string name="active">فعال</string>
     <string name="edit">ترمیم کریں</string>
     <string name="delete">حذف کریں</string>
-
     <string name="item_name">آئٹم کا نام</string>
     <string name="item_price">قیمت</string>
     <string name="item_quantity">مقدار</string>
     <string name="item_description">تفصیل</string>
     <string name="add_item">آئٹم شامل کریں</string>
     <string name="upload_image">تصویر اپ لوڈ کریں</string>
+    <string name="or">یا</string>
 
     <string name="choose_language">زبان منتخب کریں</string>
     <string name="urdu">اردو</string>
@@ -79,7 +71,15 @@
     <string name="tab_active">فعال</string>
     <string name="tab_delivered">ڈیلیور</string>
     <string name="tab_cancelled">منسوخ</string>
-    <string name="no_pending_orders">کوئی آرڈر نہیں</string>
+    <string name="all">تمام</string>
+    <string name="delivered">ڈیلیور شدہ</string>
+    <string name="cancelled">منسوخ شدہ</string>
+
+    <string name="no_pending_orders">کوئی زیرِ التوا آرڈر نہیں</string>
+    <string name="no_active_orders">کوئی فعال آرڈر نہیں</string>
+    <string name="no_delivered_orders">کوئی ڈیلیور شدہ آرڈر نہیں</string>
+    <string name="no_cancelled_orders">کوئی منسوخ شدہ آرڈر نہیں</string>
+    <string name="no_orders_found">کوئی آرڈر نہیں ملا</string>
 
     <string name="update_product">پروڈکٹ اپ ڈیٹ کریں</string>
     <string name="available_stock">دستیاب اسٹاک</string>
@@ -100,7 +100,32 @@
     <string name="order_details">آرڈر کی تفصیل</string>
     <string name="accept_order">آرڈر قبول کریں</string>
     <string name="cancel_order">آرڈر منسوخ کریں</string>
+    <string name="mark_as_shipped">شپ شدہ کریں</string>
+    <string name="mark_as_delivered">ڈیلیور شدہ کریں</string>
+    <string name="order_delivered">آرڈر ڈیلیور ہو گیا</string>
+    <string name="order_cancelled">آرڈر منسوخ ہو گیا</string>
     <string name="quantity">مقدار</string>
+
+    <string name="failed_load_orders">آرڈرز لوڈ نہیں ہو سکے:</string>
+    <string name="order_label">آرڈر نمبر #%1$s</string>
+    <string name="product">پروڈکٹ</string>
+    <string name="quantity_label">مقدار: %1$s</string>
+    <string name="price_label">قیمت: Rs. %1$s</string>
+    <string name="order_not_found">آرڈر نہیں ملا۔</string>
+    <string name="order_already_status">آرڈر پہلے ہی %1$s ہے۔</string>
+    <string name="order_accepted_successfully">آرڈر کامیابی سے قبول ہو گیا۔</string>
+    <string name="failed_accept_order">آرڈر قبول نہیں ہو سکا:</string>
+    <string name="status_updated">آرڈر کی حیثیت %1$s کر دی گئی۔</string>
+    <string name="failed_update_order">آرڈر اپ ڈیٹ نہیں ہو سکا:</string>
+    <string name="order_cannot_cancel">یہ آرڈر منسوخ نہیں کیا جا سکتا۔</string>
+    <string name="order_cancelled_successfully">آرڈر کامیابی سے منسوخ ہو گیا۔</string>
+    <string name="failed_cancel_order">آرڈر منسوخ نہیں ہو سکا:</string>
+    <string name="failed_check_order">آرڈر چیک نہیں ہو سکا:</string>
+    <string name="pending">زیرِ التوا</string>
+    <string name="accepted">قبول شدہ</string>
+    <string name="processing">پروسیسنگ</string>
+    <string name="shipped">شپ شدہ</string>
+    <string name="date_not_available">تاریخ دستیاب نہیں</string>
 
     <string name="product_information">پروڈکٹ کی معلومات</string>
     <string name="buyer_information">خریدار کی معلومات</string>
@@ -112,7 +137,7 @@
 
     <string name="my_wallet">میرا والٹ</string>
     <string name="available_balance">دستیاب بیلنس</string>
-    <string name="pending_balance">زیر التواء</string>
+    <string name="pending_balance">زیرِ التوا</string>
     <string name="automatic_payment">خودکار ادائیگی</string>
     <string name="automatic_payment_info">ڈیلیوری کے بعد آپ کی کمائی دستیاب ہو جائے گی۔ 24 گھنٹے بعد خودکار طور پر آپ کے رجسٹرڈ اکاؤنٹ میں بھیج دی جائے گی۔</string>
     <string name="automatic_payment_enabled">خودکار ادائیگی فعال ہے</string>
@@ -131,7 +156,7 @@
     <string name="bank_name">بینک کا نام</string>
     <string name="bank_account">بینک اکاؤنٹ</string>
     <string name="save_payment_account">ادائیگی اکاؤنٹ محفوظ کریں</string>
-    <string name="payment_account_note">نوٹ: براہ کرم اپنے اکاؤنٹ کی تفصیلات درست کریں۔ آپ کی کمائی خودکار طور پر محفوظ اکاؤنٹ میں بھیج دی جائے گی۔</string>
+    <string name="payment_account_note">نوٹ: براہ کرم اپنے اکاؤنٹ کی تفصیلات درست رکھیں۔ آپ کی کمائی خودکار طور پر محفوظ اکاؤنٹ میں بھیج دی جائے گی۔</string>
 
     <string name="verified_seller">تصدیق شدہ بیچنے والا</string>
     <string name="seller_verified_message">آپ کا سیلر اکاؤنٹ تصدیق ہو گیا ہے۔</string>
@@ -146,6 +171,7 @@
     <string name="available">دستیاب</string>
     <string name="paid_automatically">خودکار ادائیگی ہو گئی</string>
     <string name="no_transactions">کوئی لین دین نہیں ملا</string>
+
     <string name="seller_verification">سیلر کی تصدیق</string>
     <string name="verification_required">تصدیق ضروری ہے</string>
     <string name="complete_verification">براہ کرم اپنی سیلر تصدیق مکمل کریں۔</string>
@@ -161,9 +187,78 @@
 
     <string name="complaint_detail">سیلر شکایت کی تفصیل</string>
     <string name="seller_id">سیلر آئی ڈی</string>
-    <string name="seller_name">سیلر کا نام</string>
     <string name="complaint_detail_label">شکایت کی تفصیل</string>
     <string name="accept_complaint">شکایت قبول کریں</string>
     <string name="seller_complaints">سیلر کی شکایات</string>
 
+    <string name="terms_section1_title">1. سیلر اکاؤنٹ</string>
+    <string name="terms_section1_desc">سیلر کو سیلر اکاؤنٹ بناتے اور برقرار رکھتے وقت درست، مکمل اور تازہ ترین معلومات فراہم کرنی ہوں گی۔ سیلر اکاؤنٹ کی معلومات محفوظ رکھنے کا ذمہ دار ہے اور غیر مجاز افراد کے ساتھ اکاؤنٹ کی اسناد شیئر نہیں کر سکتا۔</string>
+
+    <string name="terms_section2_title">2. سیلر کی تصدیق</string>
+    <string name="terms_section2_desc">سیلر کی تصدیق کی معلومات، بشمول شناخت اور رابطے کی تفصیلات، حقیقی ہونی چاہئیں۔ غلط، گمراہ کن یا دھوکہ دہی پر مبنی معلومات فراہم کرنے سے اکاؤنٹ مسترد، معطل یا ختم کیا جا سکتا ہے۔</string>
+
+    <string name="terms_section3_title">3. پروڈکٹ لسٹنگ کے قوانین</string>
+    <string name="terms_section3_desc">سیلرز کو درست پروڈکٹ کے نام، تفصیلات، قیمتیں اور دیگر متعلقہ معلومات فراہم کرنی ہوں گی۔ پروڈکٹ لسٹنگ فروخت کے لیے پیش کردہ اصل مصنوعات کی درست عکاسی کرے۔</string>
+
+    <string name="terms_section4_title">4. پروڈکٹ کا معیار اور اصلیت</string>
+    <string name="terms_section4_desc">سیلرز اس بات کو یقینی بنانے کے ذمہ دار ہیں کہ مصنوعات اصلی، محفوظ اور درست طریقے سے بیان کی گئی ہوں۔ جعلی، گمراہ کن، غیر قانونی یا ممنوعہ مصنوعات پلیٹ فارم پر فروخت نہیں کی جا سکتیں۔</string>
+
+    <string name="terms_section5_title">5. آرڈرز اور ڈیلیوری</string>
+    <string name="terms_section5_desc">سیلرز کسٹمر آرڈرز کو درست طریقے سے پروسیس کرنے اور ڈیلیوری کے لیے مصنوعات تیار کرنے کے ذمہ دار ہیں۔ سیلرز کو کوریئر اور ڈیلیوری کے طریقہ کار میں تعاون کرنا ہوگا۔</string>
+
+    <string name="terms_section6_title">6. قیمتیں اور ادائیگیاں</string>
+    <string name="terms_section6_desc">سیلرز کو درست قیمتیں فراہم کرنی ہوں گی اور پلیٹ فارم کی ادائیگی، ڈیلیوری اور کمیشن پالیسیوں پر عمل کرنا ہوگا۔ سیلر کی ادائیگی پلیٹ فارم کی پالیسی کے مطابق کی جائے گی۔</string>
+
+    <string name="terms_section7_title">7. سیلر کی ذمہ داریاں</string>
+    <string name="terms_section7_desc">سیلرز کو کسٹمرز کے ساتھ ایمانداری سے بات چیت کرنی ہوگی، درست پروڈکٹ معلومات برقرار رکھنی ہوگی اور قبول کردہ آرڈرز ذمہ داری سے پورے کرنے ہوں گے۔</string>
+
+    <string name="terms_section8_title">8. ممنوعہ سرگرمیاں</string>
+    <string name="terms_section8_desc">دھوکہ دہی، جعل سازی، گمراہ کن پروڈکٹ معلومات، آرڈرز میں ہیرا پھیری، کسی اور کے اکاؤنٹ کا غیر مجاز استعمال اور ممنوعہ یا غیر قانونی مصنوعات کی فہرست کی اجازت نہیں ہے۔</string>
+
+    <string name="terms_section9_title">9. اکاؤنٹ کی معطلی</string>
+    <string name="terms_section9_desc">ولیج ٹو سٹی سیلر اکاؤنٹ معطل، محدود یا ختم کر سکتا ہے اگر سیلر شرائط و ضوابط کی خلاف ورزی کرے، غلط معلومات فراہم کرے یا پلیٹ فارم کا غلط استعمال کرے۔</string>
+
+    <string name="terms_section10_title">10. رازداری اور ذاتی معلومات</string>
+    <string name="terms_section10_desc">رجسٹریشن اور تصدیق کے دوران فراہم کردہ سیلر کی معلومات اور دستاویزات صرف جائز پلیٹ فارم مقاصد کے لیے استعمال کی جائیں گی۔</string>
+
+    <string name="terms_section11_title">11. شرائط میں تبدیلیاں</string>
+    <string name="terms_section11_desc">یہ شرائط و ضوابط ضرورت کے مطابق اپ ڈیٹ کی جا سکتی ہیں۔ سیلرز تازہ ترین ورژن دیکھنے کے ذمہ دار ہیں۔</string>
+
+    <string name="terms_section12_title">12. شرائط کی قبولیت</string>
+    <string name="terms_section12_desc">ولیج ٹو سٹی سیلر پلیٹ فارم استعمال کر کے آپ تصدیق کرتے ہیں کہ آپ نے یہ شرائط و ضوابط پڑھ لی ہیں اور ان پر عمل کرنے پر رضامند ہیں۔</string>
+
+    <string name="terms_village_to_city">ولیج ٹو سٹی</string>
+    <string name="terms_seller_title">سیلر کی شرائط و ضوابط</string>
+    <string name="terms_footer">ولیج ٹو سٹی کا حصہ بننے کا شکریہ۔</string>
+    <string name="terms_intro">Rural Reach استعمال کرنے سے پہلے براہِ کرم ان شرائط و ضوابط کو غور سے پڑھیں۔</string>
+
+    <string name="product_price_label">قیمت: Rs. %1$s</string>
+    <string name="available_stock_label">دستیاب اسٹاک: %1$s</string>
+    <string name="out_of_stock">اسٹاک ختم</string>
+    <string name="date_unavailable">تاریخ دستیاب نہیں</string>
+    <string name="added_today">آج شامل کیا گیا</string>
+    <string name="added_one_day">1 دن پہلے شامل کیا گیا</string>
+    <string name="added_days">%1$d دن پہلے شامل کیا گیا</string>
+    <string name="added_on">%1$s کو شامل کیا گیا</string>
+
+    <string name="edit_product">پروڈکٹ میں ترمیم کریں</string>
+    <string name="delete_product">پروڈکٹ حذف کریں</string>
+    <string name="delete_product_message">کیا آپ واقعی اس پروڈکٹ کو مستقل طور پر حذف کرنا چاہتے ہیں؟</string>
+    <string name="product_id_not_found">پروڈکٹ آئی ڈی نہیں ملی۔</string>
+    <string name="seller_not_logged_in">سیلر لاگ ان نہیں ہے۔</string>
+    <string name="product_deleted">پروڈکٹ مستقل طور پر حذف کر دی گئی۔</string>
+    <string name="delete_failed">پروڈکٹ حذف نہیں ہو سکی: %1$s</string>
+
+    <string name="easypaisa">ایزی پیسہ</string>
+    <string name="jazzcash">جاز کیش</string>
+    <string name="enter_account_holder_name">اکاؤنٹ ہولڈر کا نام درج کریں</string>
+    <string name="enter_account_or_mobile_number">اکاؤنٹ یا موبائل نمبر درج کریں</string>
+    <string name="enter_bank_name">بینک کا نام درج کریں</string>
+    <string name="select_payment_method">براہ کرم ادائیگی کا طریقہ منتخب کریں۔</string>
+    <string name="saving">محفوظ کیا جا رہا ہے...</string>
+    <string name="payment_account_saved">ادائیگی اکاؤنٹ کامیابی سے محفوظ ہو گیا۔</string>
+    <string name="update_payment_account">ادائیگی اکاؤنٹ اپ ڈیٹ کریں</string>
+    <string name="failed_to_load_payment_account">ادائیگی اکاؤنٹ لوڈ نہیں ہو سکا: %1$s</string>
+    <string name="failed_to_save_account">اکاؤنٹ محفوظ نہیں ہو سکا: %1$s</string>
+    <string name="failed_read_order">آرڈر پڑھا نہیں جا سکا:</string>
 </resources>
