@@ -130,6 +130,42 @@ public class SellerPaymentAccountFragment extends Fragment {
                 view.findViewById(R.id.btnSavePaymentAccount);
 
         // =====================================================
+        // URDU / ENGLISH TEXT
+        // =====================================================
+
+        txtPaymentAccountTitle.setText(
+                R.string.payment_account
+        );
+
+        radioBank.setText(
+                R.string.bank_account
+        );
+
+        radioEasypaisa.setText(
+                R.string.easypaisa
+        );
+
+        radioJazzCash.setText(
+                R.string.jazzcash
+        );
+
+        txtBankNameLabel.setText(
+                R.string.bank_name
+        );
+
+        edtAccountName.setHint(
+                R.string.enter_account_holder_name
+        );
+
+        edtAccountNumber.setHint(
+                R.string.enter_account_or_mobile_number
+        );
+
+        btnSavePaymentAccount.setText(
+                R.string.save_payment_account
+        );
+
+        // =====================================================
         // PAYMENT METHOD CHANGE
         // =====================================================
 
@@ -138,13 +174,24 @@ public class SellerPaymentAccountFragment extends Fragment {
 
                     if (checkedId == R.id.radioBank) {
 
-                        txtBankNameLabel.setVisibility(View.VISIBLE);
-                        edtBankName.setVisibility(View.VISIBLE);
+                        txtBankNameLabel.setVisibility(
+                                View.VISIBLE
+                        );
+
+                        edtBankName.setVisibility(
+                                View.VISIBLE
+                        );
 
                     } else {
 
-                        txtBankNameLabel.setVisibility(View.GONE);
-                        edtBankName.setVisibility(View.GONE);
+                        txtBankNameLabel.setVisibility(
+                                View.GONE
+                        );
+
+                        edtBankName.setVisibility(
+                                View.GONE
+                        );
+
                         edtBankName.setText("");
                     }
                 }
@@ -180,7 +227,7 @@ public class SellerPaymentAccountFragment extends Fragment {
 
             Toast.makeText(
                     requireContext(),
-                    "Seller is not logged in.",
+                    R.string.seller_not_logged_in,
                     Toast.LENGTH_SHORT
             ).show();
 
@@ -225,16 +272,24 @@ public class SellerPaymentAccountFragment extends Fragment {
                     // =================================================
 
                     String method =
-                            documentSnapshot.getString("paymentMethod");
+                            documentSnapshot.getString(
+                                    "paymentMethod"
+                            );
 
                     String accountName =
-                            documentSnapshot.getString("accountName");
+                            documentSnapshot.getString(
+                                    "accountName"
+                            );
 
                     String accountNumber =
-                            documentSnapshot.getString("accountNumber");
+                            documentSnapshot.getString(
+                                    "accountNumber"
+                            );
 
                     String bankName =
-                            documentSnapshot.getString("bankName");
+                            documentSnapshot.getString(
+                                    "bankName"
+                            );
 
                     // =================================================
                     // ACCOUNT NAME
@@ -315,8 +370,10 @@ public class SellerPaymentAccountFragment extends Fragment {
 
                     Toast.makeText(
                             requireContext(),
-                            "Failed to load payment account: "
-                                    + e.getMessage(),
+                            getString(
+                                    R.string.failed_to_load_payment_account,
+                                    e.getMessage()
+                            ),
                             Toast.LENGTH_LONG
                     ).show();
                 });
@@ -335,7 +392,7 @@ public class SellerPaymentAccountFragment extends Fragment {
 
             Toast.makeText(
                     requireContext(),
-                    "Seller is not logged in.",
+                    R.string.seller_not_logged_in,
                     Toast.LENGTH_SHORT
             ).show();
 
@@ -374,7 +431,7 @@ public class SellerPaymentAccountFragment extends Fragment {
 
             Toast.makeText(
                     requireContext(),
-                    "Please select a payment method.",
+                    R.string.select_payment_method,
                     Toast.LENGTH_SHORT
             ).show();
 
@@ -400,7 +457,9 @@ public class SellerPaymentAccountFragment extends Fragment {
         if (TextUtils.isEmpty(accountName)) {
 
             edtAccountName.setError(
-                    "Enter account holder name"
+                    getString(
+                            R.string.enter_account_holder_name
+                    )
             );
 
             edtAccountName.requestFocus();
@@ -411,7 +470,9 @@ public class SellerPaymentAccountFragment extends Fragment {
         if (TextUtils.isEmpty(accountNumber)) {
 
             edtAccountNumber.setError(
-                    "Enter account or mobile number"
+                    getString(
+                            R.string.enter_account_or_mobile_number
+                    )
             );
 
             edtAccountNumber.requestFocus();
@@ -423,7 +484,9 @@ public class SellerPaymentAccountFragment extends Fragment {
                 TextUtils.isEmpty(bankName)) {
 
             edtBankName.setError(
-                    "Enter bank name"
+                    getString(
+                            R.string.enter_bank_name
+                    )
             );
 
             edtBankName.requestFocus();
@@ -438,7 +501,7 @@ public class SellerPaymentAccountFragment extends Fragment {
         btnSavePaymentAccount.setEnabled(false);
 
         btnSavePaymentAccount.setText(
-                "Saving..."
+                R.string.saving
         );
 
         // =====================================================
@@ -475,7 +538,8 @@ public class SellerPaymentAccountFragment extends Fragment {
 
         paymentData.put(
                 "updatedAt",
-                com.google.firebase.firestore.FieldValue.serverTimestamp()
+                com.google.firebase.firestore.FieldValue
+                        .serverTimestamp()
         );
 
         // =====================================================
@@ -498,7 +562,7 @@ public class SellerPaymentAccountFragment extends Fragment {
 
                     Toast.makeText(
                             requireContext(),
-                            "Payment account saved successfully.",
+                            R.string.payment_account_saved,
                             Toast.LENGTH_SHORT
                     ).show();
 
@@ -507,7 +571,7 @@ public class SellerPaymentAccountFragment extends Fragment {
                     );
 
                     btnSavePaymentAccount.setText(
-                            "Update Payment Account"
+                            R.string.update_payment_account
                     );
 
                     // =================================================
@@ -530,13 +594,15 @@ public class SellerPaymentAccountFragment extends Fragment {
                     );
 
                     btnSavePaymentAccount.setText(
-                            "Save Payment Account"
+                            R.string.save_payment_account
                     );
 
                     Toast.makeText(
                             requireContext(),
-                            "Failed to save account: "
-                                    + e.getMessage(),
+                            getString(
+                                    R.string.failed_to_save_account,
+                                    e.getMessage()
+                            ),
                             Toast.LENGTH_LONG
                     ).show();
                 });

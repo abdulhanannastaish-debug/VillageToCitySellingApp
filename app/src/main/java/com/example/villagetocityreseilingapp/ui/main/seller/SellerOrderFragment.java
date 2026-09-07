@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,22 +34,10 @@ import java.util.Locale;
 
 public class SellerOrderFragment extends Fragment {
 
-    // =========================================================
-    // FIREBASE
-    // =========================================================
-
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
-    // =========================================================
-    // REALTIME LISTENER
-    // =========================================================
-
     private ListenerRegistration ordersListener;
-
-    // =========================================================
-    // VIEWS
-    // =========================================================
 
     private ViewGroup orderContentContainer;
 
@@ -59,23 +46,11 @@ public class SellerOrderFragment extends Fragment {
     private TextView tabDelivered;
     private TextView tabCancelled;
 
-    // =========================================================
-    // CURRENT FILTER
-    // =========================================================
-
     private String currentFilter = "all";
-
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
 
     public SellerOrderFragment() {
         // Required empty public constructor
     }
-
-    // =========================================================
-    // CREATE VIEW
-    // =========================================================
 
     @Override
     public View onCreateView(
@@ -90,126 +65,64 @@ public class SellerOrderFragment extends Fragment {
         );
     }
 
-    // =========================================================
-    // VIEW CREATED
-    // =========================================================
-
     @Override
     public void onViewCreated(
             @NonNull View view,
             @Nullable Bundle savedInstanceState) {
 
-        super.onViewCreated(
-                view,
-                savedInstanceState
-        );
-
-        // =====================================================
-        // FIREBASE
-        // =====================================================
+        super.onViewCreated(view, savedInstanceState);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        // =====================================================
-        // FIND VIEWS
-        // =====================================================
-
         orderContentContainer =
-                view.findViewById(
-                        R.id.orderContentContainer
-                );
+                view.findViewById(R.id.orderContentContainer);
 
         tabAll =
-                view.findViewById(
-                        R.id.tabAll
-                );
+                view.findViewById(R.id.tabAll);
 
         tabActive =
-                view.findViewById(
-                        R.id.tabActive
-                );
+                view.findViewById(R.id.tabActive);
 
         tabDelivered =
-                view.findViewById(
-                        R.id.tabDelivered
-                );
+                view.findViewById(R.id.tabDelivered);
 
         tabCancelled =
-                view.findViewById(
-                        R.id.tabCancelled
-                );
-
-        // =====================================================
-        // ALL
-        // =====================================================
+                view.findViewById(R.id.tabCancelled);
 
         if (tabAll != null) {
-
             tabAll.setOnClickListener(v -> {
-
                 currentFilter = "all";
-
                 updateTabColors();
-
                 startOrdersListener();
             });
         }
-
-        // =====================================================
-        // ACTIVE
-        // =====================================================
 
         if (tabActive != null) {
-
             tabActive.setOnClickListener(v -> {
-
                 currentFilter = "active";
-
                 updateTabColors();
-
                 startOrdersListener();
             });
         }
-
-        // =====================================================
-        // DELIVERED
-        // =====================================================
 
         if (tabDelivered != null) {
-
             tabDelivered.setOnClickListener(v -> {
-
                 currentFilter = "delivered";
-
                 updateTabColors();
-
                 startOrdersListener();
             });
         }
-
-        // =====================================================
-        // CANCELLED
-        // =====================================================
 
         if (tabCancelled != null) {
-
             tabCancelled.setOnClickListener(v -> {
-
                 currentFilter = "cancelled";
-
                 updateTabColors();
-
                 startOrdersListener();
             });
         }
 
-        // =====================================================
-        // INITIAL
-        // =====================================================
-
         updateTabColors();
-
         startOrdersListener();
     }
 
@@ -223,21 +136,11 @@ public class SellerOrderFragment extends Fragment {
                 tabActive == null ||
                 tabDelivered == null ||
                 tabCancelled == null) {
-
             return;
         }
 
-        int gray = Color.rgb(
-                100,
-                100,
-                100
-        );
-
-        int green = Color.rgb(
-                46,
-                125,
-                50
-        );
+        int gray = Color.rgb(100, 100, 100);
+        int green = Color.rgb(46, 125, 50);
 
         tabAll.setTextColor(gray);
         tabActive.setTextColor(gray);
@@ -245,31 +148,21 @@ public class SellerOrderFragment extends Fragment {
         tabCancelled.setTextColor(gray);
 
         if (currentFilter.equals("all")) {
-
             tabAll.setTextColor(green);
 
         } else if (currentFilter.equals("active")) {
-
             tabActive.setTextColor(green);
 
         } else if (currentFilter.equals("delivered")) {
-
             tabDelivered.setTextColor(green);
 
         } else if (currentFilter.equals("cancelled")) {
-
             tabCancelled.setTextColor(green);
         }
     }
 
     // =========================================================
-    // START REALTIME ORDERS LISTENER
-    //
-    // Buyer agar order cancel kare:
-    //
-    // status = cancelled
-    //
-    // Yeh listener Firestore change ko automatically receive karega.
+    // START LISTENER
     // =========================================================
 
     private void startOrdersListener() {
@@ -278,13 +171,8 @@ public class SellerOrderFragment extends Fragment {
                 db == null ||
                 auth == null ||
                 orderContentContainer == null) {
-
             return;
         }
-
-        // =====================================================
-        // REMOVE OLD LISTENER
-        // =====================================================
 
         removeOrdersListener();
 
@@ -303,24 +191,11 @@ public class SellerOrderFragment extends Fragment {
         String sellerId =
                 currentUser.getUid();
 
-        // =====================================================
-        // CLEAR OLD CARDS
-        // =====================================================
-
         orderContentContainer.removeAllViews();
-
-        // =====================================================
-        // REALTIME QUERY
-        //
-        // sellerId ke orders realtime monitor honge.
-        // =====================================================
 
         ordersListener =
                 db.collection("orders")
-                        .whereEqualTo(
-                                "sellerId",
-                                sellerId
-                        )
+                        .whereEqualTo("sellerId", sellerId)
                         .addSnapshotListener(
                                 (snapshots, error) -> {
 
@@ -333,12 +208,13 @@ public class SellerOrderFragment extends Fragment {
                                         orderContentContainer
                                                 .removeAllViews();
 
-                                        Toast.makeText(
-                                                requireContext(),
-                                                "Failed to load orders: "
-                                                        + error.getMessage(),
-                                                Toast.LENGTH_LONG
-                                        ).show();
+                                        showToast(
+                                                getString(
+                                                        R.string.failed_load_orders
+                                                )
+                                                        + " "
+                                                        + error.getMessage()
+                                        );
 
                                         showNoOrdersMessage();
 
@@ -352,18 +228,10 @@ public class SellerOrderFragment extends Fragment {
                                         return;
                                     }
 
-                                    // =================================
-                                    // GET ALL DOCUMENTS
-                                    // =================================
-
                                     List<DocumentSnapshot> documents =
                                             new ArrayList<>(
                                                     snapshots.getDocuments()
                                             );
-
-                                    // =================================
-                                    // SORT
-                                    // =================================
 
                                     documents.sort(
                                             (a, b) ->
@@ -373,19 +241,13 @@ public class SellerOrderFragment extends Fragment {
                                                     )
                                     );
 
-                                    // =================================
-                                    // DISPLAY
-                                    // =================================
-
-                                    displayOrders(
-                                            documents
-                                    );
+                                    displayOrders(documents);
                                 }
                         );
     }
 
     // =========================================================
-    // REMOVE REALTIME LISTENER
+    // REMOVE LISTENER
     // =========================================================
 
     private void removeOrdersListener() {
@@ -407,7 +269,6 @@ public class SellerOrderFragment extends Fragment {
 
         if (!isAdded() ||
                 orderContentContainer == null) {
-
             return;
         }
 
@@ -423,15 +284,10 @@ public class SellerOrderFragment extends Fragment {
 
         boolean foundOrder = false;
 
-        // =====================================================
-        // LOOP ALL ORDERS
-        // =====================================================
-
         for (DocumentSnapshot document : documents) {
 
             if (document == null ||
                     !document.exists()) {
-
                 continue;
             }
 
@@ -444,14 +300,8 @@ public class SellerOrderFragment extends Fragment {
 
             status =
                     status
-                            .toLowerCase(
-                                    Locale.getDefault()
-                            )
+                            .toLowerCase(Locale.getDefault())
                             .trim();
-
-            // =================================================
-            // FILTER
-            // =================================================
 
             if (!matchesFilter(status)) {
                 continue;
@@ -459,23 +309,16 @@ public class SellerOrderFragment extends Fragment {
 
             foundOrder = true;
 
-            addOrderCard(
-                    document
-            );
+            addOrderCard(document);
         }
 
-        // =====================================================
-        // NO MATCHING ORDERS
-        // =====================================================
-
         if (!foundOrder) {
-
             showNoOrdersMessage();
         }
     }
 
     // =========================================================
-    // GET ORDER DATE VALUE
+    // DATE VALUE
     // =========================================================
 
     private long getOrderDateValue(
@@ -490,8 +333,7 @@ public class SellerOrderFragment extends Fragment {
 
         if (value instanceof Number) {
 
-            return ((Number) value)
-                    .longValue();
+            return ((Number) value).longValue();
         }
 
         if (value instanceof Timestamp) {
@@ -506,17 +348,12 @@ public class SellerOrderFragment extends Fragment {
             try {
 
                 return Long.parseLong(
-                        String.valueOf(value)
-                                .trim()
+                        String.valueOf(value).trim()
                 );
 
             } catch (Exception ignored) {
             }
         }
-
-        // =====================================================
-        // FALLBACK CREATED AT
-        // =====================================================
 
         Object createdAt =
                 document.get("createdAt");
@@ -530,8 +367,7 @@ public class SellerOrderFragment extends Fragment {
 
         if (createdAt instanceof Number) {
 
-            return ((Number) createdAt)
-                    .longValue();
+            return ((Number) createdAt).longValue();
         }
 
         return 0L;
@@ -541,8 +377,7 @@ public class SellerOrderFragment extends Fragment {
     // FILTER
     // =========================================================
 
-    private boolean matchesFilter(
-            String status) {
+    private boolean matchesFilter(String status) {
 
         if (status == null ||
                 status.trim().isEmpty()) {
@@ -552,26 +387,14 @@ public class SellerOrderFragment extends Fragment {
 
         status =
                 status
-                        .toLowerCase(
-                                Locale.getDefault()
-                        )
+                        .toLowerCase(Locale.getDefault())
                         .trim();
-
-        // =====================================================
-        // ALL
-        //
-        // Pending/new orders
-        // =====================================================
 
         if (currentFilter.equals("all")) {
 
             return status.equals("new")
                     || status.equals("pending");
         }
-
-        // =====================================================
-        // ACTIVE
-        // =====================================================
 
         if (currentFilter.equals("active")) {
 
@@ -580,24 +403,11 @@ public class SellerOrderFragment extends Fragment {
                     || status.equals("shipped");
         }
 
-        // =====================================================
-        // DELIVERED
-        // =====================================================
-
         if (currentFilter.equals("delivered")) {
 
             return status.equals("delivered")
                     || status.equals("completed");
         }
-
-        // =====================================================
-        // CANCELLED
-        //
-        // Buyer cancel kare ya seller cancel kare:
-        // status = cancelled
-        //
-        // Is wajah se yahan automatically show hoga.
-        // =====================================================
 
         if (currentFilter.equals("cancelled")) {
 
@@ -610,7 +420,7 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
-    // ADD ORDER CARD
+    // ORDER CARD
     // =========================================================
 
     private void addOrderCard(
@@ -621,74 +431,51 @@ public class SellerOrderFragment extends Fragment {
         }
 
         View orderView =
-                LayoutInflater.from(
-                        requireContext()
-                ).inflate(
-                        R.layout.fragment_seller_order_card,
-                        orderContentContainer,
-                        false
-                );
-
-        // =====================================================
-        // FIND VIEWS
-        // =====================================================
+                LayoutInflater.from(requireContext())
+                        .inflate(
+                                R.layout.fragment_seller_order_card,
+                                orderContentContainer,
+                                false
+                        );
 
         TextView txtOrderId =
-                orderView.findViewById(
-                        R.id.txtOrderId
-                );
+                orderView.findViewById(R.id.txtOrderId);
 
         TextView txtOrderDate =
-                orderView.findViewById(
-                        R.id.txtOrderDate
-                );
+                orderView.findViewById(R.id.txtOrderDate);
 
         TextView txtOrderStatus =
-                orderView.findViewById(
-                        R.id.txtOrderStatus
-                );
+                orderView.findViewById(R.id.txtOrderStatus);
 
         TextView txtProductName =
-                orderView.findViewById(
-                        R.id.txtProductName
-                );
+                orderView.findViewById(R.id.txtProductName);
 
         TextView txtQuantity =
-                orderView.findViewById(
-                        R.id.txtQuantity
-                );
+                orderView.findViewById(R.id.txtQuantity);
 
         TextView txtPrice =
-                orderView.findViewById(
-                        R.id.txtPrice
-                );
+                orderView.findViewById(R.id.txtPrice);
 
         View btnOrderDetails =
-                orderView.findViewById(
-                        R.id.btnOrderDetails
-                );
+                orderView.findViewById(R.id.btnOrderDetails);
 
         View btnOrderStatus =
-                orderView.findViewById(
-                        R.id.btnOrderStatus
-                );
+                orderView.findViewById(R.id.btnOrderStatus);
 
         // =====================================================
         // ORDER ID
         // =====================================================
 
-        String firestoreOrderId =
+        String orderId =
                 getSafeString(
                         document,
                         "orderId",
                         ""
                 );
 
-        if (firestoreOrderId
-                .trim()
-                .isEmpty()) {
+        if (orderId.trim().isEmpty()) {
 
-            firestoreOrderId =
+            orderId =
                     getSafeString(
                             document,
                             "id",
@@ -697,11 +484,19 @@ public class SellerOrderFragment extends Fragment {
         }
 
         final String finalOrderId =
-                firestoreOrderId
-                        .trim()
-                        .isEmpty()
+                orderId.trim().isEmpty()
                         ? document.getId()
-                        : firestoreOrderId;
+                        : orderId;
+
+        if (txtOrderId != null) {
+
+            txtOrderId.setText(
+                    getString(
+                            R.string.order_label,
+                            finalOrderId
+                    )
+            );
+        }
 
         // =====================================================
         // DATE
@@ -710,28 +505,24 @@ public class SellerOrderFragment extends Fragment {
         if (txtOrderDate != null) {
 
             txtOrderDate.setText(
-                    getReadableOrderDate(
-                            document
-                    )
+                    getReadableOrderDate(document)
             );
         }
 
         // =====================================================
-        // PRODUCT NAME
+        // PRODUCT
         // =====================================================
 
         String productName =
                 getSafeString(
                         document,
                         "productName",
-                        "Product"
+                        getString(R.string.product)
                 );
 
         if (txtProductName != null) {
 
-            txtProductName.setText(
-                    productName
-            );
+            txtProductName.setText(productName);
         }
 
         // =====================================================
@@ -748,12 +539,15 @@ public class SellerOrderFragment extends Fragment {
         if (txtQuantity != null) {
 
             txtQuantity.setText(
-                    "Quantity: " + quantity
+                    getString(
+                            R.string.quantity_label,
+                            quantity
+                    )
             );
         }
 
         // =====================================================
-        // AMOUNT
+        // PRICE
         // =====================================================
 
         String amount =
@@ -763,9 +557,7 @@ public class SellerOrderFragment extends Fragment {
                         ""
                 );
 
-        if (amount
-                .trim()
-                .isEmpty()) {
+        if (amount.trim().isEmpty()) {
 
             amount =
                     getNumberOrString(
@@ -778,7 +570,10 @@ public class SellerOrderFragment extends Fragment {
         if (txtPrice != null) {
 
             txtPrice.setText(
-                    "Rs. " + amount
+                    getString(
+                            R.string.price_label,
+                            amount
+                    )
             );
         }
 
@@ -795,24 +590,13 @@ public class SellerOrderFragment extends Fragment {
 
         final String finalStatus =
                 firestoreStatus
-                        .toLowerCase(
-                                Locale.getDefault()
-                        )
+                        .toLowerCase(Locale.getDefault())
                         .trim();
-
-        if (txtOrderId != null) {
-
-            txtOrderId.setText(
-                    "Order #" + finalOrderId
-            );
-        }
 
         if (txtOrderStatus != null) {
 
             txtOrderStatus.setText(
-                    formatStatus(
-                            finalStatus
-                    )
+                    formatStatus(finalStatus)
             );
 
             setStatusTextColor(
@@ -822,14 +606,12 @@ public class SellerOrderFragment extends Fragment {
         }
 
         // =====================================================
-        // ORDER DETAILS
+        // DETAILS
         // =====================================================
 
         if (btnOrderDetails != null) {
 
-            btnOrderDetails.setVisibility(
-                    View.VISIBLE
-            );
+            btnOrderDetails.setVisibility(View.VISIBLE);
 
             btnOrderDetails.setOnClickListener(
                     v -> openOrderDetails(
@@ -839,10 +621,7 @@ public class SellerOrderFragment extends Fragment {
         }
 
         // =====================================================
-        // PENDING / NEW
-        //
-        // Buyer ne abhi cancel nahi kiya.
-        // Seller accept kar sakta hai.
+        // PENDING
         // =====================================================
 
         if (finalStatus.equals("new")
@@ -852,7 +631,7 @@ public class SellerOrderFragment extends Fragment {
 
                 setStatusButton(
                         btnOrderStatus,
-                        "Accept Order"
+                        getString(R.string.accept_order)
                 );
 
                 btnOrderStatus.setOnClickListener(
@@ -861,10 +640,6 @@ public class SellerOrderFragment extends Fragment {
                         )
                 );
             }
-
-            // =================================================
-            // SELLER CANCEL BUTTON
-            // =================================================
 
             addCancelButton(
                     orderView,
@@ -880,7 +655,7 @@ public class SellerOrderFragment extends Fragment {
 
             setStatusButton(
                     btnOrderStatus,
-                    "Mark as Shipped"
+                    getString(R.string.mark_as_shipped)
             );
 
             if (btnOrderStatus != null) {
@@ -902,7 +677,7 @@ public class SellerOrderFragment extends Fragment {
 
             setStatusButton(
                     btnOrderStatus,
-                    "Mark as Shipped"
+                    getString(R.string.mark_as_shipped)
             );
 
             if (btnOrderStatus != null) {
@@ -924,7 +699,7 @@ public class SellerOrderFragment extends Fragment {
 
             setStatusButton(
                     btnOrderStatus,
-                    "Mark as Delivered"
+                    getString(R.string.mark_as_delivered)
             );
 
             if (btnOrderStatus != null) {
@@ -949,33 +724,21 @@ public class SellerOrderFragment extends Fragment {
 
             setStatusButton(
                     btnOrderStatus,
-                    "Delivered"
+                    getString(R.string.delivered)
             );
 
             if (btnOrderStatus != null) {
 
                 btnOrderStatus.setOnClickListener(
-                        v -> {
-
-                            if (isAdded()) {
-
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Order Delivered",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            }
-                        }
+                        v -> showToast(
+                                getString(R.string.order_delivered)
+                        )
                 );
             }
         }
 
         // =====================================================
         // CANCELLED
-        //
-        // IMPORTANT:
-        //
-        // Buyer cancel karega to yahan ye block chalega.
         // =====================================================
 
         else if (
@@ -986,43 +749,29 @@ public class SellerOrderFragment extends Fragment {
 
             setStatusButton(
                     btnOrderStatus,
-                    "Cancelled"
+                    getString(R.string.cancelled)
             );
 
             if (btnOrderStatus != null) {
 
                 btnOrderStatus.setOnClickListener(
-                        v -> {
-
-                            if (isAdded()) {
-
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Order Cancelled",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            }
-                        }
+                        v -> showToast(
+                                getString(R.string.order_cancelled)
+                        )
                 );
             }
         }
-
-        // =====================================================
-        // OTHER
-        // =====================================================
 
         else {
 
             setStatusButton(
                     btnOrderStatus,
-                    formatStatus(
-                            finalStatus
-                    )
+                    formatStatus(finalStatus)
             );
         }
 
         // =====================================================
-        // CARD SPACING
+        // SPACING
         // =====================================================
 
         ViewGroup.LayoutParams existingParams =
@@ -1048,22 +797,14 @@ public class SellerOrderFragment extends Fragment {
                     16
             );
 
-            orderView.setLayoutParams(
-                    params
-            );
+            orderView.setLayoutParams(params);
         }
 
-        // =====================================================
-        // ADD CARD
-        // =====================================================
-
-        orderContentContainer.addView(
-                orderView
-        );
+        orderContentContainer.addView(orderView);
     }
 
     // =========================================================
-    // ACCEPT ORDER + NOTIFY BUYER
+    // ACCEPT ORDER
     // =========================================================
 
     private void acceptOrderAndNotifyBuyer(
@@ -1085,11 +826,11 @@ public class SellerOrderFragment extends Fragment {
 
                             if (!documentSnapshot.exists()) {
 
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Order not found.",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                                showToast(
+                                        getString(
+                                                R.string.order_not_found
+                                        )
+                                );
 
                                 return;
                             }
@@ -1105,24 +846,15 @@ public class SellerOrderFragment extends Fragment {
                                             )
                                             .trim();
 
-                            // =================================================
-                            // IMPORTANT:
-                            //
-                            // Agar buyer ne seller ke accept karne se pehle
-                            // order cancel kar diya hai to seller accept
-                            // NAHI kar sakta.
-                            // =================================================
-
                             if (!currentStatus.equals("pending")
                                     && !currentStatus.equals("new")) {
 
-                                Toast.makeText(
-                                        requireContext(),
-                                        "This order is already "
-                                                + formatStatus(currentStatus)
-                                                + ".",
-                                        Toast.LENGTH_LONG
-                                ).show();
+                                showToast(
+                                        getString(
+                                                R.string.order_already_status,
+                                                formatStatus(currentStatus)
+                                        )
+                                );
 
                                 return;
                             }
@@ -1133,10 +865,6 @@ public class SellerOrderFragment extends Fragment {
                                             "buyerId",
                                             ""
                                     );
-
-                            // =================================================
-                            // UPDATE STATUS
-                            // =================================================
 
                             db.collection("orders")
                                     .document(orderId)
@@ -1153,10 +881,6 @@ public class SellerOrderFragment extends Fragment {
                                                     return;
                                                 }
 
-                                                // =================================
-                                                // BUYER NOTIFICATION
-                                                // =================================
-
                                                 if (!buyerId
                                                         .trim()
                                                         .isEmpty()) {
@@ -1168,16 +892,11 @@ public class SellerOrderFragment extends Fragment {
                                                             );
                                                 }
 
-                                                Toast.makeText(
-                                                        requireContext(),
-                                                        "Order accepted successfully.",
-                                                        Toast.LENGTH_SHORT
-                                                ).show();
-
-                                                // =================================
-                                                // REALTIME LISTENER
-                                                // khud screen update karega.
-                                                // =================================
+                                                showToast(
+                                                        getString(
+                                                                R.string.order_accepted_successfully
+                                                        )
+                                                );
                                             }
                                     )
                                     .addOnFailureListener(
@@ -1187,12 +906,13 @@ public class SellerOrderFragment extends Fragment {
                                                     return;
                                                 }
 
-                                                Toast.makeText(
-                                                        requireContext(),
-                                                        "Failed to accept order: "
-                                                                + e.getMessage(),
-                                                        Toast.LENGTH_LONG
-                                                ).show();
+                                                showToast(
+                                                        getString(
+                                                                R.string.failed_accept_order
+                                                        )
+                                                                + " "
+                                                                + e.getMessage()
+                                                );
                                             }
                                     );
                         }
@@ -1204,18 +924,19 @@ public class SellerOrderFragment extends Fragment {
                                 return;
                             }
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Failed to read order: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            showToast(
+                                    getString(
+                                            R.string.failed_read_order
+                                    )
+                                            + " "
+                                            + e.getMessage()
+                            );
                         }
                 );
     }
 
     // =========================================================
-    // UPDATE ORDER STATUS
+    // UPDATE STATUS
     // =========================================================
 
     private void updateOrderStatus(
@@ -1241,18 +962,12 @@ public class SellerOrderFragment extends Fragment {
                                 return;
                             }
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Order status updated to "
-                                            + formatStatus(
-                                            newStatus
-                                    ),
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                            // =================================================
-                            // REALTIME LISTENER AUTOMATICALLY REFRESH KAREGA
-                            // =================================================
+                            showToast(
+                                    getString(
+                                            R.string.status_updated,
+                                            formatStatus(newStatus)
+                                    )
+                            );
                         }
                 )
                 .addOnFailureListener(
@@ -1262,12 +977,13 @@ public class SellerOrderFragment extends Fragment {
                                 return;
                             }
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Failed to update order: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            showToast(
+                                    getString(
+                                            R.string.failed_update_order
+                                    )
+                                            + " "
+                                            + e.getMessage()
+                            );
                         }
                 );
     }
@@ -1308,18 +1024,14 @@ public class SellerOrderFragment extends Fragment {
                                             )
                                             .trim();
 
-                            // =================================================
-                            // CANCEL SIRF PENDING ORDER KO
-                            // =================================================
-
                             if (!currentStatus.equals("pending")
                                     && !currentStatus.equals("new")) {
 
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Order cannot be cancelled now.",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                                showToast(
+                                        getString(
+                                                R.string.order_cannot_cancel
+                                        )
+                                );
 
                                 return;
                             }
@@ -1339,18 +1051,11 @@ public class SellerOrderFragment extends Fragment {
                                                     return;
                                                 }
 
-                                                Toast.makeText(
-                                                        requireContext(),
-                                                        "Order cancelled successfully.",
-                                                        Toast.LENGTH_SHORT
-                                                ).show();
-
-                                                // =================================================
-                                                // REALTIME LISTENER:
-                                                //
-                                                // pending card automatically disappear
-                                                // aur Cancelled tab mein show ho jayega.
-                                                // =================================================
+                                                showToast(
+                                                        getString(
+                                                                R.string.order_cancelled_successfully
+                                                        )
+                                                );
                                             }
                                     )
                                     .addOnFailureListener(
@@ -1360,12 +1065,13 @@ public class SellerOrderFragment extends Fragment {
                                                     return;
                                                 }
 
-                                                Toast.makeText(
-                                                        requireContext(),
-                                                        "Failed to cancel order: "
-                                                                + e.getMessage(),
-                                                        Toast.LENGTH_LONG
-                                                ).show();
+                                                showToast(
+                                                        getString(
+                                                                R.string.failed_cancel_order
+                                                        )
+                                                                + " "
+                                                                + e.getMessage()
+                                                );
                                             }
                                     );
                         }
@@ -1377,18 +1083,19 @@ public class SellerOrderFragment extends Fragment {
                                 return;
                             }
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Failed to check order: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            showToast(
+                                    getString(
+                                            R.string.failed_check_order
+                                    )
+                                            + " "
+                                            + e.getMessage()
+                            );
                         }
                 );
     }
 
     // =========================================================
-    // ADD CANCEL BUTTON
+    // CANCEL BUTTON
     // =========================================================
 
     private void addCancelButton(
@@ -1397,46 +1104,29 @@ public class SellerOrderFragment extends Fragment {
 
         if (!isAdded() ||
                 orderView == null) {
-
             return;
         }
 
         LinearLayout targetLayout =
-                findFirstLinearLayout(
-                        orderView
-                );
+                findFirstLinearLayout(orderView);
 
         if (targetLayout == null) {
             return;
         }
 
-        // =====================================================
-        // CANCEL BUTTON
-        // =====================================================
-
         TextView cancelButton =
-                new TextView(
-                        requireContext()
-                );
+                new TextView(requireContext());
 
         cancelButton.setText(
-                "Cancel Order"
+                getString(R.string.cancel_order)
         );
 
-        cancelButton.setTextSize(
-                13
-        );
+        cancelButton.setTextSize(13);
 
-        cancelButton.setGravity(
-                Gravity.CENTER
-        );
+        cancelButton.setGravity(Gravity.CENTER);
 
         cancelButton.setTextColor(
-                Color.rgb(
-                        198,
-                        40,
-                        40
-                )
+                Color.rgb(198, 40, 40)
         );
 
         cancelButton.setTypeface(
@@ -1444,37 +1134,21 @@ public class SellerOrderFragment extends Fragment {
                 Typeface.BOLD
         );
 
-        // =====================================================
-        // BACKGROUND
-        // =====================================================
-
         GradientDrawable background =
                 new GradientDrawable();
 
         background.setColor(
-                Color.rgb(
-                        255,
-                        235,
-                        235
-                )
+                Color.rgb(255, 235, 235)
         );
 
-        background.setCornerRadius(
-                12
-        );
+        background.setCornerRadius(12);
 
         background.setStroke(
                 1,
-                Color.rgb(
-                        229,
-                        57,
-                        53
-                )
+                Color.rgb(229, 57, 53)
         );
 
-        cancelButton.setBackground(
-                background
-        );
+        cancelButton.setBackground(background);
 
         cancelButton.setPadding(
                 10,
@@ -1482,10 +1156,6 @@ public class SellerOrderFragment extends Fragment {
                 10,
                 8
         );
-
-        // =====================================================
-        // SIZE
-        // =====================================================
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
@@ -1500,38 +1170,23 @@ public class SellerOrderFragment extends Fragment {
                 12
         );
 
-        cancelButton.setLayoutParams(
-                params
-        );
-
-        // =====================================================
-        // CLICK
-        // =====================================================
+        cancelButton.setLayoutParams(params);
 
         cancelButton.setOnClickListener(
-                v -> cancelOrder(
-                        orderId
-                )
+                v -> cancelOrder(orderId)
         );
 
-        // =====================================================
-        // ADD
-        // =====================================================
-
-        targetLayout.addView(
-                cancelButton
-        );
+        targetLayout.addView(cancelButton);
     }
 
     // =========================================================
-    // FIND FIRST LINEAR LAYOUT
+    // FIND LINEAR LAYOUT
     // =========================================================
 
     private LinearLayout findFirstLinearLayout(
             View view) {
 
         if (view instanceof LinearLayout) {
-
             return (LinearLayout) view;
         }
 
@@ -1548,12 +1203,9 @@ public class SellerOrderFragment extends Fragment {
                         group.getChildAt(i);
 
                 LinearLayout result =
-                        findFirstLinearLayout(
-                                child
-                        );
+                        findFirstLinearLayout(child);
 
                 if (result != null) {
-
                     return result;
                 }
             }
@@ -1563,7 +1215,7 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
-    // OPEN ORDER DETAILS
+    // ORDER DETAILS
     // =========================================================
 
     private void openOrderDetails(
@@ -1591,7 +1243,7 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
-    // STATUS TEXT COLOR
+    // STATUS COLOR
     // =========================================================
 
     private void setStatusTextColor(
@@ -1608,32 +1260,20 @@ public class SellerOrderFragment extends Fragment {
 
         status =
                 status
-                        .toLowerCase(
-                                Locale.getDefault()
-                        )
+                        .toLowerCase(Locale.getDefault())
                         .trim();
 
         if (status.equals("accepted")
                 || status.equals("processing")) {
 
             statusView.setTextColor(
-                    Color.rgb(
-                            46,
-                            125,
-                            50
-                    )
+                    Color.rgb(46, 125, 50)
             );
 
-        } else if (
-                status.equals("shipped")
-        ) {
+        } else if (status.equals("shipped")) {
 
             statusView.setTextColor(
-                    Color.rgb(
-                            21,
-                            101,
-                            192
-                    )
+                    Color.rgb(21, 101, 192)
             );
 
         } else if (
@@ -1642,11 +1282,7 @@ public class SellerOrderFragment extends Fragment {
         ) {
 
             statusView.setTextColor(
-                    Color.rgb(
-                            46,
-                            125,
-                            50
-                    )
+                    Color.rgb(46, 125, 50)
             );
 
         } else if (
@@ -1656,27 +1292,19 @@ public class SellerOrderFragment extends Fragment {
         ) {
 
             statusView.setTextColor(
-                    Color.rgb(
-                            198,
-                            40,
-                            40
-                    )
+                    Color.rgb(198, 40, 40)
             );
 
         } else {
 
             statusView.setTextColor(
-                    Color.rgb(
-                            239,
-                            108,
-                            0
-                    )
+                    Color.rgb(239, 108, 0)
             );
         }
     }
 
     // =========================================================
-    // SET STATUS BUTTON
+    // STATUS BUTTON
     // =========================================================
 
     private void setStatusButton(
@@ -1687,9 +1315,7 @@ public class SellerOrderFragment extends Fragment {
             return;
         }
 
-        button.setVisibility(
-                View.VISIBLE
-        );
+        button.setVisibility(View.VISIBLE);
 
         if (button instanceof AppCompatButton) {
 
@@ -1707,63 +1333,62 @@ public class SellerOrderFragment extends Fragment {
     // FORMAT STATUS
     // =========================================================
 
-    private String formatStatus(
-            String status) {
+    private String formatStatus(String status) {
 
         if (status == null ||
                 status.trim().isEmpty()) {
 
-            return "Pending";
+            return getString(R.string.pending);
         }
 
-        status =
-                status.trim();
+        status = status.trim();
 
-        if (status.equalsIgnoreCase("new")) {
-            return "Pending";
-        }
+        if (status.equalsIgnoreCase("new")
+                || status.equalsIgnoreCase("pending")) {
 
-        if (status.equalsIgnoreCase("pending")) {
-            return "Pending";
+            return getString(R.string.pending);
         }
 
         if (status.equalsIgnoreCase("accepted")) {
-            return "Accepted";
+
+            return getString(R.string.accepted);
         }
 
         if (status.equalsIgnoreCase("processing")) {
-            return "Processing";
+
+            return getString(R.string.processing);
         }
 
         if (status.equalsIgnoreCase("shipped")) {
-            return "Shipped";
+
+            return getString(R.string.shipped);
         }
 
         if (status.equalsIgnoreCase("completed")
                 || status.equalsIgnoreCase("delivered")) {
 
-            return "Delivered";
+            return getString(R.string.delivered);
         }
 
         if (status.equalsIgnoreCase("cancelled")
                 || status.equalsIgnoreCase("canceled")
                 || status.equalsIgnoreCase("rejected")) {
 
-            return "Cancelled";
+            return getString(R.string.cancelled);
         }
 
         return status;
     }
 
     // =========================================================
-    // READABLE ORDER DATE
+    // DATE
     // =========================================================
 
     private String getReadableOrderDate(
             DocumentSnapshot document) {
 
         if (document == null) {
-            return "Date not available";
+            return getString(R.string.date_not_available);
         }
 
         Object orderDate =
@@ -1771,51 +1396,31 @@ public class SellerOrderFragment extends Fragment {
 
         long time = -1;
 
-        // =====================================================
-        // NUMBER
-        // =====================================================
-
         if (orderDate instanceof Number) {
 
             time =
-                    ((Number) orderDate)
-                            .longValue();
-        }
+                    ((Number) orderDate).longValue();
 
-        // =====================================================
-        // TIMESTAMP
-        // =====================================================
-
-        else if (orderDate instanceof Timestamp) {
+        } else if (orderDate instanceof Timestamp) {
 
             time =
                     ((Timestamp) orderDate)
                             .toDate()
                             .getTime();
-        }
 
-        // =====================================================
-        // STRING
-        // =====================================================
-
-        else if (orderDate != null) {
+        } else if (orderDate != null) {
 
             try {
 
                 time =
                         Long.parseLong(
-                                String.valueOf(
-                                        orderDate
-                                ).trim()
+                                String.valueOf(orderDate)
+                                        .trim()
                         );
 
             } catch (Exception ignored) {
             }
         }
-
-        // =====================================================
-        // FALLBACK CREATED AT
-        // =====================================================
 
         if (time <= 0) {
 
@@ -1840,7 +1445,9 @@ public class SellerOrderFragment extends Fragment {
 
         if (time <= 0) {
 
-            return "Date not available";
+            return getString(
+                    R.string.date_not_available
+            );
         }
 
         try {
@@ -1882,8 +1489,7 @@ public class SellerOrderFragment extends Fragment {
         }
 
         String result =
-                String.valueOf(value)
-                        .trim();
+                String.valueOf(value).trim();
 
         if (result.isEmpty()) {
             return defaultValue;
@@ -1893,7 +1499,7 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
-    // NUMBER OR STRING
+    // NUMBER
     // =========================================================
 
     private String getNumberOrString(
@@ -1912,10 +1518,6 @@ public class SellerOrderFragment extends Fragment {
             return defaultValue;
         }
 
-        // =====================================================
-        // NUMBER
-        // =====================================================
-
         if (value instanceof Number) {
 
             Number number =
@@ -1929,23 +1531,14 @@ public class SellerOrderFragment extends Fragment {
 
             if (doubleValue == longValue) {
 
-                return String.valueOf(
-                        longValue
-                );
+                return String.valueOf(longValue);
             }
 
-            return String.valueOf(
-                    doubleValue
-            );
+            return String.valueOf(doubleValue);
         }
 
-        // =====================================================
-        // STRING
-        // =====================================================
-
         String result =
-                String.valueOf(value)
-                        .trim();
+                String.valueOf(value).trim();
 
         if (result.isEmpty()) {
             return defaultValue;
@@ -1962,61 +1555,50 @@ public class SellerOrderFragment extends Fragment {
 
         if (!isAdded() ||
                 orderContentContainer == null) {
-
             return;
         }
 
         TextView noOrders =
-                new TextView(
-                        requireContext()
-                );
+                new TextView(requireContext());
 
         if (currentFilter.equals("all")) {
 
             noOrders.setText(
-                    "No pending orders"
+                    R.string.no_pending_orders
             );
 
         } else if (currentFilter.equals("active")) {
 
             noOrders.setText(
-                    "No active orders"
+                    R.string.no_active_orders
             );
 
         } else if (currentFilter.equals("delivered")) {
 
             noOrders.setText(
-                    "No delivered orders"
+                    R.string.no_delivered_orders
             );
 
         } else if (currentFilter.equals("cancelled")) {
 
             noOrders.setText(
-                    "No cancelled orders"
+                    R.string.no_cancelled_orders
             );
 
         } else {
 
             noOrders.setText(
-                    "No orders found"
+                    R.string.no_orders_found
             );
         }
 
-        noOrders.setTextSize(
-                16
-        );
+        noOrders.setTextSize(16);
 
         noOrders.setTextColor(
-                Color.rgb(
-                        90,
-                        90,
-                        90
-                )
+                Color.rgb(90, 90, 90)
         );
 
-        noOrders.setGravity(
-                Gravity.CENTER
-        );
+        noOrders.setGravity(Gravity.CENTER);
 
         noOrders.setPadding(
                 20,
@@ -2031,13 +1613,25 @@ public class SellerOrderFragment extends Fragment {
                         ViewGroup.LayoutParams.WRAP_CONTENT
                 );
 
-        noOrders.setLayoutParams(
-                params
-        );
+        noOrders.setLayoutParams(params);
 
-        orderContentContainer.addView(
-                noOrders
-        );
+        orderContentContainer.addView(noOrders);
+    }
+
+    // =========================================================
+    // TOAST
+    // =========================================================
+
+    private void showToast(String message) {
+
+        if (isAdded()) {
+
+            Toast.makeText(
+                    requireContext(),
+                    message,
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
 
     // =========================================================
@@ -2049,8 +1643,6 @@ public class SellerOrderFragment extends Fragment {
 
         super.onPause();
 
-        // Listener remove karna zaroori hai
-        // taake unnecessary Firebase reads na hon.
         removeOrdersListener();
     }
 
@@ -2071,7 +1663,7 @@ public class SellerOrderFragment extends Fragment {
     }
 
     // =========================================================
-    // DESTROY VIEW
+    // DESTROY
     // =========================================================
 
     @Override

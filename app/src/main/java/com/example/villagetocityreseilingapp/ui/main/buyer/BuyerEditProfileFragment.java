@@ -1,18 +1,25 @@
 package com.example.villagetocityreseilingapp.ui.main.buyer;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.villagetocityreseilingapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,10 +47,32 @@ public class BuyerEditProfileFragment extends Fragment {
     private EditText etEditAddress;
 
     // =====================================================
+    // PROFILE IMAGE
+    // =====================================================
+
+    private ImageView imgEditProfile;
+
+    private Uri selectedImageUri;
+
+    private String uploadedProfileImageUrl = "";
+
+    private static final int PICK_IMAGE_REQUEST = 2001;
+
+    // =====================================================
+    // CLOUDINARY
+    // =====================================================
+
+    private static final String CLOUD_NAME = "cvhzteif";
+
+    private static final String UPLOAD_PRESET =
+            "rural_reach_upload";
+
+    // =====================================================
     // SAVE BUTTON
     // =====================================================
 
     private AppCompatButton btnSaveProfile;
+
 
     // =====================================================
     // ON CREATE VIEW
@@ -66,7 +95,14 @@ public class BuyerEditProfileFragment extends Fragment {
         // =================================================
 
         mAuth = FirebaseAuth.getInstance();
+
         db = FirebaseFirestore.getInstance();
+
+        // =================================================
+        // CLOUDINARY
+        // =================================================
+
+        initializeCloudinary();
 
         // =================================================
         // FIND VIEWS
@@ -84,14 +120,25 @@ public class BuyerEditProfileFragment extends Fragment {
         etEditAddress =
                 view.findViewById(R.id.etEditAddress);
 
+        imgEditProfile =
+                view.findViewById(R.id.imgEditProfile);
+
         btnSaveProfile =
                 view.findViewById(R.id.btnSaveProfile);
 
         // =================================================
-        // LOAD EXISTING DATA
+        // LOAD PROFILE
         // =================================================
 
         loadProfileData();
+
+        // =================================================
+        // PROFILE IMAGE CLICK
+        // =================================================
+
+        imgEditProfile.setOnClickListener(v -> {
+            openImagePicker();
+        });
 
         // =================================================
         // BACK BUTTON
@@ -109,17 +156,101 @@ public class BuyerEditProfileFragment extends Fragment {
         });
 
         // =================================================
-        // SAVE PROFILE
+        // SAVE BUTTON
         // =================================================
 
         btnSaveProfile.setOnClickListener(v -> {
-
             updateProfile();
-
         });
 
         return view;
     }
+
+
+    // =====================================================
+    // INITIALIZE CLOUDINARY
+    // =====================================================
+
+    private void initializeCloudinary() {
+
+        try {
+
+            MediaManager.get();
+
+        } catch (IllegalStateException e) {
+
+            Map<String, Object> config =
+                    new HashMap<>();
+
+            config.put(
+                    "cloud_name",
+                    CLOUD_NAME
+            );
+
+            MediaManager.init(
+                    requireContext(),
+                    config
+            );
+        }
+    }
+
+
+    // =====================================================
+    // OPEN GALLERY
+    // =====================================================
+
+    private void openImagePicker() {
+
+        Intent intent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        );
+
+        intent.setType("image/*");
+
+        startActivityForResult(
+                intent,
+                PICK_IMAGE_REQUEST
+        );
+    }
+
+
+    // =====================================================
+    // IMAGE PICKER RESULT
+    // =====================================================
+
+    @Override
+    public void onActivityResult(
+            int requestCode,
+            int resultCode,
+            Intent data) {
+
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        );
+
+        if (requestCode == PICK_IMAGE_REQUEST
+                && resultCode == Activity.RESULT_OK
+                && data != null
+                && data.getData() != null) {
+
+            selectedImageUri =
+                    data.getData();
+
+            imgEditProfile.setImageURI(
+                    selectedImageUri
+            );
+
+            Toast.makeText(
+                    requireContext(),
+                    "Profile image selected",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+    }
+
 
     // =====================================================
     // LOAD PROFILE DATA
@@ -141,97 +272,111 @@ public class BuyerEditProfileFragment extends Fragment {
             return;
         }
 
-        String uid = currentUser.getUid();
+        String uid =
+                currentUser.getUid();
 
         db.collection("users")
                 .document(uid)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
 
-                    if (documentSnapshot.exists()) {
+                    if (!isAdded()) {
+                        return;
+                    }
 
-                        // ==============================
-                        // NAME
-                        // ==============================
+                    if (!documentSnapshot.exists()) {
+                        return;
+                    }
 
-                        String name =
-                                documentSnapshot.getString("name");
+                    // =====================================
+                    // NAME
+                    // =====================================
 
-                        if (name != null &&
-                                !name.isEmpty()) {
+                    String name =
+                            documentSnapshot.getString("name");
 
-                            etEditName.setText(name);
-                        }
+                    if (name != null) {
+                        etEditName.setText(name);
+                    }
 
-                        // ==============================
-                        // PHONE
-                        // ==============================
+                    // =====================================
+                    // PHONE
+                    // =====================================
 
-                        String phone =
-                                documentSnapshot.getString("phone");
+                    String phone =
+                            documentSnapshot.getString("phone");
 
-                        if (phone != null &&
-                                !phone.isEmpty()) {
+                    if (phone != null) {
+                        etEditPhone.setText(phone);
+                    }
 
-                            etEditPhone.setText(phone);
-                        }
+                    // =====================================
+                    // EMAIL
+                    // =====================================
 
-                        // ==============================
-                        // EMAIL
-                        // ==============================
+                    String email =
+                            documentSnapshot.getString("email");
 
-                        String email =
-                                documentSnapshot.getString("email");
+                    if (email != null) {
 
-                        if (email != null &&
-                                !email.isEmpty()) {
+                        etEditEmail.setText(email);
 
-                            etEditEmail.setText(email);
+                    } else if (
+                            currentUser.getEmail() != null) {
 
-                        } else if (currentUser.getEmail() != null) {
+                        etEditEmail.setText(
+                                currentUser.getEmail()
+                        );
+                    }
 
-                            etEditEmail.setText(
-                                    currentUser.getEmail()
+                    // =====================================
+                    // ADDRESS
+                    // =====================================
+
+                    String address =
+                            documentSnapshot.getString("address");
+
+                    if (address != null) {
+                        etEditAddress.setText(address);
+                    }
+
+                    // =====================================
+                    // PROFILE IMAGE
+                    // =====================================
+
+                    String profileImageUrl =
+                            documentSnapshot.getString(
+                                    "profileImageUrl"
                             );
-                        }
 
-                        // ==============================
-                        // ADDRESS
-                        // ==============================
+                    if (profileImageUrl != null
+                            && !profileImageUrl.isEmpty()) {
 
-                        String address =
-                                documentSnapshot.getString("address");
+                        uploadedProfileImageUrl =
+                                profileImageUrl;
 
-                        if (address != null &&
-                                !address.isEmpty()) {
-
-                            etEditAddress.setText(address);
-
-                        } else {
-
-                            etEditAddress.setText("");
-                        }
-
-                    } else {
-
-                        Toast.makeText(
-                                requireContext(),
-                                "Profile data not found",
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        Glide.with(requireContext())
+                                .load(profileImageUrl)
+                                .placeholder(R.drawable.hanan)
+                                .error(R.drawable.hanan)
+                                .into(imgEditProfile);
                     }
 
                 })
                 .addOnFailureListener(e -> {
 
+                    if (!isAdded()) {
+                        return;
+                    }
+
                     Toast.makeText(
                             requireContext(),
-                            "Failed to load profile: "
-                                    + e.getMessage(),
+                            "Failed to load profile",
                             Toast.LENGTH_LONG
                     ).show();
                 });
     }
+
 
     // =====================================================
     // UPDATE PROFILE
@@ -325,26 +470,11 @@ public class BuyerEditProfileFragment extends Fragment {
             return;
         }
 
-        // =================================================
-        // UID
-        // =================================================
-
-        String uid = currentUser.getUid();
+        String uid =
+                currentUser.getUid();
 
         // =================================================
-        // DATA TO UPDATE
-        // =================================================
-
-        Map<String, Object> updates =
-                new HashMap<>();
-
-        updates.put("name", name);
-        updates.put("phone", phone);
-        updates.put("email", email);
-        updates.put("address", address);
-
-        // =================================================
-        // UPDATE FIRESTORE
+        // DISABLE SAVE BUTTON
         // =================================================
 
         btnSaveProfile.setEnabled(false);
@@ -353,10 +483,246 @@ public class BuyerEditProfileFragment extends Fragment {
                 "Saving..."
         );
 
+        // =================================================
+        // NEW IMAGE SELECTED
+        // =================================================
+
+        if (selectedImageUri != null) {
+
+            uploadProfileImageToCloudinary(
+                    selectedImageUri,
+                    uid,
+                    name,
+                    phone,
+                    email,
+                    address
+            );
+
+        } else {
+
+            // =============================================
+            // NO NEW IMAGE
+            // =============================================
+
+            saveProfileToFirestore(
+                    uid,
+                    name,
+                    phone,
+                    email,
+                    address,
+                    uploadedProfileImageUrl
+            );
+        }
+    }
+
+
+    // =====================================================
+    // UPLOAD PROFILE IMAGE
+    // =====================================================
+
+    private void uploadProfileImageToCloudinary(
+            Uri imageUri,
+            String uid,
+            String name,
+            String phone,
+            String email,
+            String address) {
+
+        Toast.makeText(
+                requireContext(),
+                "Uploading profile image...",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        MediaManager.get()
+                .upload(imageUri)
+                .unsigned(UPLOAD_PRESET)
+                .option(
+                        "folder",
+                        "rural_reach/profile"
+                )
+                .callback(
+                        new UploadCallback() {
+
+                            @Override
+                            public void onStart(
+                                    String requestId) {
+
+                                Log.d(
+                                        "CLOUDINARY",
+                                        "Profile upload started"
+                                );
+                            }
+
+
+                            @Override
+                            public void onProgress(
+                                    String requestId,
+                                    long bytes,
+                                    long totalBytes) {
+
+                                Log.d(
+                                        "CLOUDINARY",
+                                        "Upload progress: "
+                                                + bytes
+                                                + "/"
+                                                + totalBytes
+                                );
+                            }
+
+
+                            @Override
+                            public void onSuccess(
+                                    String requestId,
+                                    Map resultData) {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
+                                Object secureUrl =
+                                        resultData.get(
+                                                "secure_url"
+                                        );
+
+                                if (secureUrl != null) {
+
+                                    uploadedProfileImageUrl =
+                                            secureUrl.toString();
+
+                                    Log.d(
+                                            "CLOUDINARY",
+                                            "Profile URL = "
+                                                    + uploadedProfileImageUrl
+                                    );
+
+                                    // =============================
+                                    // SAVE TO FIRESTORE
+                                    // =============================
+
+                                    saveProfileToFirestore(
+                                            uid,
+                                            name,
+                                            phone,
+                                            email,
+                                            address,
+                                            uploadedProfileImageUrl
+                                    );
+
+                                } else {
+
+                                    enableSaveButton();
+
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Image uploaded but URL not received",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+                            }
+
+
+                            @Override
+                            public void onError(
+                                    String requestId,
+                                    ErrorInfo error) {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
+                                enableSaveButton();
+
+                                Log.e(
+                                        "CLOUDINARY",
+                                        "Upload Error: "
+                                                + error.getDescription()
+                                );
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Image upload failed",
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+
+
+                            @Override
+                            public void onReschedule(
+                                    String requestId,
+                                    ErrorInfo error) {
+
+                                Log.d(
+                                        "CLOUDINARY",
+                                        "Upload rescheduled"
+                                );
+                            }
+                        }
+                )
+                .dispatch();
+    }
+
+
+    // =====================================================
+    // SAVE PROFILE TO FIRESTORE
+    // =====================================================
+
+    private void saveProfileToFirestore(
+            String uid,
+            String name,
+            String phone,
+            String email,
+            String address,
+            String profileImageUrl) {
+
+        Map<String, Object> updates =
+                new HashMap<>();
+
+        updates.put(
+                "name",
+                name
+        );
+
+        updates.put(
+                "phone",
+                phone
+        );
+
+        updates.put(
+                "email",
+                email
+        );
+
+        updates.put(
+                "address",
+                address
+        );
+
+        // ================================================
+        // PROFILE IMAGE URL
+        // ================================================
+
+        if (profileImageUrl != null
+                && !profileImageUrl.isEmpty()) {
+
+            updates.put(
+                    "profileImageUrl",
+                    profileImageUrl
+            );
+        }
+
+        // =================================================
+        // FIRESTORE UPDATE
+        // =================================================
+
         db.collection("users")
                 .document(uid)
                 .update(updates)
                 .addOnSuccessListener(unused -> {
+
+                    if (!isAdded()) {
+                        return;
+                    }
 
                     Toast.makeText(
                             requireContext(),
@@ -364,15 +730,7 @@ public class BuyerEditProfileFragment extends Fragment {
                             Toast.LENGTH_SHORT
                     ).show();
 
-                    btnSaveProfile.setEnabled(true);
-
-                    btnSaveProfile.setText(
-                            "Save Changes"
-                    );
-
-                    // =====================================
-                    // GO BACK TO PROFILE
-                    // =====================================
+                    enableSaveButton();
 
                     requireActivity()
                             .getSupportFragmentManager()
@@ -381,11 +739,11 @@ public class BuyerEditProfileFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
 
-                    btnSaveProfile.setEnabled(true);
+                    if (!isAdded()) {
+                        return;
+                    }
 
-                    btnSaveProfile.setText(
-                            "Save Changes"
-                    );
+                    enableSaveButton();
 
                     Toast.makeText(
                             requireContext(),
@@ -394,5 +752,19 @@ public class BuyerEditProfileFragment extends Fragment {
                             Toast.LENGTH_LONG
                     ).show();
                 });
+    }
+
+
+    // =====================================================
+    // ENABLE SAVE BUTTON
+    // =====================================================
+
+    private void enableSaveButton() {
+
+        btnSaveProfile.setEnabled(true);
+
+        btnSaveProfile.setText(
+                "Save Changes"
+        );
     }
 }

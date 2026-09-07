@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.villagetocityreseilingapp.R;
 import com.google.firebase.Timestamp;
 
@@ -172,12 +173,68 @@ public class BuyerProductAdapter
         );
 
         // =====================================================
-        // IMAGE
+        // PRODUCT IMAGE
         // =====================================================
 
-        holder.productImage.setImageResource(
-                R.drawable.baseline_menu_24
-        );
+        String imageUrl = "";
+
+        // First try imageUrl
+        Object imageUrlObject =
+                product.get("imageUrl");
+
+        if (imageUrlObject != null) {
+
+            imageUrl =
+                    String.valueOf(
+                            imageUrlObject
+                    ).trim();
+        }
+
+        // =====================================================
+        // FALLBACK TO productImage
+        // =====================================================
+
+        if (imageUrl.isEmpty()) {
+
+            Object productImageObject =
+                    product.get("productImage");
+
+            if (productImageObject != null) {
+
+                imageUrl =
+                        String.valueOf(
+                                productImageObject
+                        ).trim();
+            }
+        }
+
+        // =====================================================
+        // LOAD CLOUDINARY IMAGE
+        // =====================================================
+
+        if (!imageUrl.isEmpty()) {
+
+            Glide.with(
+                            holder.itemView.getContext()
+                    )
+                    .load(imageUrl)
+                    .placeholder(
+                            R.drawable.baseline_menu_24
+                    )
+                    .error(
+                            R.drawable.baseline_menu_24
+                    )
+                    .centerCrop()
+                    .into(
+                            holder.productImage
+                    );
+
+        } else {
+
+            holder.productImage.setImageResource(
+                    R.drawable.baseline_menu_24
+            );
+        }
 
         // =====================================================
         // UPLOAD TIME
@@ -197,6 +254,7 @@ public class BuyerProductAdapter
                 product;
 
         holder.itemView.setClickable(true);
+
         holder.itemView.setFocusable(false);
 
         holder.itemView.setOnClickListener(
@@ -206,9 +264,9 @@ public class BuyerProductAdapter
                         return;
                     }
 
-                    // IMPORTANT:
-                    // Blink is handled ONLY in BuyerHomeFragment.
-                    // Adapter does NOT animate here.
+                    // Blink is handled ONLY
+                    // in BuyerHomeFragment
+
                     listener.onProductClick(
                             clickedProduct
                     );
@@ -272,10 +330,15 @@ public class BuyerProductAdapter
             Object createdAtObject) {
 
         if (createdAtObject == null) {
+
             return "Recently added";
         }
 
         long createdAtMillis = 0;
+
+        // =====================================================
+        // FIREBASE TIMESTAMP
+        // =====================================================
 
         if (createdAtObject instanceof Timestamp) {
 
@@ -285,13 +348,25 @@ public class BuyerProductAdapter
             createdAtMillis =
                     timestamp.toDate().getTime();
 
-        } else if (createdAtObject instanceof Number) {
+        }
+
+        // =====================================================
+        // NUMBER
+        // =====================================================
+
+        else if (createdAtObject instanceof Number) {
 
             createdAtMillis =
                     ((Number) createdAtObject)
                             .longValue();
 
-        } else if (createdAtObject instanceof String) {
+        }
+
+        // =====================================================
+        // STRING
+        // =====================================================
+
+        else if (createdAtObject instanceof String) {
 
             try {
 
@@ -306,7 +381,12 @@ public class BuyerProductAdapter
             }
         }
 
+        // =====================================================
+        // INVALID DATE
+        // =====================================================
+
         if (createdAtMillis <= 0) {
+
             return "Recently added";
         }
 
@@ -315,8 +395,13 @@ public class BuyerProductAdapter
                         - createdAtMillis;
 
         if (difference < 0) {
+
             difference = 0;
         }
+
+        // =====================================================
+        // SECONDS
+        // =====================================================
 
         long seconds =
                 TimeUnit.MILLISECONDS.toSeconds(
@@ -326,11 +411,16 @@ public class BuyerProductAdapter
         if (seconds < 60) {
 
             if (seconds <= 0) {
+
                 return "Just now";
             }
 
             return seconds + " sec ago";
         }
+
+        // =====================================================
+        // MINUTES
+        // =====================================================
 
         long minutes =
                 TimeUnit.MILLISECONDS.toMinutes(
@@ -338,8 +428,13 @@ public class BuyerProductAdapter
                 );
 
         if (minutes < 60) {
+
             return minutes + " min ago";
         }
+
+        // =====================================================
+        // HOURS
+        // =====================================================
 
         long hours =
                 TimeUnit.MILLISECONDS.toHours(
@@ -347,8 +442,13 @@ public class BuyerProductAdapter
                 );
 
         if (hours < 24) {
+
             return hours + " hr ago";
         }
+
+        // =====================================================
+        // DAYS
+        // =====================================================
 
         long days =
                 TimeUnit.MILLISECONDS.toDays(
@@ -362,6 +462,10 @@ public class BuyerProductAdapter
                     + (days == 1 ? "" : "s")
                     + " ago";
         }
+
+        // =====================================================
+        // DATE
+        // =====================================================
 
         SimpleDateFormat dateFormat =
                 new SimpleDateFormat(
@@ -382,6 +486,7 @@ public class BuyerProductAdapter
     public int getItemCount() {
 
         if (productList == null) {
+
             return 0;
         }
 
@@ -418,10 +523,18 @@ public class BuyerProductAdapter
 
             super(itemView);
 
+            // =================================================
+            // PRODUCT IMAGE
+            // =================================================
+
             productImage =
                     itemView.findViewById(
                             R.id.productImage
                     );
+
+            // =================================================
+            // TEXT FIELDS
+            // =================================================
 
             txtProductName =
                     itemView.findViewById(

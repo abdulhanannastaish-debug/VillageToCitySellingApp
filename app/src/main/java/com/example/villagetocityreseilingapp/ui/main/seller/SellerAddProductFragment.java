@@ -1,6 +1,10 @@
 package com.example.villagetocityreseilingapp.ui.main.seller;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,12 +26,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.villagetocityreseilingapp.R;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import com.example.villagetocityreseilingapp.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,9 +59,32 @@ public class SellerAddProductFragment extends Fragment {
     private Spinner spinnerUnit;
 
     private TextView txtStockPreview;
+    private TextView txtUploadLabel;
 
     private Button btnAddItem;
     private ImageButton btnBack;
+
+    private FrameLayout imageUploadBox;
+    private ImageView imgItem;
+
+    // =========================================================
+    // IMAGE
+    // =========================================================
+
+    private Uri selectedImageUri;
+
+    private String uploadedImageUrl = "";
+
+    private static final int PICK_IMAGE_REQUEST = 1001;
+
+    // =========================================================
+    // CLOUDINARY
+    // =========================================================
+
+    private static final String CLOUD_NAME = "cvhzteif";
+
+    private static final String UPLOAD_PRESET =
+            "rural_reach_upload";
 
     // =========================================================
     // FIREBASE
@@ -75,7 +108,7 @@ public class SellerAddProductFragment extends Fragment {
     private boolean categoriesLoaded = false;
 
     // =========================================================
-    // UNIT LIST
+    // UNITS
     // =========================================================
 
     private final String[] units = {
@@ -136,6 +169,12 @@ public class SellerAddProductFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         // =====================================================
+        // CLOUDINARY
+        // =====================================================
+
+        initializeCloudinary();
+
+        // =====================================================
         // FIND VIEWS
         // =====================================================
 
@@ -179,6 +218,11 @@ public class SellerAddProductFragment extends Fragment {
                         R.id.txtStockPreview
                 );
 
+        txtUploadLabel =
+                view.findViewById(
+                        R.id.txtUploadLabel
+                );
+
         btnAddItem =
                 view.findViewById(
                         R.id.btn_add_item
@@ -187,6 +231,16 @@ public class SellerAddProductFragment extends Fragment {
         btnBack =
                 view.findViewById(
                         R.id.btn_back
+                );
+
+        imageUploadBox =
+                view.findViewById(
+                        R.id.imageUploadBox
+                );
+
+        imgItem =
+                view.findViewById(
+                        R.id.img_item
                 );
 
         // =====================================================
@@ -204,6 +258,18 @@ public class SellerAddProductFragment extends Fragment {
         loadCategories();
 
         // =====================================================
+        // IMAGE PICKER
+        // =====================================================
+
+        imageUploadBox.setOnClickListener(
+                v -> openImagePicker()
+        );
+
+        imgItem.setOnClickListener(
+                v -> openImagePicker()
+        );
+
+        // =====================================================
         // BACK
         // =====================================================
 
@@ -219,8 +285,125 @@ public class SellerAddProductFragment extends Fragment {
                 v -> saveProduct()
         );
 
-        // Initial preview
+        // =====================================================
+        // INITIAL PREVIEW
+        // =====================================================
+
         updateStockPreview();
+    }
+
+    // =========================================================
+    // CLOUDINARY INITIALIZE
+    // =========================================================
+
+    private void initializeCloudinary() {
+
+        try {
+
+            MediaManager.get();
+
+        } catch (IllegalStateException e) {
+
+            Map<String, Object> config =
+                    new HashMap<>();
+
+            config.put(
+                    "cloud_name",
+                    CLOUD_NAME
+            );
+
+            MediaManager.init(
+                    requireContext(),
+                    config
+            );
+        }
+    }
+
+    // =========================================================
+    // OPEN IMAGE PICKER
+    // =========================================================
+
+    private void openImagePicker() {
+
+        Intent intent =
+                new Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                );
+
+        intent.setType("image/*");
+
+        startActivityForResult(
+                intent,
+                PICK_IMAGE_REQUEST
+        );
+    }
+
+    // =========================================================
+    // IMAGE PICK RESULT
+    // =========================================================
+
+    @Override
+    public void onActivityResult(
+            int requestCode,
+            int resultCode,
+            @Nullable Intent data) {
+
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        );
+
+        if (
+                requestCode == PICK_IMAGE_REQUEST
+                        && resultCode == Activity.RESULT_OK
+                        && data != null
+                        && data.getData() != null
+        ) {
+
+            // =================================================
+            // GET SELECTED IMAGE
+            // =================================================
+
+            selectedImageUri =
+                    data.getData();
+
+            // =================================================
+            // SHOW IMAGE
+            // =================================================
+
+            imgItem.setImageURI(
+                    selectedImageUri
+            );
+
+            // =================================================
+            // HIDE "UPLOAD IMAGE" TEXT
+            // =================================================
+
+            if (txtUploadLabel != null) {
+
+                txtUploadLabel.setVisibility(
+                        View.GONE
+                );
+            }
+
+            // =================================================
+            // LOG
+            // =================================================
+
+            Log.d(
+                    "SELLER_IMAGE",
+                    "Image selected: "
+                            + selectedImageUri
+            );
+
+            Toast.makeText(
+                    requireContext(),
+                    "Image selected",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     // =========================================================
@@ -351,6 +534,10 @@ public class SellerAddProductFragment extends Fragment {
 
     private void updateStockPreview() {
 
+        if (txtStockPreview == null) {
+            return;
+        }
+
         String priceText =
                 etItemPrice.getText()
                         .toString()
@@ -374,14 +561,9 @@ public class SellerAddProductFragment extends Fragment {
                         .toString()
                         : "KG";
 
-        String priceDisplay =
-                "0";
-
-        String stockDisplay =
-                "0";
-
-        String minOrderDisplay =
-                "0";
+        String priceDisplay = "0";
+        String stockDisplay = "0";
+        String minOrderDisplay = "0";
 
         if (!priceText.isEmpty()) {
 
@@ -471,7 +653,7 @@ public class SellerAddProductFragment extends Fragment {
     }
 
     // =========================================================
-    // LOAD ADMIN CATEGORIES
+    // LOAD CATEGORIES
     // =========================================================
 
     private void loadCategories() {
@@ -659,10 +841,6 @@ public class SellerAddProductFragment extends Fragment {
             return;
         }
 
-        // =====================================================
-        // EXACT / CONTAINS MATCH
-        // =====================================================
-
         for (
                 int i = 1;
                 i < categoryNames.size();
@@ -696,10 +874,6 @@ public class SellerAddProductFragment extends Fragment {
                 return;
             }
         }
-
-        // =====================================================
-        // KEYWORD MATCH
-        // =====================================================
 
         String[] productWords =
                 productName.split(
@@ -789,10 +963,6 @@ public class SellerAddProductFragment extends Fragment {
     // =========================================================
 
     private void saveProduct() {
-
-        // =====================================================
-        // PRODUCT INPUTS
-        // =====================================================
 
         String productName =
                 etItemName.getText()
@@ -1125,21 +1295,194 @@ public class SellerAddProductFragment extends Fragment {
         btnAddItem.setEnabled(false);
 
         // =====================================================
-        // LOAD SELLER
+        // IMAGE UPLOAD
         // =====================================================
 
-        loadSellerAndSaveProduct(
-                sellerId,
-                productId,
-                productName,
-                price,
-                totalStock,
-                minimumOrder,
-                selectedUnit,
-                description,
-                selectedCategoryId,
-                selectedCategoryName
-        );
+        if (selectedImageUri != null) {
+
+            uploadImageToCloudinary(
+                    selectedImageUri,
+                    sellerId,
+                    productId,
+                    productName,
+                    price,
+                    totalStock,
+                    minimumOrder,
+                    selectedUnit,
+                    description,
+                    selectedCategoryId,
+                    selectedCategoryName
+            );
+
+        } else {
+
+            uploadedImageUrl = "";
+
+            loadSellerAndSaveProduct(
+                    sellerId,
+                    productId,
+                    productName,
+                    price,
+                    totalStock,
+                    minimumOrder,
+                    selectedUnit,
+                    description,
+                    selectedCategoryId,
+                    selectedCategoryName
+            );
+        }
+    }
+
+    // =========================================================
+    // UPLOAD IMAGE TO CLOUDINARY
+    // =========================================================
+
+    private void uploadImageToCloudinary(
+            Uri imageUri,
+            String sellerId,
+            String productId,
+            String productName,
+            double price,
+            double totalStock,
+            double minimumOrder,
+            String selectedUnit,
+            String description,
+            String selectedCategoryId,
+            String selectedCategoryName) {
+
+        Toast.makeText(
+                requireContext(),
+                "Uploading image...",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        MediaManager.get()
+                .upload(imageUri)
+                .unsigned(UPLOAD_PRESET)
+                .option(
+                        "folder",
+                        "rural_reach/products"
+                )
+                .callback(
+                        new UploadCallback() {
+
+                            @Override
+                            public void onStart(
+                                    String requestId) {
+
+                                Log.d(
+                                        "CLOUDINARY",
+                                        "Upload started"
+                                );
+                            }
+
+                            @Override
+                            public void onProgress(
+                                    String requestId,
+                                    long bytes,
+                                    long totalBytes) {
+
+                                Log.d(
+                                        "CLOUDINARY",
+                                        "Upload progress: "
+                                                + bytes
+                                                + "/"
+                                                + totalBytes
+                                );
+                            }
+
+                            @Override
+                            public void onSuccess(
+                                    String requestId,
+                                    Map resultData) {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
+                                Object secureUrl =
+                                        resultData.get(
+                                                "secure_url"
+                                        );
+
+                                if (secureUrl != null) {
+
+                                    uploadedImageUrl =
+                                            secureUrl.toString();
+
+                                    Log.d(
+                                            "CLOUDINARY",
+                                            "Image URL = "
+                                                    + uploadedImageUrl
+                                    );
+
+                                    loadSellerAndSaveProduct(
+                                            sellerId,
+                                            productId,
+                                            productName,
+                                            price,
+                                            totalStock,
+                                            minimumOrder,
+                                            selectedUnit,
+                                            description,
+                                            selectedCategoryId,
+                                            selectedCategoryName
+                                    );
+
+                                } else {
+
+                                    btnAddItem.setEnabled(
+                                            true
+                                    );
+
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Image uploaded but URL was not received.",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(
+                                    String requestId,
+                                    ErrorInfo error) {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
+                                btnAddItem.setEnabled(
+                                        true
+                                );
+
+                                Log.e(
+                                        "CLOUDINARY",
+                                        "Upload Error: "
+                                                + error.getDescription()
+                                );
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Image upload failed: "
+                                                + error.getDescription(),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+
+                            @Override
+                            public void onReschedule(
+                                    String requestId,
+                                    ErrorInfo error) {
+
+                                Log.d(
+                                        "CLOUDINARY",
+                                        "Upload rescheduled"
+                                );
+                            }
+                        }
+                )
+                .dispatch();
     }
 
     // =========================================================
@@ -1405,9 +1748,8 @@ public class SellerAddProductFragment extends Fragment {
         }
 
         String result =
-                String.valueOf(
-                        value
-                ).trim();
+                String.valueOf(value)
+                        .trim();
 
         if (
                 TextUtils.isEmpty(
@@ -1442,10 +1784,6 @@ public class SellerAddProductFragment extends Fragment {
             return;
         }
 
-        // =====================================================
-        // PRODUCT DATA
-        // =====================================================
-
         Map<String, Object> productData =
                 new HashMap<>();
 
@@ -1478,7 +1816,7 @@ public class SellerAddProductFragment extends Fragment {
         );
 
         // =====================================================
-        // PRODUCT BASIC DATA
+        // BASIC DATA
         // =====================================================
 
         productData.put(
@@ -1489,6 +1827,20 @@ public class SellerAddProductFragment extends Fragment {
         productData.put(
                 "description",
                 description
+        );
+
+        // =====================================================
+        // CLOUDINARY IMAGE URL
+        // =====================================================
+
+        productData.put(
+                "imageUrl",
+                uploadedImageUrl
+        );
+
+        productData.put(
+                "productImage",
+                uploadedImageUrl
         );
 
         // =====================================================
@@ -1514,6 +1866,11 @@ public class SellerAddProductFragment extends Fragment {
                 selectedUnit
         );
 
+        productData.put(
+                "unit",
+                selectedUnit
+        );
+
         // =====================================================
         // STOCK
         // =====================================================
@@ -1527,15 +1884,6 @@ public class SellerAddProductFragment extends Fragment {
                 "availableStock",
                 totalStock
         );
-
-        // =====================================================
-        // OLD QUANTITY FIELD
-        // =====================================================
-        //
-        // Existing buyer-side code agar quantity read
-        // karta hai to break nahi hoga.
-        //
-        // =====================================================
 
         productData.put(
                 "quantity",
@@ -1612,7 +1960,7 @@ public class SellerAddProductFragment extends Fragment {
         );
 
         // =====================================================
-        // SAVE
+        // FIRESTORE SAVE
         // =====================================================
 
         db.collection("products")
@@ -1636,24 +1984,8 @@ public class SellerAddProductFragment extends Fragment {
                                             + productId
                                             + " | Seller ID = "
                                             + sellerId
-                                            + " | Seller Name = "
-                                            + sellerName
-                                            + " | Seller Phone = "
-                                            + sellerPhone
-                                            + " | Category ID = "
-                                            + selectedCategoryId
-                                            + " | Category Name = "
-                                            + selectedCategoryName
-                                            + " | Price = "
-                                            + price
-                                            + " | Unit = "
-                                            + selectedUnit
-                                            + " | Total Stock = "
-                                            + totalStock
-                                            + " | Available Stock = "
-                                            + totalStock
-                                            + " | Minimum Order = "
-                                            + minimumOrder
+                                            + " | Image URL = "
+                                            + uploadedImageUrl
                             );
 
                             Toast.makeText(

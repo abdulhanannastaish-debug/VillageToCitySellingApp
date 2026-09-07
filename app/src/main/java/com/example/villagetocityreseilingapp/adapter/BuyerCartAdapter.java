@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.villagetocityreseilingapp.R;
 
 import java.util.List;
@@ -117,6 +118,43 @@ public class BuyerCartAdapter
         holder.tvQuantity.setText(
                 String.valueOf(quantity)
         );
+
+        // =====================================================
+        // PRODUCT IMAGE (NAYA)
+        // =====================================================
+
+        String imageUrl =
+                getStringValue(
+                        item,
+                        "imageUrl",
+                        ""
+                );
+
+        if (imageUrl.isEmpty()) {
+
+            imageUrl =
+                    getStringValue(
+                            item,
+                            "productImage",
+                            ""
+                    );
+        }
+
+        if (!imageUrl.isEmpty()) {
+
+            Glide.with(holder.itemView.getContext())
+                    .load(imageUrl)
+                    .placeholder(R.drawable.baseline_home_24)
+                    .error(R.drawable.baseline_home_24)
+                    .centerCrop()
+                    .into(holder.imgProduct);
+
+        } else {
+
+            holder.imgProduct.setImageResource(
+                    R.drawable.baseline_home_24
+            );
+        }
 
         double subtotal =
                 price * quantity;

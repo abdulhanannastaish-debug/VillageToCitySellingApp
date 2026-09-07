@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.villagetocityreseilingapp.R;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -512,9 +513,42 @@ public class BuyerProductDetailFragment extends Fragment {
 
         tvProductDescription.setText(description);
 
-        imgProduct.setImageResource(
-                R.drawable.baseline_photo_camera_24
-        );
+        // =====================================================
+        // PRODUCT IMAGE (loads Cloudinary image)
+        // =====================================================
+
+        String imageUrl =
+                getStringValue(
+                        product,
+                        "imageUrl",
+                        ""
+                );
+
+        if (imageUrl.isEmpty()) {
+
+            imageUrl =
+                    getStringValue(
+                            product,
+                            "productImage",
+                            ""
+                    );
+        }
+
+        if (!imageUrl.isEmpty()) {
+
+            Glide.with(requireContext())
+                    .load(imageUrl)
+                    .placeholder(R.drawable.baseline_photo_camera_24)
+                    .error(R.drawable.baseline_photo_camera_24)
+                    .centerCrop()
+                    .into(imgProduct);
+
+        } else {
+
+            imgProduct.setImageResource(
+                    R.drawable.baseline_photo_camera_24
+            );
+        }
 
         // =====================================================
         // REVIEWS
@@ -2152,6 +2186,29 @@ public class BuyerProductDetailFragment extends Fragment {
                         ""
                 );
 
+        // =====================================================
+        // IMAGE URL (NAYA)
+        // =====================================================
+
+        String imageUrl =
+                getStringValue(
+                        product,
+                        "imageUrl",
+                        ""
+                );
+
+        if (imageUrl.isEmpty()) {
+
+            imageUrl =
+                    getStringValue(
+                            product,
+                            "productImage",
+                            ""
+                    );
+        }
+
+        final String finalImageUrl = imageUrl;
+
         double price =
                 getDouble(
                         product.get("price")
@@ -2198,16 +2255,35 @@ public class BuyerProductDetailFragment extends Fragment {
                             return;
                         }
 
+                        // =============================================
+                        // UPDATE QUANTITY + IMAGE URL
+                        // (agar purani entry mein image missing thi,
+                        // is dafa update ho jayegi)
+                        // =============================================
+
+                        Map<String, Object> updateData =
+                                new HashMap<>();
+
+                        updateData.put(
+                                "quantity",
+                                newQuantity
+                        );
+
+                        if (!finalImageUrl.isEmpty()) {
+
+                            updateData.put(
+                                    "imageUrl",
+                                    finalImageUrl
+                            );
+                        }
+
                         db.collection("cart")
                                 .document(
                                         currentUser.getUid()
                                 )
                                 .collection("items")
                                 .document(productId)
-                                .update(
-                                        "quantity",
-                                        newQuantity
-                                )
+                                .update(updateData)
                                 .addOnSuccessListener(
                                         unused -> Toast.makeText(
                                                 requireContext(),
@@ -2266,6 +2342,11 @@ public class BuyerProductDetailFragment extends Fragment {
                     cartItem.put(
                             "description",
                             description
+                    );
+
+                    cartItem.put(
+                            "imageUrl",
+                            finalImageUrl
                     );
 
                     cartItem.put(

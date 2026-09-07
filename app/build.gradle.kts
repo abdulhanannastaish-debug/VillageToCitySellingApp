@@ -38,6 +38,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-fragment:2.7.7")
