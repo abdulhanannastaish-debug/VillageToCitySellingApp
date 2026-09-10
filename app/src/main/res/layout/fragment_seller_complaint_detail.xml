@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F7FA"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:layoutDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,22 +15,18 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- ================================================= -->
         <!-- PAGE TITLE -->
-        <!-- ================================================= -->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Seller Complaint Detail"
+            android:text="@string/complaint_detail"
             android:textColor="#1B1B1B"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
 
-        <!-- ================================================= -->
         <!-- COMPLAINT CARD -->
-        <!-- ================================================= -->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -45,20 +42,16 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- ========================================= -->
                 <!-- SELLER ID LABEL -->
-                <!-- ========================================= -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Seller ID"
+                    android:text="@string/seller_id"
                     android:textColor="#777777"
                     android:textSize="13sp" />
 
-                <!-- ========================================= -->
                 <!-- SELLER ID -->
-                <!-- ========================================= -->
 
                 <TextView
                     android:id="@+id/tvSellerId"
@@ -71,67 +64,57 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp" />
 
-                <!-- ========================================= -->
                 <!-- SELLER NAME LABEL -->
-                <!-- ========================================= -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Seller Name"
+                    android:text="@string/seller_name"
                     android:textColor="#777777"
                     android:textSize="13sp" />
 
-                <!-- ========================================= -->
                 <!-- SELLER NAME -->
-                <!-- ========================================= -->
 
                 <TextView
                     android:id="@+id/tvSellerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Seller Name"
+                    android:text="@string/seller_name"
                     android:textColor="#222222"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp" />
 
-                <!-- ========================================= -->
                 <!-- COMPLAINT DETAIL LABEL -->
-                <!-- ========================================= -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Complaint Detail"
+                    android:text="@string/complaint_detail_label"
                     android:textColor="#777777"
                     android:textSize="13sp" />
 
-                <!-- ========================================= -->
                 <!-- COMPLAINT DETAIL -->
-                <!-- ========================================= -->
 
                 <TextView
                     android:id="@+id/tvComplaintDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Complaint detail will appear here..."
+                    android:text="@string/complaint_detail_label"
                     android:textColor="#333333"
                     android:textSize="15sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="24dp" />
 
-                <!-- ========================================= -->
                 <!-- ACCEPT BUTTON -->
-                <!-- ========================================= -->
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnAcceptComplaint"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:text="Accept Complaint"
+                    android:text="@string/accept_complaint"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     android:textStyle="bold"

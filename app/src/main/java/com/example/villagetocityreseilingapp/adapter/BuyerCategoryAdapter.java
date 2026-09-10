@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,6 +110,17 @@ public class BuyerCategoryAdapter
 
         holder.txtCategoryName.setText(
                 categoryName
+        );
+
+        // =====================================================
+        // CATEGORY ICON (NAYA)
+        // =====================================================
+
+        int iconResource =
+                getCategoryIcon(categoryName);
+
+        holder.imgCategoryIcon.setImageResource(
+                iconResource
         );
 
         // =====================================================
@@ -253,6 +265,45 @@ public class BuyerCategoryAdapter
     }
 
     // =========================================================
+    // CATEGORY ICON MAPPING (NAYA)
+    // =========================================================
+    //
+    // Category ke naam ke hisaab se sahi icon return karta hai.
+    // Agar koi match na ho to default icon dikhta hai.
+    //
+    // =========================================================
+
+    private int getCategoryIcon(String categoryName) {
+
+        switch (categoryName.trim().toLowerCase()) {
+
+            case "clothes":
+                return R.drawable.ic_category_clothes;
+
+            case "dairy product":
+                return R.drawable.ic_category_dairy;
+
+            case "vegetable":
+                return R.drawable.ic_category_vegetable;
+
+            case "herbal":
+                return R.drawable.ic_category_herbal;
+
+            case "handcraft":
+                return R.drawable.ic_category_handcraft;
+
+            case "furniture":
+                return R.drawable.ic_category_furniture;
+
+            case "dry fruit":
+                return R.drawable.ic_category_dryfruit;
+
+            default:
+                return R.drawable.ic_category_default;
+        }
+    }
+
+    // =========================================================
     // ITEM COUNT
     // =========================================================
 
@@ -274,6 +325,7 @@ public class BuyerCategoryAdapter
             extends RecyclerView.ViewHolder {
 
         TextView txtCategoryName;
+        ImageView imgCategoryIcon;
 
         public CategoryViewHolder(
                 @NonNull View itemView) {
@@ -283,6 +335,11 @@ public class BuyerCategoryAdapter
             txtCategoryName =
                     itemView.findViewById(
                             R.id.txtCategoryName
+                    );
+
+            imgCategoryIcon =
+                    itemView.findViewById(
+                            R.id.imgCategoryIcon
                     );
         }
     }

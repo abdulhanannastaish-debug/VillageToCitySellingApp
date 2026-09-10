@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="#F5F5F5"
+    android:layoutDirection="locale"
     tools:context=".ui.main.seller.SellerWalletFragment">
 
     <LinearLayout
@@ -16,7 +17,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ================= WALLET TITLE ================= -->
+        <!-- WALLET TITLE -->
 
         <TextView
             android:id="@+id/txtWalletTitle"
@@ -24,13 +25,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:text="My Wallet"
+            android:text="@string/my_wallet"
             android:textColor="#000000"
             android:textSize="26sp"
             android:textStyle="bold" />
 
-
-        <!-- ================= BALANCE CARD ================= -->
+        <!-- BALANCE CARD -->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Available Balance"
+                    android:text="@string/available_balance"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="Pending: Rs. 0"
+                    android:text="@string/pending_balance"
                     android:textColor="#E8F5E9"
                     android:textSize="14sp" />
 
@@ -77,8 +77,7 @@
 
         </androidx.cardview.widget.CardView>
 
-
-        <!-- ================= AUTOMATIC PAYMENT INFO ================= -->
+        <!-- AUTOMATIC PAYMENT INFO -->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/automaticPaymentCard"
@@ -99,7 +98,7 @@
                     android:id="@+id/txtAutomaticPaymentTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Automatic Payment"
+                    android:text="@string/automatic_payment"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -109,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="After delivery, your earning becomes available. Payment will be automatically sent to your registered account after 24 hours."
+                    android:text="@string/automatic_payment_info"
                     android:textColor="#555555"
                     android:textSize="13sp" />
 
@@ -118,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Automatic payment is enabled"
+                    android:text="@string/automatic_payment_enabled"
                     android:textColor="#2E7D32"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -127,8 +126,7 @@
 
         </androidx.cardview.widget.CardView>
 
-
-        <!-- ================= SUMMARY ================= -->
+        <!-- SUMMARY -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -156,7 +154,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Earned"
+                        android:text="@string/total_earned"
                         android:textColor="#555555"
                         android:textSize="14sp" />
 
@@ -173,7 +171,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
             <!-- TOTAL PAID -->
 
@@ -195,7 +192,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Paid"
+                        android:text="@string/total_paid"
                         android:textColor="#555555"
                         android:textSize="14sp" />
 
@@ -215,8 +212,7 @@
 
         </LinearLayout>
 
-
-        <!-- ================= PAYMENT ACCOUNT ================= -->
+        <!-- PAYMENT ACCOUNT -->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/paymentAccountCard"
@@ -238,7 +234,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Payment Account"
+                    android:text="@string/payment_account"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -267,7 +263,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="Registered for automatic payment"
+                    android:text="@string/payment_account_status"
                     android:textColor="#2E7D32"
                     android:textSize="13sp" />
 
@@ -275,21 +271,19 @@
 
         </androidx.cardview.widget.CardView>
 
-
-        <!-- ================= RECENT TRANSACTIONS ================= -->
+        <!-- RECENT TRANSACTIONS -->
 
         <TextView
             android:id="@+id/txtRecentTransactions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="Recent Transactions"
+            android:text="@string/recent_transactions"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-
-        <!-- ================= TRANSACTION CARD ================= -->
+        <!-- TRANSACTION CARD -->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/transactionCard"
@@ -306,8 +300,6 @@
                 android:orientation="vertical"
                 android:padding="18dp">
 
-                <!-- ORDER EARNING -->
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -322,7 +314,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Order Earning"
+                            android:text="@string/order_earning"
                             android:textColor="#000000"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -348,16 +340,12 @@
 
                 </LinearLayout>
 
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
                     android:background="#EEEEEE" />
-
-
-                <!-- AUTOMATIC PAYMENT -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -373,7 +361,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Automatic Payment"
+                            android:text="@string/automatic_payment"
                             android:textColor="#000000"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -382,7 +370,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Payment sent to registered account"
+                            android:text="@string/payment_sent"
                             android:textColor="#777777"
                             android:textSize="13sp" />
 
@@ -403,8 +391,7 @@
 
         </androidx.cardview.widget.CardView>
 
-
-        <!-- ================= VIEW ALL TRANSACTIONS ================= -->
+        <!-- VIEW ALL TRANSACTIONS -->
 
         <TextView
             android:id="@+id/txtViewAllTransactions"
@@ -412,7 +399,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="12dp"
-            android:text="View All Transactions"
+            android:text="@string/view_all_transactions"
             android:textColor="#2E7D32"
             android:textSize="16sp"
             android:textStyle="bold" />

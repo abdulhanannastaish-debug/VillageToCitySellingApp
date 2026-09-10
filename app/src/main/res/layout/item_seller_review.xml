@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="10dp"
+    android:layoutDirection="locale"
     app:cardCornerRadius="14dp"
     app:cardElevation="4dp"
     app:cardBackgroundColor="@android:color/white">
@@ -17,9 +18,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ================================================= -->
         <!-- BUYER INFORMATION -->
-        <!-- ================================================= -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +32,7 @@
                 android:layout_height="48dp"
                 android:src="@drawable/ic_profile"
                 android:scaleType="centerCrop"
-                android:contentDescription="Buyer profile picture" />
+                android:contentDescription="@string/buyer_information" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -64,10 +63,7 @@
 
         </LinearLayout>
 
-
-        <!-- ================================================= -->
         <!-- RATING -->
-        <!-- ================================================= -->
 
         <TextView
             android:id="@+id/txtReviewRating"
@@ -79,10 +75,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-
-        <!-- ================================================= -->
         <!-- REVIEW -->
-        <!-- ================================================= -->
 
         <TextView
             android:id="@+id/txtReviewText"
@@ -94,10 +87,7 @@
             android:textSize="14sp"
             android:lineSpacingExtra="2dp" />
 
-
-        <!-- ================================================= -->
         <!-- DATE -->
-        <!-- ================================================= -->
 
         <TextView
             android:id="@+id/txtReviewDate"

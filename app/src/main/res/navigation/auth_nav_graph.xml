@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_login_to_forgot_password"
             app:destination="@id/forget_password_fragment" />
+        <action
+            android:id="@+id/action_login_to_choose_language"
+            app:destination="@id/choose_language_fragment" />
     </fragment>
 
     <!-- ================= FORGET PASSWORD ================= -->
@@ -41,11 +44,9 @@
         android:name="com.example.villagetocityreseilingapp.ui.auth.ForgetPasswordFragment"
         android:label="Forget Password"
         tools:layout="@layout/fragment_forget_password">
-
         <action
             android:id="@+id/action_forget_password_to_login"
             app:destination="@id/login_fragment" />
-
     </fragment>
 
     <fragment
@@ -60,7 +61,18 @@
 
     <fragment
         android:id="@+id/seller_verification_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.main.seller.SellerVerificationFragment"        android:label="Seller Verification"
-        tools:layout="@layout/fragment_seller_verification"/>
+        android:name="com.example.villagetocityreseilingapp.ui.main.seller.SellerVerificationFragment"
+        android:label="Seller Verification"
+        tools:layout="@layout/fragment_seller_verification">
+        <action
+            android:id="@+id/action_verification_to_choose_language"
+            app:destination="@id/choose_language_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/choose_language_fragment"
+        android:name="com.example.villagetocityreseilingapp.ui.main.seller.SellerChooseLanguageFragment"
+        android:label="Choose Language"
+        tools:layout="@layout/fragment_seller_choose_language"/>
 
 </navigation>

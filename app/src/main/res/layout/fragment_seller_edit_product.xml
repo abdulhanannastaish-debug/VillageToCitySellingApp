@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:layoutDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ================= TOP APP BAR ================= -->
+        <!-- TOP APP BAR -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,15 +41,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="Edit Product"
+                android:text="@string/edit"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
         </LinearLayout>
 
-
-        <!-- ================= MAIN CARD ================= -->
+        <!-- MAIN CARD -->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -64,25 +64,24 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- ================= TITLE ================= -->
+                <!-- TITLE -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Update Product"
+                    android:text="@string/edit"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
                     android:gravity="center"/>
 
-
-                <!-- ================= PRODUCT IMAGE ================= -->
+                <!-- PRODUCT IMAGE -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Product Image"
+                    android:text="@string/item_image"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
@@ -112,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="8dp"
-                        android:text="Change Image"
+                        android:text="@string/upload_image"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -124,24 +123,24 @@
 
                 </FrameLayout>
 
-
-                <!-- ================= PRODUCT NAME ================= -->
+                <!-- PRODUCT NAME -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Product Name"
+                    android:text="@string/item_name"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
+
 
                 <EditText
                     android:id="@+id/etProductName"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
-                    android:hint="Enter product name"
+                    android:hint="@string/item_name"
                     android:inputType="textCapSentences"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="14dp"
@@ -149,14 +148,13 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-                <!-- ================= PRICE ================= -->
+                <!-- PRICE -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Product Price"
+                    android:text="@string/item_price"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
@@ -166,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
-                    android:hint="Enter price (Rs.)"
+                    android:hint="@string/item_price"
                     android:inputType="numberDecimal"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="14dp"
@@ -174,14 +172,13 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-                <!-- ================= AVAILABLE STOCK ================= -->
+                <!-- AVAILABLE STOCK -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Available Stock"
+                    android:text="@string/item_quantity"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
@@ -191,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
-                    android:hint="Enter available stock"
+                    android:hint="@string/item_quantity"
                     android:inputType="number"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="14dp"
@@ -199,14 +196,13 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-                <!-- ================= UNIT ================= -->
+                <!-- UNIT -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Unit"
+                    android:text="@string/item_quantity"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
@@ -224,15 +220,13 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-
-                <!-- ================= MINIMUM ORDER ================= -->
+                <!-- MINIMUM ORDER -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Minimum Order"
+                    android:text="@string/item_quantity"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
@@ -242,7 +236,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
-                    android:hint="Enter minimum order quantity"
+                    android:hint="@string/item_quantity"
                     android:inputType="number"
                     android:background="@drawable/bg_gradient"
                     android:paddingStart="14dp"
@@ -250,14 +244,13 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-                <!-- ================= DESCRIPTION ================= -->
+                <!-- DESCRIPTION -->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Product Description"
+                    android:text="@string/item_description"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
@@ -267,7 +260,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_marginTop="8dp"
-                    android:hint="Enter your product description..."
+                    android:hint="@string/item_description"
                     android:gravity="top"
                     android:inputType="textMultiLine|textCapSentences"
                     android:background="@drawable/bg_gradient"
@@ -275,22 +268,20 @@
                     android:textColor="#000000"
                     android:textColorHint="#777777"/>
 
-
-                <!-- ================= UPDATE BUTTON ================= -->
+                <!-- UPDATE BUTTON -->
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnUpdateProduct"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="24dp"
-                    android:text="Update Product"
+                    android:text="@string/edit"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/btn_white_rounded"
                     android:backgroundTint="#4CAF50"/>
-
 
             </LinearLayout>
 
