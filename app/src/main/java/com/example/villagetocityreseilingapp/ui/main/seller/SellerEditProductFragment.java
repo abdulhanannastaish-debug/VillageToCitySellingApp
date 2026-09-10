@@ -1,12 +1,18 @@
 package com.example.villagetocityreseilingapp.ui.main.seller;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,7 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.villagetocityreseilingapp.R;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,64 +35,51 @@ import java.util.Map;
 
 public class SellerEditProductFragment extends Fragment {
 
-    // =========================================================
-    // PRODUCT ID
-    // =========================================================
+    private static final String ARG_PRODUCT_ID = "productId";
+    private static final int PICK_IMAGE_REQUEST = 1001;
 
-    private static final String ARG_PRODUCT_ID =
-            "productId";
+    private static final String CLOUD_NAME = "cvhzteif";
+    private static final String UPLOAD_PRESET = "rural_reach_upload";
 
     private String productId;
-
-    // =========================================================
-    // VIEWS
-    // =========================================================
+    private String existingImageUrl = "";
+    private String uploadedImageUrl = "";
+    private Uri selectedImageUri;
 
     private EditText etProductName;
     private EditText etProductPrice;
     private EditText etProductStock;
+    private EditText etProductUnit;
+    private EditText etMinimumOrder;
     private EditText etProductDescription;
 
     private AppCompatButton btnUpdateProduct;
 
     private ImageButton btnBack;
 
-    // =========================================================
-    // FIREBASE
-    // =========================================================
+    private FrameLayout productImageBox;
+    private ImageView imgProduct;
+    private TextView txtChangeImage;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
-
     public SellerEditProductFragment() {
-        // Required empty public constructor
     }
 
     // =========================================================
     // NEW INSTANCE
     // =========================================================
 
-    public static SellerEditProductFragment newInstance(
-            String productId) {
+    public static SellerEditProductFragment newInstance(String productId) {
 
         SellerEditProductFragment fragment =
                 new SellerEditProductFragment();
 
-        Bundle args =
-                new Bundle();
+        Bundle args = new Bundle();
+        args.putString(ARG_PRODUCT_ID, productId);
 
-        args.putString(
-                ARG_PRODUCT_ID,
-                productId
-        );
-
-        fragment.setArguments(
-                args
-        );
+        fragment.setArguments(args);
 
         return fragment;
     }
@@ -91,25 +89,19 @@ public class SellerEditProductFragment extends Fragment {
     // =========================================================
 
     @Override
-    public void onCreate(
-            Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(
-                savedInstanceState
-        );
+        super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
 
             productId =
-                    getArguments()
-                            .getString(
-                                    ARG_PRODUCT_ID
-                            );
+                    getArguments().getString(ARG_PRODUCT_ID);
         }
     }
 
     // =========================================================
-    // CREATE VIEW
+    // ON CREATE VIEW
     // =========================================================
 
     @Override
@@ -126,7 +118,7 @@ public class SellerEditProductFragment extends Fragment {
     }
 
     // =========================================================
-    // VIEW CREATED
+    // ON VIEW CREATED
     // =========================================================
 
     @Override
@@ -139,60 +131,83 @@ public class SellerEditProductFragment extends Fragment {
                 savedInstanceState
         );
 
-        // =====================================================
-        // FIREBASE
-        // =====================================================
-
         auth =
                 FirebaseAuth.getInstance();
 
         db =
                 FirebaseFirestore.getInstance();
 
+        // CLOUDINARY
+        initializeCloudinary();
+
         // =====================================================
         // FIND VIEWS
         // =====================================================
 
         btnBack =
-                view.findViewById(
-                        R.id.btn_back
-                );
+                view.findViewById(R.id.btn_back);
 
         etProductName =
-                view.findViewById(
-                        R.id.etProductName
-                );
+                view.findViewById(R.id.etProductName);
 
         etProductPrice =
-                view.findViewById(
-                        R.id.etProductPrice
-                );
+                view.findViewById(R.id.etProductPrice);
 
         etProductStock =
-                view.findViewById(
-                        R.id.etProductStock
-                );
+                view.findViewById(R.id.etProductStock);
+
+        etProductUnit =
+                view.findViewById(R.id.etProductUnit);
+
+        etMinimumOrder =
+                view.findViewById(R.id.etMinimumOrder);
 
         etProductDescription =
-                view.findViewById(
-                        R.id.etProductDescription
-                );
+                view.findViewById(R.id.etProductDescription);
 
         btnUpdateProduct =
-                view.findViewById(
-                        R.id.btnUpdateProduct
-                );
+                view.findViewById(R.id.btnUpdateProduct);
+
+        productImageBox =
+                view.findViewById(R.id.productImageBox);
+
+        imgProduct =
+                view.findViewById(R.id.imgProduct);
+
+        txtChangeImage =
+                view.findViewById(R.id.txtChangeImage);
 
         // =====================================================
-        // BACK
+        // IMAGE CLICK
         // =====================================================
 
-        btnBack.setOnClickListener(
-                v -> goBackToProducts()
-        );
+        if (productImageBox != null) {
+
+            productImageBox.setOnClickListener(
+                    v -> openImagePicker()
+            );
+        }
+
+        if (imgProduct != null) {
+
+            imgProduct.setOnClickListener(
+                    v -> openImagePicker()
+            );
+        }
 
         // =====================================================
-        // PRODUCT ID CHECK
+        // BACK BUTTON
+        // =====================================================
+
+        if (btnBack != null) {
+
+            btnBack.setOnClickListener(
+                    v -> goBackToProducts()
+            );
+        }
+
+        // =====================================================
+        // CHECK PRODUCT ID
         // =====================================================
 
         if (TextUtils.isEmpty(productId)) {
@@ -215,12 +230,110 @@ public class SellerEditProductFragment extends Fragment {
         loadProduct();
 
         // =====================================================
-        // UPDATE
+        // UPDATE BUTTON
         // =====================================================
 
-        btnUpdateProduct.setOnClickListener(
-                v -> updateProduct()
+        if (btnUpdateProduct != null) {
+
+            btnUpdateProduct.setOnClickListener(
+                    v -> updateProduct()
+            );
+        }
+    }
+
+    // =========================================================
+    // CLOUDINARY INITIALIZE
+    // =========================================================
+
+    private void initializeCloudinary() {
+
+        try {
+
+            MediaManager.get();
+
+        } catch (IllegalStateException e) {
+
+            Map<String, Object> config =
+                    new HashMap<>();
+
+            config.put(
+                    "cloud_name",
+                    CLOUD_NAME
+            );
+
+            MediaManager.init(
+                    requireContext(),
+                    config
+            );
+        }
+    }
+
+    // =========================================================
+    // OPEN IMAGE PICKER
+    // =========================================================
+
+    private void openImagePicker() {
+
+        Intent intent =
+                new Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                );
+
+        intent.setType("image/*");
+
+        startActivityForResult(
+                intent,
+                PICK_IMAGE_REQUEST
         );
+    }
+
+    // =========================================================
+    // IMAGE PICK RESULT
+    // =========================================================
+
+    @Override
+    public void onActivityResult(
+            int requestCode,
+            int resultCode,
+            @Nullable Intent data) {
+
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        );
+
+        if (requestCode == PICK_IMAGE_REQUEST
+                && resultCode == android.app.Activity.RESULT_OK
+                && data != null
+                && data.getData() != null) {
+
+            selectedImageUri =
+                    data.getData();
+
+            // New selected image preview
+            if (imgProduct != null) {
+
+                imgProduct.setImageURI(
+                        selectedImageUri
+                );
+            }
+
+            // Hide Change Image text
+            if (txtChangeImage != null) {
+
+                txtChangeImage.setVisibility(
+                        View.GONE
+                );
+            }
+
+            Toast.makeText(
+                    requireContext(),
+                    "Image selected",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     // =========================================================
@@ -232,174 +345,282 @@ public class SellerEditProductFragment extends Fragment {
         db.collection("products")
                 .document(productId)
                 .get()
-                .addOnSuccessListener(
-                        documentSnapshot -> {
+                .addOnSuccessListener(documentSnapshot -> {
 
-                            if (!isAdded()) {
-                                return;
-                            }
+                    if (!isAdded()) {
+                        return;
+                    }
 
-                            if (!documentSnapshot.exists()) {
+                    if (!documentSnapshot.exists()) {
 
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Product not found.",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                        Toast.makeText(
+                                requireContext(),
+                                "Product not found.",
+                                Toast.LENGTH_SHORT
+                        ).show();
 
-                                goBackToProducts();
+                        goBackToProducts();
 
-                                return;
-                            }
+                        return;
+                    }
 
-                            FirebaseUser currentUser =
-                                    auth.getCurrentUser();
+                    // =================================================
+                    // CHECK CURRENT USER
+                    // =================================================
 
-                            if (currentUser == null) {
+                    FirebaseUser currentUser =
+                            auth.getCurrentUser();
 
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Seller is not logged in.",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                    if (currentUser == null) {
 
-                                return;
-                            }
+                        Toast.makeText(
+                                requireContext(),
+                                "Seller is not logged in.",
+                                Toast.LENGTH_SHORT
+                        ).show();
 
-                            // =================================
-                            // SELLER SECURITY CHECK
-                            // =================================
+                        goBackToProducts();
 
-                            String sellerId =
-                                    documentSnapshot.getString(
-                                            "sellerId"
-                                    );
+                        return;
+                    }
 
-                            if (
-                                    sellerId == null
-                                            ||
-                                            !sellerId.equals(
-                                                    currentUser.getUid()
-                                            )
-                            ) {
+                    // =================================================
+                    // CHECK SELLER
+                    // =================================================
 
-                                Toast.makeText(
-                                        requireContext(),
-                                        "You cannot edit this product.",
-                                        Toast.LENGTH_LONG
-                                ).show();
+                    String sellerId =
+                            documentSnapshot.getString(
+                                    "sellerId"
+                            );
 
-                                goBackToProducts();
+                    if (sellerId == null
+                            || !sellerId.equals(
+                            currentUser.getUid())) {
 
-                                return;
-                            }
+                        Toast.makeText(
+                                requireContext(),
+                                "You cannot edit this product.",
+                                Toast.LENGTH_LONG
+                        ).show();
 
-                            // =================================
-                            // NAME
-                            // =================================
+                        goBackToProducts();
 
-                            String name =
-                                    documentSnapshot.getString(
-                                            "name"
-                                    );
+                        return;
+                    }
 
-                            if (!TextUtils.isEmpty(name)) {
+                    // =================================================
+                    // LOAD EXISTING IMAGE
+                    // =================================================
 
-                                etProductName.setText(
-                                        name
+                    existingImageUrl =
+                            documentSnapshot.getString(
+                                    "imageUrl"
+                            );
+
+                    // If imageUrl is empty/null,
+                    // try productImage
+                    if (TextUtils.isEmpty(
+                            existingImageUrl)) {
+
+                        existingImageUrl =
+                                documentSnapshot.getString(
+                                        "productImage"
                                 );
-                            }
+                    }
 
-                            // =================================
-                            // DESCRIPTION
-                            // =================================
+                    // Make sure it is not null
+                    if (existingImageUrl == null) {
 
-                            String description =
-                                    documentSnapshot.getString(
-                                            "description"
-                                    );
+                        existingImageUrl = "";
+                    }
 
-                            if (!TextUtils.isEmpty(description)) {
+                    // =================================================
+                    // SHOW EXISTING IMAGE
+                    // =================================================
 
-                                etProductDescription.setText(
-                                        description
-                                );
-                            }
+                    if (!TextUtils.isEmpty(
+                            existingImageUrl)) {
 
-                            // =================================
-                            // PRICE
-                            // =================================
+                        if (imgProduct != null) {
 
-                            Object priceObject =
-                                    documentSnapshot.get(
-                                            "price"
-                                    );
-
-                            if (priceObject != null) {
-
-                                etProductPrice.setText(
-                                        formatNumber(
-                                                priceObject
-                                        )
-                                );
-                            }
-
-                            // =================================
-                            // STOCK
-                            // =================================
-
-                            Object stockObject =
-                                    documentSnapshot.get(
-                                            "availableStock"
-                                    );
-
-                            if (stockObject == null) {
-
-                                stockObject =
-                                        documentSnapshot.get(
-                                                "totalStock"
-                                        );
-                            }
-
-                            if (stockObject == null) {
-
-                                stockObject =
-                                        documentSnapshot.get(
-                                                "quantity"
-                                        );
-                            }
-
-                            if (stockObject != null) {
-
-                                etProductStock.setText(
-                                        formatNumber(
-                                                stockObject
-                                        )
-                                );
-
-                            } else {
-
-                                etProductStock.setText(
-                                        "0"
-                                );
-                            }
+                            Glide.with(requireContext())
+                                    .load(existingImageUrl)
+                                    .placeholder(
+                                            android.R.drawable.ic_menu_gallery
+                                    )
+                                    .error(
+                                            android.R.drawable.ic_menu_gallery
+                                    )
+                                    .into(imgProduct);
                         }
-                )
-                .addOnFailureListener(
-                        e -> {
 
-                            if (!isAdded()) {
-                                return;
-                            }
+                        // Hide Upload/Change text
+                        if (txtChangeImage != null) {
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Failed to load product: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            txtChangeImage.setVisibility(
+                                    View.GONE
+                            );
                         }
-                );
+
+                    } else {
+
+                        // =================================================
+                        // NO IMAGE AVAILABLE
+                        // =================================================
+
+                        if (imgProduct != null) {
+
+                            imgProduct.setImageResource(
+                                    android.R.drawable.ic_menu_gallery
+                            );
+                        }
+
+                        if (txtChangeImage != null) {
+
+                            txtChangeImage.setVisibility(
+                                    View.VISIBLE
+                            );
+                        }
+                    }
+
+                    // =================================================
+                    // LOAD PRODUCT NAME
+                    // =================================================
+
+                    String name =
+                            documentSnapshot.getString(
+                                    "name"
+                            );
+
+                    if (!TextUtils.isEmpty(name)) {
+
+                        etProductName.setText(name);
+                    }
+
+                    // =================================================
+                    // LOAD DESCRIPTION
+                    // =================================================
+
+                    String description =
+                            documentSnapshot.getString(
+                                    "description"
+                            );
+
+                    if (!TextUtils.isEmpty(description)) {
+
+                        etProductDescription.setText(
+                                description
+                        );
+                    }
+
+                    // =================================================
+                    // LOAD PRICE
+                    // =================================================
+
+                    Object price =
+                            documentSnapshot.get("price");
+
+                    if (price != null) {
+
+                        etProductPrice.setText(
+                                formatNumber(price)
+                        );
+                    }
+
+                    // =================================================
+                    // LOAD STOCK
+                    // =================================================
+
+                    Object stock =
+                            documentSnapshot.get(
+                                    "availableStock"
+                            );
+
+                    if (stock == null) {
+
+                        stock =
+                                documentSnapshot.get(
+                                        "totalStock"
+                                );
+                    }
+
+                    if (stock == null) {
+
+                        stock =
+                                documentSnapshot.get(
+                                        "quantity"
+                                );
+                    }
+
+                    if (stock != null) {
+
+                        etProductStock.setText(
+                                formatNumber(stock)
+                        );
+                    }
+
+                    // =================================================
+                    // LOAD UNIT
+                    // =================================================
+
+                    String unit =
+                            documentSnapshot.getString(
+                                    "unitType"
+                            );
+
+                    if (TextUtils.isEmpty(unit)) {
+
+                        unit =
+                                documentSnapshot.getString(
+                                        "unit"
+                                );
+                    }
+
+                    if (!TextUtils.isEmpty(unit)) {
+
+                        etProductUnit.setText(unit);
+                    }
+
+                    // =================================================
+                    // LOAD MINIMUM ORDER
+                    // =================================================
+
+                    Object minimumOrder =
+                            documentSnapshot.get(
+                                    "minimumOrder"
+                            );
+
+                    if (minimumOrder == null) {
+
+                        minimumOrder =
+                                documentSnapshot.get(
+                                        "minOrderQuantity"
+                                );
+                    }
+
+                    if (minimumOrder != null) {
+
+                        etMinimumOrder.setText(
+                                formatNumber(
+                                        minimumOrder
+                                )
+                        );
+                    }
+
+                })
+                .addOnFailureListener(e -> {
+
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Failed to load product: "
+                                    + e.getMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
+                });
     }
 
     // =========================================================
@@ -426,6 +647,18 @@ public class SellerEditProductFragment extends Fragment {
                         .toString()
                         .trim();
 
+        String unit =
+                etProductUnit
+                        .getText()
+                        .toString()
+                        .trim();
+
+        String minimumOrderText =
+                etMinimumOrder
+                        .getText()
+                        .toString()
+                        .trim();
+
         String description =
                 etProductDescription
                         .getText()
@@ -433,7 +666,7 @@ public class SellerEditProductFragment extends Fragment {
                         .trim();
 
         // =====================================================
-        // NAME
+        // VALIDATION
         // =====================================================
 
         if (TextUtils.isEmpty(name)) {
@@ -447,10 +680,6 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
-        // =====================================================
-        // PRICE
-        // =====================================================
-
         if (TextUtils.isEmpty(priceText)) {
 
             etProductPrice.setError(
@@ -461,10 +690,6 @@ public class SellerEditProductFragment extends Fragment {
 
             return;
         }
-
-        // =====================================================
-        // STOCK
-        // =====================================================
 
         if (TextUtils.isEmpty(stockText)) {
 
@@ -477,9 +702,27 @@ public class SellerEditProductFragment extends Fragment {
             return;
         }
 
-        // =====================================================
-        // DESCRIPTION
-        // =====================================================
+        if (TextUtils.isEmpty(unit)) {
+
+            etProductUnit.setError(
+                    "Enter unit"
+            );
+
+            etProductUnit.requestFocus();
+
+            return;
+        }
+
+        if (TextUtils.isEmpty(minimumOrderText)) {
+
+            etMinimumOrder.setError(
+                    "Enter minimum order"
+            );
+
+            etMinimumOrder.requestFocus();
+
+            return;
+        }
 
         if (TextUtils.isEmpty(description)) {
 
@@ -493,7 +736,7 @@ public class SellerEditProductFragment extends Fragment {
         }
 
         // =====================================================
-        // CURRENT USER
+        // CHECK USER
         // =====================================================
 
         FirebaseUser currentUser =
@@ -514,7 +757,7 @@ public class SellerEditProductFragment extends Fragment {
         // PRICE
         // =====================================================
 
-        double price;
+        final double price;
 
         try {
 
@@ -529,18 +772,14 @@ public class SellerEditProductFragment extends Fragment {
                     "Enter a valid price"
             );
 
-            etProductPrice.requestFocus();
-
             return;
         }
 
-        if (price < 0) {
+        if (price <= 0) {
 
             etProductPrice.setError(
-                    "Price cannot be negative"
+                    "Price must be greater than 0"
             );
-
-            etProductPrice.requestFocus();
 
             return;
         }
@@ -549,12 +788,12 @@ public class SellerEditProductFragment extends Fragment {
         // STOCK
         // =====================================================
 
-        int availableStock;
+        final double stock;
 
         try {
 
-            availableStock =
-                    Integer.parseInt(
+            stock =
+                    Double.parseDouble(
                             stockText
                     );
 
@@ -564,33 +803,218 @@ public class SellerEditProductFragment extends Fragment {
                     "Enter a valid stock"
             );
 
-            etProductStock.requestFocus();
-
             return;
         }
 
-        if (availableStock < 0) {
+        if (stock < 0) {
 
             etProductStock.setError(
                     "Stock cannot be negative"
             );
 
-            etProductStock.requestFocus();
+            return;
+        }
+
+        // =====================================================
+        // MINIMUM ORDER
+        // =====================================================
+
+        final double minimumOrder;
+
+        try {
+
+            minimumOrder =
+                    Double.parseDouble(
+                            minimumOrderText
+                    );
+
+        } catch (NumberFormatException e) {
+
+            etMinimumOrder.setError(
+                    "Enter a valid minimum order"
+            );
+
+            return;
+        }
+
+        if (minimumOrder <= 0) {
+
+            etMinimumOrder.setError(
+                    "Minimum order must be greater than 0"
+            );
+
+            return;
+        }
+
+        if (minimumOrder > stock) {
+
+            etMinimumOrder.setError(
+                    "Minimum order cannot exceed stock"
+            );
 
             return;
         }
 
         // =====================================================
-        // DISABLE BUTTON
+        // DISABLE UPDATE BUTTON
         // =====================================================
 
-        btnUpdateProduct.setEnabled(
-                false
-        );
+        btnUpdateProduct.setEnabled(false);
 
         // =====================================================
-        // UPDATE DATA
+        // NEW IMAGE SELECTED?
         // =====================================================
+
+        if (selectedImageUri != null) {
+
+            uploadImageAndUpdate(
+                    name,
+                    price,
+                    stock,
+                    unit,
+                    minimumOrder,
+                    description
+            );
+
+        } else {
+
+            // Keep old image
+            saveUpdatedProduct(
+                    name,
+                    price,
+                    stock,
+                    unit,
+                    minimumOrder,
+                    description,
+                    existingImageUrl
+            );
+        }
+    }
+
+    // =========================================================
+    // UPLOAD NEW IMAGE AND UPDATE
+    // =========================================================
+
+    private void uploadImageAndUpdate(
+            String name,
+            double price,
+            double stock,
+            String unit,
+            double minimumOrder,
+            String description) {
+
+        Toast.makeText(
+                requireContext(),
+                "Uploading image...",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        MediaManager.get()
+                .upload(selectedImageUri)
+                .unsigned(UPLOAD_PRESET)
+                .option(
+                        "folder",
+                        "rural_reach/products"
+                )
+                .callback(
+                        new UploadCallback() {
+
+                            @Override
+                            public void onStart(
+                                    String requestId) {
+                            }
+
+                            @Override
+                            public void onProgress(
+                                    String requestId,
+                                    long bytes,
+                                    long totalBytes) {
+                            }
+
+                            @Override
+                            public void onSuccess(
+                                    String requestId,
+                                    Map resultData) {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
+                                Object secureUrl =
+                                        resultData.get(
+                                                "secure_url"
+                                        );
+
+                                if (secureUrl != null) {
+
+                                    uploadedImageUrl =
+                                            secureUrl.toString();
+
+                                    saveUpdatedProduct(
+                                            name,
+                                            price,
+                                            stock,
+                                            unit,
+                                            minimumOrder,
+                                            description,
+                                            uploadedImageUrl
+                                    );
+
+                                } else {
+
+                                    btnUpdateProduct
+                                            .setEnabled(true);
+
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Image upload failed.",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(
+                                    String requestId,
+                                    ErrorInfo error) {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
+                                btnUpdateProduct
+                                        .setEnabled(true);
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Image upload failed: "
+                                                + error.getDescription(),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+
+                            @Override
+                            public void onReschedule(
+                                    String requestId,
+                                    ErrorInfo error) {
+                            }
+                        }
+                )
+                .dispatch();
+    }
+
+    // =========================================================
+    // SAVE UPDATED PRODUCT
+    // =========================================================
+
+    private void saveUpdatedProduct(
+            String name,
+            double price,
+            double stock,
+            String unit,
+            double minimumOrder,
+            String description,
+            String imageUrl) {
 
         Map<String, Object> updateData =
                 new HashMap<>();
@@ -606,18 +1030,43 @@ public class SellerEditProductFragment extends Fragment {
         );
 
         updateData.put(
+                "pricePerUnit",
+                price
+        );
+
+        updateData.put(
                 "availableStock",
-                availableStock
+                stock
         );
 
         updateData.put(
                 "totalStock",
-                availableStock
+                stock
         );
 
         updateData.put(
                 "quantity",
-                availableStock
+                stock
+        );
+
+        updateData.put(
+                "unitType",
+                unit
+        );
+
+        updateData.put(
+                "unit",
+                unit
+        );
+
+        updateData.put(
+                "minimumOrder",
+                minimumOrder
+        );
+
+        updateData.put(
+                "minOrderQuantity",
+                minimumOrder
         );
 
         updateData.put(
@@ -626,78 +1075,80 @@ public class SellerEditProductFragment extends Fragment {
         );
 
         // =====================================================
-        // STATUS
+        // SAVE IMAGE URL
         // =====================================================
 
-        if (availableStock <= 0) {
+        updateData.put(
+                "imageUrl",
+                imageUrl
+        );
 
-            updateData.put(
-                    "status",
-                    "outOfStock"
-            );
+        updateData.put(
+                "productImage",
+                imageUrl
+        );
 
-        } else {
+        updateData.put(
+                "updatedAt",
+                Timestamp.now()
+        );
 
-            updateData.put(
-                    "status",
-                    "active"
-            );
-        }
+        updateData.put(
+                "status",
+                stock <= 0
+                        ? "outOfStock"
+                        : "available"
+        );
 
         // =====================================================
-        // UPDATE FIRESTORE
+        // FIRESTORE UPDATE
         // =====================================================
 
         db.collection("products")
                 .document(productId)
                 .update(updateData)
-                .addOnSuccessListener(
-                        unused -> {
+                .addOnSuccessListener(unused -> {
 
-                            if (!isAdded()) {
-                                return;
-                            }
+                    if (!isAdded()) {
+                        return;
+                    }
 
-                            btnUpdateProduct.setEnabled(
-                                    true
-                            );
+                    btnUpdateProduct.setEnabled(
+                            true
+                    );
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Product updated successfully!",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                    Toast.makeText(
+                            requireContext(),
+                            "Product updated successfully!",
+                            Toast.LENGTH_SHORT
+                    ).show();
 
-                            goBackToProducts();
-                        }
-                )
-                .addOnFailureListener(
-                        e -> {
+                    goBackToProducts();
+                })
+                .addOnFailureListener(e -> {
 
-                            if (!isAdded()) {
-                                return;
-                            }
+                    if (!isAdded()) {
+                        return;
+                    }
 
-                            btnUpdateProduct.setEnabled(
-                                    true
-                            );
+                    btnUpdateProduct.setEnabled(
+                            true
+                    );
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Failed to update product: "
-                                            + e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
-                );
+                    Toast.makeText(
+                            requireContext(),
+                            "Failed to update product: "
+                                    + e.getMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
+                });
     }
 
     // =========================================================
     // FORMAT NUMBER
     // =========================================================
 
-    private String formatNumber(
-            Object value) {
+    private String formatNumber(Object value) {
 
         if (value == null) {
             return "";
@@ -705,67 +1156,49 @@ public class SellerEditProductFragment extends Fragment {
 
         if (value instanceof Number) {
 
-            double doubleValue =
-                    ((Number) value)
-                            .doubleValue();
+            double number =
+                    ((Number) value).doubleValue();
 
-            if (
-                    doubleValue
-                            == Math.floor(
-                            doubleValue
-                    )
-            ) {
+            if (number == Math.floor(number)) {
 
                 return String.valueOf(
-                        (long) doubleValue
+                        (long) number
                 );
             }
 
-            return String.valueOf(
-                    doubleValue
-            );
+            return String.valueOf(number);
         }
 
-        String stringValue =
-                String.valueOf(
-                        value
-                ).trim();
+        String text =
+                String.valueOf(value)
+                        .trim();
 
-        if (TextUtils.isEmpty(stringValue)) {
+        if (text.isEmpty()) {
             return "";
         }
 
         try {
 
-            double doubleValue =
-                    Double.parseDouble(
-                            stringValue
-                    );
+            double number =
+                    Double.parseDouble(text);
 
-            if (
-                    doubleValue
-                            == Math.floor(
-                            doubleValue
-                    )
-            ) {
+            if (number == Math.floor(number)) {
 
                 return String.valueOf(
-                        (long) doubleValue
+                        (long) number
                 );
             }
 
-            return String.valueOf(
-                    doubleValue
-            );
+            return String.valueOf(number);
 
         } catch (Exception e) {
 
-            return stringValue;
+            return text;
         }
     }
 
     // =========================================================
-    // BACK TO PRODUCTS
+    // GO BACK TO PRODUCTS
     // =========================================================
 
     private void goBackToProducts() {

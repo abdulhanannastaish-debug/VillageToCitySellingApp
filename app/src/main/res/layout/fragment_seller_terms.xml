@@ -68,7 +68,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Village to City"
+                    android:text="@string/terms_village_to_city"
                     android:textColor="@color/green"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/terms_conditions"
+                    android:text="@string/terms_seller_title"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Please read these Terms &amp; Conditions carefully before using your seller account on Village to City."
+                    android:text="@string/terms_intro"
                     android:textColor="#555555"
                     android:textSize="15sp"
                     android:lineSpacingExtra="4dp" />
@@ -107,7 +107,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1. Seller Account"
+                    android:text="@string/terms_section1_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="The seller must provide accurate, complete and up-to-date information when creating and maintaining a seller account. The seller is responsible for keeping account information secure and must not share account credentials with unauthorized persons."
+                    android:text="@string/terms_section1_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -137,7 +137,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="2. Seller Verification"
+                    android:text="@string/terms_section2_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -146,7 +146,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Seller verification information, including identity and contact details, must be genuine and belong to the actual seller. Providing false, misleading or fraudulent information may result in rejection, suspension or removal of the seller account."
+                    android:text="@string/terms_section2_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -167,7 +167,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="3. Product Listing Rules"
+                    android:text="@string/terms_section3_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Sellers must provide correct product names, descriptions, prices and other relevant information. Product listings must accurately represent the actual products being offered for sale."
+                    android:text="@string/terms_section3_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -197,7 +197,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="4. Product Quality &amp; Authenticity"
+                    android:text="@string/terms_section4_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -206,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Sellers are responsible for ensuring that products are genuine, safe and accurately described. Fake, counterfeit, misleading, illegal or otherwise prohibited products must not be listed or sold through the platform."
+                    android:text="@string/terms_section4_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -227,7 +227,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="5. Orders &amp; Delivery"
+                    android:text="@string/terms_section5_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -236,7 +236,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Sellers are responsible for properly processing customer orders and preparing products for delivery according to the application's order and delivery process. Sellers should cooperate with the applicable courier and delivery procedures."
+                    android:text="@string/terms_section5_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -257,7 +257,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="6. Pricing &amp; Payments"
+                    android:text="@string/terms_section6_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -266,7 +266,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Sellers must provide accurate product prices and must follow the payment, delivery and commission policies applicable to the platform. Any applicable seller payout will be processed according to the platform's payment policy."
+                    android:text="@string/terms_section6_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -287,7 +287,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="7. Seller Responsibilities"
+                    android:text="@string/terms_section7_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -296,7 +296,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Sellers must communicate honestly with customers, maintain accurate product information and fulfill accepted orders responsibly. Sellers must not use the platform for fraudulent, deceptive or unlawful activities."
+                    android:text="@string/terms_section7_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -317,7 +317,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="8. Prohibited Activities"
+                    android:text="@string/terms_section8_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -326,7 +326,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Fraud, impersonation, misleading product information, manipulation of orders, unauthorized use of another person's account and listing prohibited or illegal products are not permitted."
+                    android:text="@string/terms_section8_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -347,7 +347,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="9. Account Suspension"
+                    android:text="@string/terms_section9_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -356,7 +356,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Village to City may suspend, restrict or terminate a seller account if the seller violates these Terms &amp; Conditions, provides false information, engages in fraudulent activity or otherwise misuses the platform."
+                    android:text="@string/terms_section9_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -377,7 +377,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10. Privacy &amp; Personal Information"
+                    android:text="@string/terms_section10_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -386,7 +386,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Seller information and documents provided during registration and verification should be used only for legitimate platform purposes and handled according to the application's privacy and security practices."
+                    android:text="@string/terms_section10_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -407,7 +407,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="11. Changes to Terms"
+                    android:text="@string/terms_section11_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -416,7 +416,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="These Terms &amp; Conditions may be updated when necessary to reflect changes in the application, services, policies or applicable requirements. Sellers are responsible for reviewing the latest version."
+                    android:text="@string/terms_section11_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -437,7 +437,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="12. Acceptance of Terms"
+                    android:text="@string/terms_section12_title"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -446,7 +446,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="By using the Village to City seller platform, you confirm that you have read, understood and agreed to comply with these Terms &amp; Conditions."
+                    android:text="@string/terms_section12_desc"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:lineSpacingExtra="5dp" />
@@ -461,7 +461,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
-                android:text="Thank you for being a part of Village to City."
+                android:text="@string/terms_footer"
                 android:textColor="#777777"
                 android:textSize="14sp" />
 

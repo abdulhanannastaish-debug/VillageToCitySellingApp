@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -32,28 +31,11 @@ import java.util.Map;
 public class ProductAdapter
         extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    // =========================================================
-    // PRODUCT LIST
-    // =========================================================
-
     private final List<Map<String, Object>> productList;
-
-    // =========================================================
-    // ACTIVITY
-    // =========================================================
-
     private final FragmentActivity activity;
-
-    // =========================================================
-    // FIREBASE
-    // =========================================================
 
     private final FirebaseAuth auth;
     private final FirebaseFirestore db;
-
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
 
     public ProductAdapter(
             FragmentActivity activity,
@@ -78,19 +60,18 @@ public class ProductAdapter
             @NonNull ViewGroup parent,
             int viewType) {
 
-        View view =
-                LayoutInflater.from(parent.getContext())
-                        .inflate(
-                                R.layout.seller_item_product,
-                                parent,
-                                false
-                        );
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(
+                        R.layout.seller_item_product,
+                        parent,
+                        false
+                );
 
         return new ProductViewHolder(view);
     }
 
     // =========================================================
-    // BIND DATA
+    // BIND VIEW
     // =========================================================
 
     @Override
@@ -113,7 +94,7 @@ public class ProductAdapter
                 );
 
         // =====================================================
-        // PRODUCT NAME
+        // NAME
         // =====================================================
 
         String name =
@@ -123,33 +104,38 @@ public class ProductAdapter
                         "Product"
                 );
 
+        holder.txtProductName.setText(name);
+
         // =====================================================
         // PRICE
         // =====================================================
 
         double priceNumber =
-                getDouble(
-                        product.get("price")
-                );
+                getDouble(product.get("price"));
 
         String price;
 
         if (priceNumber == Math.floor(priceNumber)) {
 
-            price =
-                    String.valueOf(
-                            (long) priceNumber
-                    );
+            price = String.valueOf(
+                    (long) priceNumber
+            );
 
         } else {
 
-            price =
-                    String.format(
-                            Locale.getDefault(),
-                            "%.2f",
-                            priceNumber
-                    );
+            price = String.format(
+                    Locale.getDefault(),
+                    "%.2f",
+                    priceNumber
+            );
         }
+
+        holder.txtProductPrice.setText(
+                activity.getString(
+                        R.string.product_price_label,
+                        price
+                )
+        );
 
         // =====================================================
         // STOCK
@@ -159,65 +145,33 @@ public class ProductAdapter
                 product.get("availableStock");
 
         if (stockValue == null) {
-
-            stockValue =
-                    product.get("totalStock");
+            stockValue = product.get("totalStock");
         }
 
         if (stockValue == null) {
-
-            stockValue =
-                    product.get("quantity");
+            stockValue = product.get("quantity");
         }
 
         double stockNumber =
-                getDouble(
-                        stockValue
-                );
+                getDouble(stockValue);
 
         String availableStock =
-                formatNumber(
-                        stockValue
-                );
+                formatNumber(stockValue);
 
         boolean isOutOfStock =
                 stockNumber <= 0;
 
-        // =====================================================
-        // DESCRIPTION
-        // =====================================================
-
-        String description =
-                getStringValue(
-                        product,
-                        "description",
-                        ""
-                );
-
-        // =====================================================
-        // SET NAME
-        // =====================================================
-
-        holder.txtProductName.setText(
-                name
-        );
-
-        // =====================================================
-        // SET PRICE
-        // =====================================================
-
-        holder.txtProductPrice.setText(
-                "Price: Rs. " + price
-        );
-
-        // =====================================================
-        // SET STOCK
-        // =====================================================
-
         if (isOutOfStock) {
 
             holder.txtProductQuantity.setText(
-                    "Available Stock: 0  •  OUT OF STOCK"
+                    activity.getString(
+                            R.string.available_stock_label,
+                            "0"
+                    )
+                            + " • "
+                            + activity.getString(
+                            R.string.out_of_stock
+                    )
             );
 
             holder.txtProductQuantity.setTextColor(
@@ -232,8 +186,10 @@ public class ProductAdapter
         } else {
 
             holder.txtProductQuantity.setText(
-                    "Available Stock: "
-                            + availableStock
+                    activity.getString(
+                            R.string.available_stock_label,
+                            availableStock
+                    )
             );
 
             holder.txtProductQuantity.setTextColor(
@@ -250,6 +206,13 @@ public class ProductAdapter
         // DESCRIPTION
         // =====================================================
 
+        String description =
+                getStringValue(
+                        product,
+                        "description",
+                        ""
+                );
+
         holder.txtProductDescription.setText(
                 description
         );
@@ -261,7 +224,7 @@ public class ProductAdapter
         if (isOutOfStock) {
 
             holder.txtProductStatus.setText(
-                    "OUT OF STOCK"
+                    R.string.out_of_stock
             );
 
             holder.txtProductStatus.setTextColor(
@@ -271,15 +234,11 @@ public class ProductAdapter
         } else {
 
             holder.txtProductStatus.setText(
-                    "ACTIVE"
+                    R.string.active
             );
 
             holder.txtProductStatus.setTextColor(
-                    Color.rgb(
-                            46,
-                            125,
-                            50
-                    )
+                    Color.rgb(46, 125, 50)
             );
         }
 
@@ -289,7 +248,7 @@ public class ProductAdapter
         );
 
         // =====================================================
-        // PRODUCT DATE
+        // DATE
         // =====================================================
 
         setProductAge(
@@ -298,7 +257,7 @@ public class ProductAdapter
         );
 
         // =====================================================
-        // EDIT PRODUCT BUTTON
+        // EDIT BUTTON
         // =====================================================
 
         holder.btnEditProduct.setVisibility(
@@ -309,30 +268,83 @@ public class ProductAdapter
                 true
         );
 
-        holder.btnEditProduct.setOnClickListener(
-                v -> {
+        holder.btnEditProduct.setClickable(
+                true
+        );
 
-                    if (productId.isEmpty()) {
+        // Urdu Edit text
+        holder.btnEditProduct.setText(
+                R.string.edit_product
+        );
+
+        holder.btnEditProduct.setOnClickListener(
+                view -> {
+
+                    // -----------------------------------------
+                    // SAFELY GET CURRENT POSITION
+                    // -----------------------------------------
+
+                    int adapterPosition =
+                            holder.getBindingAdapterPosition();
+
+                    if (adapterPosition ==
+                            RecyclerView.NO_POSITION) {
+                        return;
+                    }
+
+                    // -----------------------------------------
+                    // GET CURRENT PRODUCT
+                    // -----------------------------------------
+
+                    Map<String, Object> selectedProduct =
+                            productList.get(
+                                    adapterPosition
+                            );
+
+                    // -----------------------------------------
+                    // GET PRODUCT ID AGAIN
+                    // -----------------------------------------
+
+                    String selectedProductId =
+                            getStringValue(
+                                    selectedProduct,
+                                    "productId",
+                                    ""
+                            );
+
+                    // -----------------------------------------
+                    // CHECK PRODUCT ID
+                    // -----------------------------------------
+
+                    if (selectedProductId.isEmpty()) {
 
                         Toast.makeText(
                                 activity,
-                                "Product ID not found.",
+                                activity.getString(
+                                        R.string.product_id_not_found
+                                ),
                                 Toast.LENGTH_SHORT
                         ).show();
 
                         return;
                     }
 
-                    SellerEditProductFragment fragment =
-                            SellerEditProductFragment.newInstance(
-                                    productId
-                            );
+                    // -----------------------------------------
+                    // OPEN EDIT FRAGMENT
+                    // -----------------------------------------
 
-                    activity.getSupportFragmentManager()
+                    SellerEditProductFragment editFragment =
+                            SellerEditProductFragment
+                                    .newInstance(
+                                            selectedProductId
+                                    );
+
+                    activity
+                            .getSupportFragmentManager()
                             .beginTransaction()
                             .replace(
                                     R.id.fragment_container,
-                                    fragment
+                                    editFragment
                             )
                             .addToBackStack(null)
                             .commit();
@@ -340,7 +352,7 @@ public class ProductAdapter
         );
 
         // =====================================================
-        // DELETE PRODUCT BUTTON
+        // DELETE BUTTON
         // =====================================================
 
         holder.btnDeleteProduct.setVisibility(
@@ -351,14 +363,45 @@ public class ProductAdapter
                 true
         );
 
-        holder.btnDeleteProduct.setOnClickListener(
-                v -> {
+        holder.btnDeleteProduct.setClickable(
+                true
+        );
 
-                    if (productId.isEmpty()) {
+        // Urdu Delete text
+        holder.btnDeleteProduct.setText(
+                R.string.delete_product
+        );
+
+        holder.btnDeleteProduct.setOnClickListener(
+                view -> {
+
+                    int adapterPosition =
+                            holder.getBindingAdapterPosition();
+
+                    if (adapterPosition ==
+                            RecyclerView.NO_POSITION) {
+                        return;
+                    }
+
+                    Map<String, Object> selectedProduct =
+                            productList.get(
+                                    adapterPosition
+                            );
+
+                    String selectedProductId =
+                            getStringValue(
+                                    selectedProduct,
+                                    "productId",
+                                    ""
+                            );
+
+                    if (selectedProductId.isEmpty()) {
 
                         Toast.makeText(
                                 activity,
-                                "Product ID not found.",
+                                activity.getString(
+                                        R.string.product_id_not_found
+                                ),
                                 Toast.LENGTH_SHORT
                         ).show();
 
@@ -366,8 +409,8 @@ public class ProductAdapter
                     }
 
                     showDeleteConfirmation(
-                            productId,
-                            position
+                            selectedProductId,
+                            adapterPosition
                     );
                 }
         );
@@ -383,17 +426,17 @@ public class ProductAdapter
 
         new AlertDialog.Builder(activity)
                 .setTitle(
-                        "Delete Product"
+                        R.string.delete_product
                 )
                 .setMessage(
-                        "Are you sure you want to permanently delete this product?"
+                        R.string.delete_product_message
                 )
                 .setNegativeButton(
-                        "Cancel",
+                        R.string.cancel,
                         null
                 )
                 .setPositiveButton(
-                        "Delete",
+                        R.string.delete,
                         (dialog, which) ->
                                 permanentlyDeleteProduct(
                                         productId,
@@ -404,7 +447,7 @@ public class ProductAdapter
     }
 
     // =========================================================
-    // PERMANENT DELETE
+    // DELETE PRODUCT
     // =========================================================
 
     private void permanentlyDeleteProduct(
@@ -418,68 +461,59 @@ public class ProductAdapter
 
             Toast.makeText(
                     activity,
-                    "Seller is not logged in.",
+                    activity.getString(
+                            R.string.seller_not_logged_in
+                    ),
                     Toast.LENGTH_SHORT
             ).show();
 
             return;
         }
 
-        // =====================================================
-        // DISABLE BUTTON
-        // =====================================================
-
-        if (position >= 0 &&
-                position < productList.size()) {
-
-            // Product remains visible until Firestore confirms
-            // successful deletion.
-        }
-
-        // =====================================================
-        // PERMANENT FIRESTORE DELETE
-        // =====================================================
-
         db.collection("products")
                 .document(productId)
                 .delete()
-                .addOnSuccessListener(unused -> {
+                .addOnSuccessListener(
+                        unused -> {
 
-                    // =========================================
-                    // REMOVE FROM LOCAL LIST
-                    // =========================================
+                            int currentPosition =
+                                    findProductPosition(
+                                            productId
+                                    );
 
-                    int currentPosition =
-                            findProductPosition(
-                                    productId
-                            );
+                            if (currentPosition != -1) {
 
-                    if (currentPosition != -1) {
+                                productList.remove(
+                                        currentPosition
+                                );
 
-                        productList.remove(
-                                currentPosition
-                        );
+                                notifyItemRemoved(
+                                        currentPosition
+                                );
+                            }
 
-                        notifyItemRemoved(
-                                currentPosition
-                        );
-                    }
+                            Toast.makeText(
+                                    activity,
+                                    activity.getString(
+                                            R.string.product_deleted
+                                    ),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                )
+                .addOnFailureListener(
+                        e -> {
 
-                    Toast.makeText(
-                            activity,
-                            "Product permanently deleted.",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                })
-                .addOnFailureListener(e -> {
-
-                    Toast.makeText(
-                            activity,
-                            "Failed to delete product: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+                            Toast.makeText(
+                                    activity,
+                                    activity.getString(
+                                            R.string.delete_failed,
+                                            e.getMessage()
+                                    ),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                );
     }
 
     // =========================================================
@@ -503,7 +537,6 @@ public class ProductAdapter
                     );
 
             if (id.equals(productId)) {
-
                 return i;
             }
         }
@@ -513,10 +546,6 @@ public class ProductAdapter
 
     // =========================================================
     // SORT PRODUCTS
-    // =========================================================
-    //
-    // NEWEST PRODUCTS FIRST
-    //
     // =========================================================
 
     public void sortProducts() {
@@ -531,37 +560,26 @@ public class ProductAdapter
                             Map<String, Object> product2) {
 
                         Date date1 =
-                                getCreatedDate(
-                                        product1
-                                );
+                                getCreatedDate(product1);
 
                         Date date2 =
-                                getCreatedDate(
-                                        product2
-                                );
+                                getCreatedDate(product2);
 
-                        if (
-                                date1 == null
-                                        &&
-                                        date2 == null
-                        ) {
+                        if (date1 == null &&
+                                date2 == null) {
 
                             return 0;
                         }
 
                         if (date1 == null) {
-
                             return 1;
                         }
 
                         if (date2 == null) {
-
                             return -1;
                         }
 
-                        return date2.compareTo(
-                                date1
-                        );
+                        return date2.compareTo(date1);
                     }
                 }
         );
@@ -581,40 +599,22 @@ public class ProductAdapter
         Object createdAt =
                 product.get("createdAt");
 
-        // =====================================================
-        // FIREBASE TIMESTAMP
-        // =====================================================
-
         if (createdAt instanceof Timestamp) {
 
-            return ((Timestamp) createdAt)
-                    .toDate();
+            return ((Timestamp) createdAt).toDate();
         }
-
-        // =====================================================
-        // JAVA DATE
-        // =====================================================
 
         if (createdAt instanceof Date) {
 
             return (Date) createdAt;
         }
 
-        // =====================================================
-        // NUMBER
-        // =====================================================
-
         if (createdAt instanceof Number) {
 
             return new Date(
-                    ((Number) createdAt)
-                            .longValue()
+                    ((Number) createdAt).longValue()
             );
         }
-
-        // =====================================================
-        // STRING TIMESTAMP
-        // =====================================================
 
         if (createdAt != null) {
 
@@ -629,9 +629,7 @@ public class ProductAdapter
 
                 if (time > 0) {
 
-                    return new Date(
-                            time
-                    );
+                    return new Date(time);
                 }
 
             } catch (Exception ignored) {
@@ -650,14 +648,12 @@ public class ProductAdapter
             Map<String, Object> product) {
 
         Date createdDate =
-                getCreatedDate(
-                        product
-                );
+                getCreatedDate(product);
 
         if (createdDate == null) {
 
             holder.txtProductAge.setText(
-                    "Date unavailable"
+                    R.string.date_unavailable
             );
 
             return;
@@ -672,10 +668,7 @@ public class ProductAdapter
         }
 
         long oneDay =
-                24L
-                        * 60L
-                        * 60L
-                        * 1000L;
+                24L * 60L * 60L * 1000L;
 
         long daysPassed =
                 difference / oneDay;
@@ -683,7 +676,7 @@ public class ProductAdapter
         if (daysPassed == 0) {
 
             holder.txtProductAge.setText(
-                    "Added today"
+                    R.string.added_today
             );
 
             return;
@@ -692,7 +685,7 @@ public class ProductAdapter
         if (daysPassed == 1) {
 
             holder.txtProductAge.setText(
-                    "Added 1 day ago"
+                    R.string.added_one_day
             );
 
             return;
@@ -701,24 +694,25 @@ public class ProductAdapter
         if (daysPassed <= 3) {
 
             holder.txtProductAge.setText(
-                    "Added "
-                            + daysPassed
-                            + " days ago"
+                    activity.getString(
+                            R.string.added_days,
+                            daysPassed
+                    )
             );
 
             return;
         }
 
-        SimpleDateFormat dateFormat =
-                new SimpleDateFormat(
+        java.text.SimpleDateFormat dateFormat =
+                new java.text.SimpleDateFormat(
                         "dd MMM yyyy",
                         Locale.getDefault()
                 );
 
         holder.txtProductAge.setText(
-                "Added on "
-                        + dateFormat.format(
-                        createdDate
+                activity.getString(
+                        R.string.added_on,
+                        dateFormat.format(createdDate)
                 )
         );
     }
@@ -744,12 +738,9 @@ public class ProductAdapter
         }
 
         String result =
-                String.valueOf(
-                        value
-                ).trim();
+                String.valueOf(value).trim();
 
         if (result.isEmpty()) {
-
             return defaultValue;
         }
 
@@ -765,8 +756,7 @@ public class ProductAdapter
 
         if (value instanceof Number) {
 
-            return ((Number) value)
-                    .doubleValue();
+            return ((Number) value).doubleValue();
         }
 
         if (value != null) {
@@ -774,9 +764,7 @@ public class ProductAdapter
             try {
 
                 return Double.parseDouble(
-                        String.valueOf(
-                                value
-                        )
+                        String.valueOf(value)
                 );
 
             } catch (Exception ignored) {
@@ -794,22 +782,15 @@ public class ProductAdapter
             Object value) {
 
         if (value == null) {
-
             return "0";
         }
 
         if (value instanceof Number) {
 
             double number =
-                    ((Number) value)
-                            .doubleValue();
+                    ((Number) value).doubleValue();
 
-            if (
-                    number
-                            == Math.floor(
-                            number
-                    )
-            ) {
+            if (number == Math.floor(number)) {
 
                 return String.valueOf(
                         (long) number
@@ -824,23 +805,14 @@ public class ProductAdapter
         }
 
         String text =
-                String.valueOf(
-                        value
-                ).trim();
+                String.valueOf(value).trim();
 
         try {
 
             double number =
-                    Double.parseDouble(
-                            text
-                    );
+                    Double.parseDouble(text);
 
-            if (
-                    number
-                            == Math.floor(
-                            number
-                    )
-            ) {
+            if (number == Math.floor(number)) {
 
                 return String.valueOf(
                         (long) number

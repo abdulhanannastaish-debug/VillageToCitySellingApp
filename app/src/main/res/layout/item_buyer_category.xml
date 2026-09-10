@@ -21,6 +21,13 @@
         android:focusable="true"
         android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/imgCategoryIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="6dp"
+            android:contentDescription="Category Icon" />
+
         <TextView
             android:id="@+id/txtCategoryName"
             android:layout_width="match_parent"
