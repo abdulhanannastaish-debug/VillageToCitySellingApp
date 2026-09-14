@@ -264,7 +264,7 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         // =====================================================
-        // CANCEL
+        // CANCEL ORDER
         // =====================================================
 
         if (btnCancelOrder != null) {
@@ -427,10 +427,6 @@ public class SellerOrderDetailFragment extends Fragment {
 
         // =====================================================
         // QUANTITY
-        //
-        // IMPORTANT:
-        // Firebase quantity Number ho sakta hai.
-        // getString() use nahi karna.
         // =====================================================
 
         String quantity =
@@ -736,42 +732,83 @@ public class SellerOrderDetailFragment extends Fragment {
                                     );
 
                             // =========================================
-                            // PENDING / NEW -> ACCEPTED
+                            // NEW / PENDING
+                            //
+                            // ACCEPT ORDER
                             // =========================================
 
                             if (status.equals("pending") ||
                                     status.equals("new")) {
 
                                 updateOrderStatus(
-                                        "accepted"
+                                        "processing"
                                 );
 
                                 return;
                             }
 
                             // =========================================
-                            // ACCEPTED / PROCESSING -> SHIPPED
+                            // PROCESSING / ACCEPTED
+                            //
+                            // SHIPMENT READY
                             // =========================================
 
                             if (status.equals("accepted") ||
                                     status.equals("processing")) {
 
                                 updateOrderStatus(
-                                        "shipped"
+                                        "shipment_ready"
                                 );
 
                                 return;
                             }
 
                             // =========================================
-                            // SHIPPED -> DELIVERED
+                            // SHIPMENT READY
+                            //
+                            // WAIT FOR ADMIN
+                            // =========================================
+
+                            if (status.equals("shipment_ready")) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Shipment is ready. Waiting for Admin to create delivery.",
+                                        Toast.LENGTH_LONG
+                                ).show();
+
+                                return;
+                            }
+
+                            // =========================================
+                            // SHIPPED
+                            //
+                            // NO SELLER ACTION
                             // =========================================
 
                             if (status.equals("shipped")) {
 
-                                updateOrderStatus(
-                                        "delivered"
-                                );
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Shipment has been handed over to courier.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                return;
+                            }
+
+                            // =========================================
+                            // DELIVERED
+                            // =========================================
+
+                            if (status.equals("delivered") ||
+                                    status.equals("completed")) {
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Order has already been delivered.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
 
                                 return;
                             }
@@ -828,7 +865,7 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         // =====================================================
-        // FIRST READ BUYER ID
+        // READ BUYER ID
         // =====================================================
 
         db.collection("orders")
@@ -862,7 +899,7 @@ public class SellerOrderDetailFragment extends Fragment {
                                     );
 
                             // =========================================
-                            // UPDATE
+                            // UPDATE FIRESTORE
                             // =========================================
 
                             db.collection("orders")
@@ -885,7 +922,7 @@ public class SellerOrderDetailFragment extends Fragment {
                                                 // =================================
 
                                                 if (newStatus.equals(
-                                                        "accepted"
+                                                        "processing"
                                                 )) {
 
                                                     if (!buyerId
@@ -914,13 +951,46 @@ public class SellerOrderDetailFragment extends Fragment {
                                                         newStatus
                                                 );
 
+                                                // =================================
+                                                // SUCCESS MESSAGE
+                                                // =================================
+
+                                                String message;
+
+                                                if (newStatus.equals(
+                                                        "processing"
+                                                )) {
+
+                                                    message =
+                                                            "Order accepted successfully.";
+
+                                                } else if (newStatus.equals(
+                                                        "shipment_ready"
+                                                )) {
+
+                                                    message =
+                                                            "Shipment marked as ready. Admin will create delivery.";
+
+                                                } else if (newStatus.equals(
+                                                        "cancelled"
+                                                )) {
+
+                                                    message =
+                                                            "Order cancelled.";
+
+                                                } else {
+
+                                                    message =
+                                                            "Order status updated to "
+                                                                    + formatStatus(
+                                                                    newStatus
+                                                            );
+                                                }
+
                                                 Toast.makeText(
                                                         requireContext(),
-                                                        "Order status updated to "
-                                                                + formatStatus(
-                                                                newStatus
-                                                        ),
-                                                        Toast.LENGTH_SHORT
+                                                        message,
+                                                        Toast.LENGTH_LONG
                                                 ).show();
                                             }
                                     )
@@ -996,13 +1066,12 @@ public class SellerOrderDetailFragment extends Fragment {
                 normalizeStatus(status);
 
         // =====================================================
-        // PENDING / NEW
+        // NEW / PENDING
         //
         // ACCEPT + CANCEL
         // =====================================================
 
-        if (status.equals("pending") ||
-                status.equals("new")) {
+        if (status.equals("pending")) {
 
             btnOrderAction.setVisibility(
                     View.VISIBLE
@@ -1027,13 +1096,13 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         // =====================================================
-        // ACCEPTED
+        // PROCESSING
         //
-        // MARK AS SHIPPED
+        // SHIPMENT READY
         // =====================================================
 
-        if (status.equals("accepted") ||
-                status.equals("processing")) {
+        if (status.equals("processing") ||
+                status.equals("accepted")) {
 
             btnOrderAction.setVisibility(
                     View.VISIBLE
@@ -1044,7 +1113,7 @@ public class SellerOrderDetailFragment extends Fragment {
             );
 
             btnOrderAction.setText(
-                    "Mark as Shipped"
+                    "Shipment Ready"
             );
 
             btnOrderAction.setEnabled(true);
@@ -1053,9 +1122,34 @@ public class SellerOrderDetailFragment extends Fragment {
         }
 
         // =====================================================
+        // SHIPMENT READY
+        //
+        // WAIT FOR ADMIN
+        // =====================================================
+
+        if (status.equals("shipment_ready")) {
+
+            btnOrderAction.setVisibility(
+                    View.VISIBLE
+            );
+
+            btnCancelOrder.setVisibility(
+                    View.GONE
+            );
+
+            btnOrderAction.setText(
+                    "Waiting for Admin"
+            );
+
+            btnOrderAction.setEnabled(false);
+
+            return;
+        }
+
+        // =====================================================
         // SHIPPED
         //
-        // MARK AS DELIVERED
+        // COURIER HAS THE PARCEL
         // =====================================================
 
         if (status.equals("shipped")) {
@@ -1069,10 +1163,10 @@ public class SellerOrderDetailFragment extends Fragment {
             );
 
             btnOrderAction.setText(
-                    "Mark as Delivered"
+                    "Shipped"
             );
 
-            btnOrderAction.setEnabled(true);
+            btnOrderAction.setEnabled(false);
 
             return;
         }
@@ -1145,8 +1239,22 @@ public class SellerOrderDetailFragment extends Fragment {
                         .toLowerCase()
                         .trim();
 
+        // -----------------------------------------------------
+        // OLD NEW STATUS
+        // -----------------------------------------------------
+
         if (status.equals("new")) {
+
             return "pending";
+        }
+
+        // -----------------------------------------------------
+        // OLD ACCEPTED STATUS
+        // -----------------------------------------------------
+
+        if (status.equals("accepted")) {
+
+            return "accepted";
         }
 
         return status;
@@ -1184,6 +1292,11 @@ public class SellerOrderDetailFragment extends Fragment {
             return "Processing";
         }
 
+        if (status.equalsIgnoreCase("shipment_ready")) {
+
+            return "Shipment Ready";
+        }
+
         if (status.equalsIgnoreCase("shipped")) {
 
             return "Shipped";
@@ -1207,9 +1320,6 @@ public class SellerOrderDetailFragment extends Fragment {
 
     // =========================================================
     // SAFE VALUE
-    //
-    // Firebase mein String / Number / Boolean etc.
-    // kisi bhi type ko safely String mein convert karega.
     // =========================================================
 
     private String getValueAsString(
@@ -1241,8 +1351,6 @@ public class SellerOrderDetailFragment extends Fragment {
 
     // =========================================================
     // NUMBER OR STRING
-    //
-    // quantity / amount / deliveryCharges ke liye.
     // =========================================================
 
     private String getNumberOrString(
@@ -1312,10 +1420,9 @@ public class SellerOrderDetailFragment extends Fragment {
 
         super.onResume();
 
-        /*
-         * Agar user detail screen par wapas aaye
-         * to latest Firebase status load hoga.
-         */
+        // -----------------------------------------------------
+        // Reload latest order status
+        // -----------------------------------------------------
 
         if (db != null &&
                 orderDocumentId != null &&
