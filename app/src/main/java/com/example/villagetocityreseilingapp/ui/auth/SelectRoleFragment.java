@@ -1,5 +1,7 @@
 package com.example.villagetocityreseilingapp.ui.auth;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -19,6 +22,16 @@ import androidx.navigation.Navigation;
 import com.example.villagetocityreseilingapp.R;
 
 public class SelectRoleFragment extends Fragment {
+
+    // =========================================================
+    // CONSTANTS
+    // =========================================================
+
+    private static final String PREF_NAME = "role";
+    private static final String KEY_USER_ROLE = "user_role";
+
+    private static final String ROLE_BUYER = "buyer";
+    private static final String ROLE_SELLER = "seller";
 
     // =========================================================
     // CLICK CONTROL
@@ -50,9 +63,7 @@ public class SelectRoleFragment extends Fragment {
         // =====================================================
 
         CardView cardBuyer =
-                view.findViewById(
-                        R.id.cardBuyer
-                );
+                view.findViewById(R.id.cardBuyer);
 
         if (cardBuyer != null) {
 
@@ -79,20 +90,7 @@ public class SelectRoleFragment extends Fragment {
                             // SAVE BUYER ROLE
                             // ---------------------------------
 
-                            SharedPreferences.Editor editor =
-                                    requireActivity()
-                                            .getSharedPreferences(
-                                                    "role",
-                                                    0
-                                            )
-                                            .edit();
-
-                            editor.putString(
-                                    "user_role",
-                                    "buyer"
-                            );
-
-                            editor.apply();
+                            saveSelectedRole(ROLE_BUYER);
 
                             // ---------------------------------
                             // OPEN LOGIN
@@ -103,8 +101,6 @@ public class SelectRoleFragment extends Fragment {
                                     .navigate(
                                             R.id.action_role_to_login
                                     );
-
-                            unlockClick();
                         }
                 );
             });
@@ -115,9 +111,7 @@ public class SelectRoleFragment extends Fragment {
         // =====================================================
 
         CardView cardSeller =
-                view.findViewById(
-                        R.id.cardSeller
-                );
+                view.findViewById(R.id.cardSeller);
 
         if (cardSeller != null) {
 
@@ -144,20 +138,7 @@ public class SelectRoleFragment extends Fragment {
                             // SAVE SELLER ROLE
                             // ---------------------------------
 
-                            SharedPreferences.Editor editor =
-                                    requireActivity()
-                                            .getSharedPreferences(
-                                                    "role",
-                                                    0
-                                            )
-                                            .edit();
-
-                            editor.putString(
-                                    "user_role",
-                                    "seller"
-                            );
-
-                            editor.apply();
+                            saveSelectedRole(ROLE_SELLER);
 
                             // ---------------------------------
                             // OPEN LOGIN
@@ -168,14 +149,42 @@ public class SelectRoleFragment extends Fragment {
                                     .navigate(
                                             R.id.action_role_to_login
                                     );
-
-                            unlockClick();
                         }
                 );
             });
         }
 
         return view;
+    }
+
+    // =========================================================
+    // SAVE SELECTED ROLE
+    // =========================================================
+
+    private void saveSelectedRole(String role) {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        if (!ROLE_BUYER.equals(role)
+                && !ROLE_SELLER.equals(role)) {
+            return;
+        }
+
+        SharedPreferences preferences =
+                requireActivity()
+                        .getSharedPreferences(
+                                PREF_NAME,
+                                0
+                        );
+
+        preferences.edit()
+                .putString(
+                        KEY_USER_ROLE,
+                        role
+                )
+                .apply();
     }
 
     // =========================================================
@@ -195,7 +204,10 @@ public class SelectRoleFragment extends Fragment {
             return;
         }
 
-        // Original background is preserved.
+        // =====================================================
+        // CREATE GREEN OVERLAY
+        // =====================================================
+
         final GradientDrawable greenOverlay =
                 new GradientDrawable();
 
@@ -207,18 +219,18 @@ public class SelectRoleFragment extends Fragment {
                 )
         );
 
-        // Card corner radius
         greenOverlay.setCornerRadius(
                 dpToPx(14)
         );
 
         // =====================================================
-        // ADD ONLY ONE OVERLAY
+        // ADD OVERLAY AFTER VIEW IS READY
         // =====================================================
 
         view.post(() -> {
 
             if (!isAdded()) {
+                clickLocked = false;
                 return;
             }
 
@@ -234,7 +246,7 @@ public class SelectRoleFragment extends Fragment {
             );
 
             // =================================================
-            // ONE BLINK
+            // SINGLE BLINK ANIMATION
             // =================================================
 
             ValueAnimator animator =
@@ -244,7 +256,6 @@ public class SelectRoleFragment extends Fragment {
                             0
                     );
 
-            // Short single blink
             animator.setDuration(220);
 
             animator.addUpdateListener(
@@ -255,53 +266,67 @@ public class SelectRoleFragment extends Fragment {
                                         animation
                                                 .getAnimatedValue();
 
-                        greenOverlay.setAlpha(
-                                alpha
-                        );
+                        greenOverlay.setAlpha(alpha);
                     }
             );
 
             animator.addListener(
-                    new android.animation.AnimatorListenerAdapter() {
+                    new AnimatorListenerAdapter() {
 
                         @Override
                         public void onAnimationEnd(
-                                android.animation.Animator animation) {
+                                Animator animation) {
 
-                            // ---------------------------------
-                            // REMOVE OVERLAY
-                            // ---------------------------------
-
-                            view.getOverlay().remove(
-                                    greenOverlay
+                            removeOverlayAndContinue(
+                                    view,
+                                    greenOverlay,
+                                    afterBlink
                             );
-
-                            // ---------------------------------
-                            // OPEN NEXT SCREEN
-                            // ---------------------------------
-
-                            if (afterBlink != null) {
-                                afterBlink.run();
-                            }
                         }
 
                         @Override
                         public void onAnimationCancel(
-                                android.animation.Animator animation) {
+                                Animator animation) {
 
-                            view.getOverlay().remove(
-                                    greenOverlay
+                            removeOverlayAndContinue(
+                                    view,
+                                    greenOverlay,
+                                    afterBlink
                             );
-
-                            if (afterBlink != null) {
-                                afterBlink.run();
-                            }
                         }
                     }
             );
 
             animator.start();
         });
+    }
+
+    // =========================================================
+    // REMOVE OVERLAY + CONTINUE
+    // =========================================================
+
+    private void removeOverlayAndContinue(
+            View view,
+            GradientDrawable overlay,
+            Runnable afterBlink) {
+
+        if (view != null) {
+
+            try {
+                view.getOverlay().remove(overlay);
+            } catch (Exception ignored) {
+                // Prevent animation cleanup crash
+            }
+        }
+
+        if (!isAdded()) {
+            clickLocked = false;
+            return;
+        }
+
+        if (afterBlink != null) {
+            afterBlink.run();
+        }
     }
 
     // =========================================================
@@ -321,27 +346,13 @@ public class SelectRoleFragment extends Fragment {
     }
 
     // =========================================================
-    // UNLOCK CLICK
-    // =========================================================
-
-    private void unlockClick() {
-
-        clickHandler.postDelayed(
-                () -> clickLocked = false,
-                500
-        );
-    }
-
-    // =========================================================
     // DESTROY VIEW
     // =========================================================
 
     @Override
     public void onDestroyView() {
 
-        clickHandler.removeCallbacksAndMessages(
-                null
-        );
+        clickHandler.removeCallbacksAndMessages(null);
 
         clickLocked = false;
 
