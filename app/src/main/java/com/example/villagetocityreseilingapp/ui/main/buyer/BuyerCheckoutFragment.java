@@ -118,6 +118,12 @@ public class BuyerCheckoutFragment extends Fragment {
     private static final double LEOPARDS_CHARGES = 180;
 
     // =========================================================
+    // COMMISSION (ADMIN REVENUE)
+    // =========================================================
+
+    private static final double COMMISSION_RATE = 0.03;
+
+    // =========================================================
     // IMAGE LOADING
     // =========================================================
 
@@ -1230,6 +1236,18 @@ public class BuyerCheckoutFragment extends Fragment {
                 productTotal +
                         deliveryCharges;
 
+        // =====================================================
+        // COMMISSION CALCULATION (ADMIN 3%)
+        // Calculated on product total only (not delivery charges,
+        // since delivery charges go to TCS/Leopards, not admin)
+        // =====================================================
+
+        final double commissionAmount =
+                productTotal * COMMISSION_RATE;
+
+        final double sellerPayoutAmount =
+                productTotal - commissionAmount;
+
         db.runTransaction(transaction -> {
 
                     // =================================================
@@ -1558,6 +1576,25 @@ public class BuyerCheckoutFragment extends Fragment {
                     orderData.put(
                             "sellerPaymentStatus",
                             "pending"
+                    );
+
+                    // =================================================
+                    // COMMISSION (ADMIN REVENUE)
+                    // =================================================
+
+                    orderData.put(
+                            "commissionRate",
+                            COMMISSION_RATE
+                    );
+
+                    orderData.put(
+                            "commissionAmount",
+                            commissionAmount
+                    );
+
+                    orderData.put(
+                            "sellerPayoutAmount",
+                            sellerPayoutAmount
                     );
 
                     // =================================================

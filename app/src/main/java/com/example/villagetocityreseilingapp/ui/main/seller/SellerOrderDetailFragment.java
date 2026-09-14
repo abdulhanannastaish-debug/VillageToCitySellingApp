@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.villagetocityreseilingapp.R;
 import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerNotificationHelper;
+import com.bumptech.glide.Glide;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,6 +41,8 @@ public class SellerOrderDetailFragment extends Fragment {
 
     private TextView tvOrderStatus;
     private TextView tvOrderId;
+
+    private ImageView imgProduct;
 
     private TextView tvProductName;
     private TextView tvProductQuantity;
@@ -174,6 +178,15 @@ public class SellerOrderDetailFragment extends Fragment {
         tvOrderId =
                 view.findViewById(
                         R.id.tvOrderId
+                );
+
+        // =====================================================
+        // PRODUCT IMAGE
+        // =====================================================
+
+        imgProduct =
+                view.findViewById(
+                        R.id.imgProduct
                 );
 
         tvProductName =
@@ -409,6 +422,40 @@ public class SellerOrderDetailFragment extends Fragment {
         tvOrderStatus.setText(
                 formatStatus(status)
         );
+
+        // =====================================================
+        // PRODUCT IMAGE
+        // =====================================================
+
+        String productImage =
+                getValueAsString(
+                        document,
+                        "productImage",
+                        ""
+                );
+
+        if (imgProduct != null) {
+
+            if (!productImage.trim().isEmpty()) {
+
+                Glide.with(this)
+                        .load(productImage)
+                        .placeholder(
+                                R.drawable.ic_product
+                        )
+                        .error(
+                                R.drawable.ic_product
+                        )
+                        .centerCrop()
+                        .into(imgProduct);
+
+            } else {
+
+                imgProduct.setImageResource(
+                        R.drawable.ic_product
+                );
+            }
+        }
 
         // =====================================================
         // PRODUCT NAME

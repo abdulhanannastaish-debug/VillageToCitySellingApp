@@ -17,10 +17,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class SellerWalletFragment extends Fragment {
@@ -111,9 +114,8 @@ public class SellerWalletFragment extends Fragment {
             });
         }
 
-        loadWalletData();
         loadPaymentAccount();
-        loadRecentTransactions();
+        loadWalletAndTransactionsFromOrders();
     }
 
     // =========================================================
@@ -128,51 +130,116 @@ public class SellerWalletFragment extends Fragment {
         if (txtPaymentMethod != null) txtPaymentMethod.setText("Not Added");
         if (txtPaymentAccount != null) txtPaymentAccount.setText("No payment account");
         if (txtPaymentAccountStatus != null) txtPaymentAccountStatus.setText("Tap to add payment account");
-        if (txtTransactionAmount1 != null) txtTransactionAmount1.setText("-");
-        if (txtOrderId1 != null) txtOrderId1.setText("No transaction");
-        if (txtOrderDate1 != null) txtOrderDate1.setText("-");
-        if (txtTransactionStatus1 != null) txtTransactionStatus1.setText("-");
-        if (txtTransactionAmount2 != null) txtTransactionAmount2.setText("-");
-        if (txtOrderId2 != null) txtOrderId2.setText("No transaction");
-        if (txtOrderDate2 != null) txtOrderDate2.setText("-");
-        if (txtTransactionStatus2 != null) txtTransactionStatus2.setText("-");
-        if (txtTransactionAmount3 != null) txtTransactionAmount3.setText("-");
-        if (txtOrderId3 != null) txtOrderId3.setText("No transaction");
-        if (txtOrderDate3 != null) txtOrderDate3.setText("-");
-        if (txtTransactionStatus3 != null) txtTransactionStatus3.setText("-");
+        setTransactionEmpty(1);
+        setTransactionEmpty(2);
+        setTransactionEmpty(3);
     }
 
     // =========================================================
-    // LOAD WALLET DATA
+    // LOAD WALLET SUMMARY + RECENT TRANSACTIONS
+    //
+    // Instead of reading from separate "sellerWallets" /
+    // "transactions" collections (which nothing writes to),
+    // this reads directly from the "orders" collection, where
+    // commissionAmount / sellerPayoutAmount / paymentStatus /
+    // sellerPaymentStatus are already saved at checkout time.
+    //
+    // Balance logic:
+    //   - totalEarned   = sum of sellerPayoutAmount for ALL orders
+    //                     that have commission data
+    //   - totalPaid     = sum of sellerPayoutAmount where
+    //                     sellerPaymentStatus == "paid"
+    //   - availableBalance = sum of sellerPayoutAmount where
+    //                     paymentStatus == "received" AND
+    //                     sellerPaymentStatus != "paid"
+    //                     (admin has the cash, payout not sent yet)
+    //   - pendingBalance = sum of sellerPayoutAmount where
+    //                     paymentStatus == "pending"
+    //                     (still waiting for COD to be collected)
     // =========================================================
 
-    private void loadWalletData() {
+    private void loadWalletAndTransactionsFromOrders() {
+
         FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser == null) return;
 
-        String uid = currentUser.getUid();
+        if (currentUser == null) {
+            return;
+        }
 
-        db.collection("sellerWallets").document(uid).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (!isAdded()) return;
+        String sellerId = currentUser.getUid();
 
-                    if (!documentSnapshot.exists()) {
-                        if (txtAvailableBalance != null) txtAvailableBalance.setText("Rs. 0");
-                        if (txtPendingBalance != null) txtPendingBalance.setText("Pending: Rs. 0");
-                        if (txtTotalEarned != null) txtTotalEarned.setText("Rs. 0");
-                        if (txtTotalPaid != null) txtTotalPaid.setText("Rs. 0");
+        db.collection("orders")
+                .whereEqualTo("sellerId", sellerId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+
+                    if (!isAdded()) {
                         return;
                     }
 
-                    Number available = documentSnapshot.getLong("availableBalance");
-                    Number pending = documentSnapshot.getLong("pendingBalance");
-                    Number totalEarned = documentSnapshot.getLong("totalEarned");
-                    Number totalPaid = documentSnapshot.getLong("totalPaid");
+                    double totalEarned = 0;
+                    double totalPaid = 0;
+                    double availableBalance = 0;
+                    double pendingBalance = 0;
 
-                    if (txtAvailableBalance != null) txtAvailableBalance.setText("Rs. " + numberValue(available));
-                    if (txtPendingBalance != null) txtPendingBalance.setText("Pending: Rs. " + numberValue(pending));
-                    if (txtTotalEarned != null) txtTotalEarned.setText("Rs. " + numberValue(totalEarned));
-                    if (txtTotalPaid != null) txtTotalPaid.setText("Rs. " + numberValue(totalPaid));
+                    List<QueryDocumentSnapshot> allOrders =
+                            new ArrayList<>();
+
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+
+                        allOrders.add(document);
+
+                        Object payoutObj =
+                                document.get("sellerPayoutAmount");
+
+                        if (payoutObj == null) {
+                            // Older order placed before commission
+                            // tracking was added — skip it.
+                            continue;
+                        }
+
+                        double payout =
+                                toDouble(payoutObj);
+
+                        String paymentStatus =
+                                safeLowerCase(
+                                        document.getString("paymentStatus")
+                                );
+
+                        String sellerPaymentStatus =
+                                safeLowerCase(
+                                        document.getString("sellerPaymentStatus")
+                                );
+
+                        totalEarned += payout;
+
+                        if (sellerPaymentStatus.equals("paid")) {
+
+                            totalPaid += payout;
+
+                        } else if (paymentStatus.equals("received")) {
+
+                            availableBalance += payout;
+
+                        } else {
+
+                            pendingBalance += payout;
+                        }
+                    }
+
+                    if (txtAvailableBalance != null)
+                        txtAvailableBalance.setText("Rs. " + formatAmount(availableBalance));
+
+                    if (txtPendingBalance != null)
+                        txtPendingBalance.setText("Pending: Rs. " + formatAmount(pendingBalance));
+
+                    if (txtTotalEarned != null)
+                        txtTotalEarned.setText("Rs. " + formatAmount(totalEarned));
+
+                    if (txtTotalPaid != null)
+                        txtTotalPaid.setText("Rs. " + formatAmount(totalPaid));
+
+                    displayRecentTransactions(allOrders);
                 })
                 .addOnFailureListener(e -> {
                     if (!isAdded()) return;
@@ -181,7 +248,109 @@ public class SellerWalletFragment extends Fragment {
     }
 
     // =========================================================
-    // LOAD PAYMENT ACCOUNT
+    // DISPLAY RECENT TRANSACTIONS (TOP 3, NEWEST FIRST)
+    // =========================================================
+
+    private void displayRecentTransactions(
+            List<QueryDocumentSnapshot> allOrders) {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        setTransactionEmpty(1);
+        setTransactionEmpty(2);
+        setTransactionEmpty(3);
+
+        if (allOrders == null || allOrders.isEmpty()) {
+            return;
+        }
+
+        allOrders.sort((a, b) ->
+                Long.compare(
+                        getOrderTimeValue(b),
+                        getOrderTimeValue(a)
+                )
+        );
+
+        int position = 1;
+
+        for (DocumentSnapshot document : allOrders) {
+
+            if (position > 3) break;
+
+            Object payoutObj =
+                    document.get("sellerPayoutAmount");
+
+            if (payoutObj == null) {
+                // Skip orders without commission data
+                continue;
+            }
+
+            String orderId =
+                    document.getString("orderId");
+
+            if (orderId == null || orderId.trim().isEmpty()) {
+                orderId = document.getId();
+            }
+
+            String status =
+                    buildTransactionStatusLabel(
+                            document.getString("paymentStatus"),
+                            document.getString("sellerPaymentStatus")
+                    );
+
+            String date =
+                    getReadableDate(document);
+
+            String amountText =
+                    "+ Rs. " + formatAmount(toDouble(payoutObj));
+
+            if (position == 1) {
+                if (txtOrderId1 != null) txtOrderId1.setText("Order #" + orderId);
+                if (txtOrderDate1 != null) txtOrderDate1.setText(date);
+                if (txtTransactionAmount1 != null) txtTransactionAmount1.setText(amountText);
+                if (txtTransactionStatus1 != null) txtTransactionStatus1.setText(status);
+            } else if (position == 2) {
+                if (txtOrderId2 != null) txtOrderId2.setText("Order #" + orderId);
+                if (txtOrderDate2 != null) txtOrderDate2.setText(date);
+                if (txtTransactionAmount2 != null) txtTransactionAmount2.setText(amountText);
+                if (txtTransactionStatus2 != null) txtTransactionStatus2.setText(status);
+            } else if (position == 3) {
+                if (txtOrderId3 != null) txtOrderId3.setText("Order #" + orderId);
+                if (txtOrderDate3 != null) txtOrderDate3.setText(date);
+                if (txtTransactionAmount3 != null) txtTransactionAmount3.setText(amountText);
+                if (txtTransactionStatus3 != null) txtTransactionStatus3.setText(status);
+            }
+
+            position++;
+        }
+    }
+
+    // =========================================================
+    // TRANSACTION STATUS LABEL
+    // =========================================================
+
+    private String buildTransactionStatusLabel(
+            String paymentStatus,
+            String sellerPaymentStatus) {
+
+        String payment = safeLowerCase(paymentStatus);
+        String sellerPayment = safeLowerCase(sellerPaymentStatus);
+
+        if (sellerPayment.equals("paid")) {
+            return "Paid";
+        }
+
+        if (payment.equals("received")) {
+            return "Ready to Pay";
+        }
+
+        return "Pending";
+    }
+
+    // =========================================================
+    // LOAD PAYMENT ACCOUNT (UNCHANGED)
     // =========================================================
 
     private void loadPaymentAccount() {
@@ -228,67 +397,6 @@ public class SellerWalletFragment extends Fragment {
     }
 
     // =========================================================
-    // LOAD RECENT TRANSACTIONS
-    // =========================================================
-
-    private void loadRecentTransactions() {
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser == null) return;
-
-        String sellerId = currentUser.getUid();
-
-        db.collection("transactions")
-                .whereEqualTo("sellerId", sellerId)
-                .limit(3)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (!isAdded()) return;
-
-                    setTransactionEmpty(1);
-                    setTransactionEmpty(2);
-                    setTransactionEmpty(3);
-
-                    int position = 1;
-
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                        if (position > 3) break;
-
-                        String orderId = document.getString("orderId");
-                        String status = document.getString("status");
-                        Number amount = document.getLong("amount");
-                        String date = getTransactionDate(document);
-
-                        if (orderId == null || orderId.trim().isEmpty()) orderId = document.getId();
-                        if (status == null || status.trim().isEmpty()) status = "Pending";
-
-                        String amountText = "+ Rs. " + numberValue(amount);
-
-                        if (position == 1) {
-                            if (txtOrderId1 != null) txtOrderId1.setText("Order #" + orderId);
-                            if (txtOrderDate1 != null) txtOrderDate1.setText(date);
-                            if (txtTransactionAmount1 != null) txtTransactionAmount1.setText(amountText);
-                            if (txtTransactionStatus1 != null) txtTransactionStatus1.setText(status);
-                        } else if (position == 2) {
-                            if (txtOrderId2 != null) txtOrderId2.setText("Order #" + orderId);
-                            if (txtOrderDate2 != null) txtOrderDate2.setText(date);
-                            if (txtTransactionAmount2 != null) txtTransactionAmount2.setText(amountText);
-                            if (txtTransactionStatus2 != null) txtTransactionStatus2.setText(status);
-                        } else if (position == 3) {
-                            if (txtOrderId3 != null) txtOrderId3.setText("Order #" + orderId);
-                            if (txtOrderDate3 != null) txtOrderDate3.setText(date);
-                            if (txtTransactionAmount3 != null) txtTransactionAmount3.setText(amountText);
-                            if (txtTransactionStatus3 != null) txtTransactionStatus3.setText(status);
-                        }
-                        position++;
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    if (!isAdded()) return;
-                    Toast.makeText(requireContext(), "Failed to load transactions: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
-    }
-
-    // =========================================================
     // EMPTY TRANSACTION — NULL SAFE
     // =========================================================
 
@@ -311,26 +419,83 @@ public class SellerWalletFragment extends Fragment {
         }
     }
 
-    private String getTransactionDate(DocumentSnapshot document) {
+    // =========================================================
+    // HELPERS
+    // =========================================================
+
+    private long getOrderTimeValue(DocumentSnapshot document) {
+
+        Object createdAt = document.get("createdAt");
+
+        if (createdAt instanceof Timestamp) {
+            return ((Timestamp) createdAt).toDate().getTime();
+        }
+
+        Object orderDate = document.get("orderDate");
+
+        if (orderDate != null) {
+            try {
+                return Long.parseLong(String.valueOf(orderDate).trim());
+            } catch (Exception ignored) {
+            }
+        }
+
+        return 0L;
+    }
+
+    private String getReadableDate(DocumentSnapshot document) {
+
         Timestamp timestamp = document.getTimestamp("createdAt");
-        if (timestamp == null) return "Date not available";
+
+        if (timestamp == null) {
+            return "Date not available";
+        }
+
         Date date = timestamp.toDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+
+        SimpleDateFormat formatter =
+                new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+
         return formatter.format(date);
     }
 
-    private long numberValue(Number number) {
-        if (number == null) return 0;
-        return number.longValue();
+    private String safeLowerCase(String value) {
+
+        if (value == null) {
+            return "pending";
+        }
+
+        return value.toLowerCase(Locale.getDefault()).trim();
+    }
+
+    private double toDouble(Object value) {
+
+        if (value instanceof Number) {
+            return ((Number) value).doubleValue();
+        }
+
+        try {
+            return Double.parseDouble(String.valueOf(value));
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private String formatAmount(double amount) {
+
+        if (amount == (long) amount) {
+            return String.valueOf((long) amount);
+        }
+
+        return String.format(Locale.US, "%.2f", amount);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (auth != null) {
-            loadWalletData();
             loadPaymentAccount();
-            loadRecentTransactions();
+            loadWalletAndTransactionsFromOrders();
         }
     }
 }

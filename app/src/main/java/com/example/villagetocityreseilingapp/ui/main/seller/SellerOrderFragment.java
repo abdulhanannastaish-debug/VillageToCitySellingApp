@@ -2,12 +2,12 @@ package com.example.villagetocityreseilingapp.ui.main.seller;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.villagetocityreseilingapp.R;
 import com.example.villagetocityreseilingapp.ui.main.buyer.BuyerNotificationHelper;
 import com.google.firebase.Timestamp;
@@ -463,6 +464,59 @@ public class SellerOrderFragment extends Fragment {
                 orderView.findViewById(R.id.btnOrderStatus);
 
         // =====================================================
+        // CANCEL BUTTON FROM XML
+        // =====================================================
+
+        AppCompatButton btnCancelOrder =
+                orderView.findViewById(
+                        R.id.btnCancelOrder
+                );
+
+        // =====================================================
+        // PRODUCT IMAGE
+        // =====================================================
+
+        ImageView imgProduct =
+                orderView.findViewById(R.id.imgProduct);
+
+        String productImage =
+                getSafeString(
+                        document,
+                        "productImage",
+                        ""
+                );
+
+        // First try Cloudinary imageUrl
+        if (productImage.trim().isEmpty()) {
+
+            productImage =
+                    getSafeString(
+                            document,
+                            "imageUrl",
+                            ""
+                    );
+        }
+
+        if (imgProduct != null) {
+
+            if (!productImage.trim().isEmpty()) {
+
+                Glide.with(orderView)
+                        .load(productImage)
+                        .placeholder(R.drawable.ic_product)
+                        .error(R.drawable.ic_product)
+                        .centerCrop()
+                        .into(imgProduct);
+
+            } else {
+
+                imgProduct.setImageResource(
+                        R.drawable.ic_product
+                );
+            }
+        }
+
+        // =====================================================
         // ORDER ID
         // =====================================================
 
@@ -606,6 +660,15 @@ public class SellerOrderFragment extends Fragment {
         }
 
         // =====================================================
+        // PAYMENT / COMMISSION INFO
+        // =====================================================
+
+        addPaymentInfoView(
+                orderView,
+                document
+        );
+
+        // =====================================================
         // DETAILS
         // =====================================================
 
@@ -641,10 +704,33 @@ public class SellerOrderFragment extends Fragment {
                 );
             }
 
-            addCancelButton(
-                    orderView,
-                    document.getId()
-            );
+            // USE XML CANCEL BUTTON
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.VISIBLE
+                );
+
+                btnCancelOrder.setText(
+                        getString(R.string.cancel_order)
+                );
+                btnCancelOrder.setTextColor(
+                        Color.rgb(198, 40, 40)
+                );
+
+                btnCancelOrder.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(
+                                Color.rgb(255, 235, 238)
+                        )
+                );
+
+
+                btnCancelOrder.setOnClickListener(
+                        v -> cancelOrder(
+                                document.getId()
+                        )
+                );
+            }
         }
 
         // =====================================================
@@ -665,6 +751,13 @@ public class SellerOrderFragment extends Fragment {
                                 document.getId(),
                                 "shipped"
                         )
+                );
+            }
+
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.GONE
                 );
             }
         }
@@ -689,6 +782,13 @@ public class SellerOrderFragment extends Fragment {
                         )
                 );
             }
+
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.GONE
+                );
+            }
         }
 
         // =====================================================
@@ -711,6 +811,13 @@ public class SellerOrderFragment extends Fragment {
                         )
                 );
             }
+
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.GONE
+                );
+            }
         }
 
         // =====================================================
@@ -731,8 +838,17 @@ public class SellerOrderFragment extends Fragment {
 
                 btnOrderStatus.setOnClickListener(
                         v -> showToast(
-                                getString(R.string.order_delivered)
+                                getString(
+                                        R.string.order_delivered
+                                )
                         )
+                );
+            }
+
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.GONE
                 );
             }
         }
@@ -756,8 +872,17 @@ public class SellerOrderFragment extends Fragment {
 
                 btnOrderStatus.setOnClickListener(
                         v -> showToast(
-                                getString(R.string.order_cancelled)
+                                getString(
+                                        R.string.order_cancelled
+                                )
                         )
+                );
+            }
+
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.GONE
                 );
             }
         }
@@ -768,6 +893,13 @@ public class SellerOrderFragment extends Fragment {
                     btnOrderStatus,
                     formatStatus(finalStatus)
             );
+
+            if (btnCancelOrder != null) {
+
+                btnCancelOrder.setVisibility(
+                        View.GONE
+                );
+            }
         }
 
         // =====================================================
@@ -801,6 +933,280 @@ public class SellerOrderFragment extends Fragment {
         }
 
         orderContentContainer.addView(orderView);
+    }
+
+    // =========================================================
+    // PAYMENT INFO VIEW
+    // =========================================================
+
+    private void addPaymentInfoView(
+            View orderView,
+            DocumentSnapshot document) {
+
+        if (!isAdded() ||
+                orderView == null ||
+                document == null) {
+            return;
+        }
+
+        Object commissionObj =
+                document.get("commissionAmount");
+
+        Object payoutObj =
+                document.get("sellerPayoutAmount");
+
+        if (commissionObj == null &&
+                payoutObj == null) {
+            return;
+        }
+
+        LinearLayout targetLayout =
+                findFirstLinearLayout(orderView);
+
+        if (targetLayout == null) {
+            return;
+        }
+
+        String commissionText =
+                getNumberOrString(
+                        document,
+                        "commissionAmount",
+                        "0"
+                );
+
+        String payoutText =
+                getNumberOrString(
+                        document,
+                        "sellerPayoutAmount",
+                        "0"
+                );
+
+        String paymentStatus =
+                getSafeString(
+                        document,
+                        "paymentStatus",
+                        "pending"
+                );
+
+        String sellerPaymentStatus =
+                getSafeString(
+                        document,
+                        "sellerPaymentStatus",
+                        "pending"
+                );
+
+        LinearLayout paymentBox =
+                new LinearLayout(requireContext());
+
+        paymentBox.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+        android.graphics.drawable.GradientDrawable boxBackground =
+                new android.graphics.drawable.GradientDrawable();
+
+        boxBackground.setColor(
+                Color.rgb(240, 247, 240)
+        );
+
+        boxBackground.setCornerRadius(12);
+
+        boxBackground.setStroke(
+                1,
+                Color.rgb(200, 225, 200)
+        );
+
+        paymentBox.setBackground(boxBackground);
+
+        paymentBox.setPadding(
+                20,
+                16,
+                20,
+                16
+        );
+
+        LinearLayout.LayoutParams boxParams =
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+
+        boxParams.setMargins(
+                16,
+                8,
+                16,
+                8
+        );
+
+        paymentBox.setLayoutParams(boxParams);
+
+        TextView commissionLine =
+                new TextView(requireContext());
+
+        commissionLine.setText(
+                "Admin Commission (3%): Rs "
+                        + commissionText
+        );
+
+        commissionLine.setTextSize(13);
+
+        commissionLine.setTextColor(
+                Color.rgb(120, 120, 120)
+        );
+
+        paymentBox.addView(
+                commissionLine
+        );
+
+        TextView payoutLine =
+                new TextView(requireContext());
+
+        payoutLine.setText(
+                "You Will Receive: Rs "
+                        + payoutText
+        );
+
+        payoutLine.setTextSize(14);
+
+        payoutLine.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        payoutLine.setTextColor(
+                Color.rgb(46, 125, 50)
+        );
+
+        LinearLayout.LayoutParams payoutParams =
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+
+        payoutParams.topMargin = 4;
+
+        payoutLine.setLayoutParams(
+                payoutParams
+        );
+
+        paymentBox.addView(
+                payoutLine
+        );
+
+        TextView statusLine =
+                new TextView(requireContext());
+
+        String statusMessage =
+                buildPayoutStatusMessage(
+                        paymentStatus,
+                        sellerPaymentStatus
+                );
+
+        statusLine.setText(statusMessage);
+
+        statusLine.setTextSize(12);
+
+        statusLine.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        statusLine.setTextColor(
+                getPayoutStatusColor(
+                        paymentStatus,
+                        sellerPaymentStatus
+                )
+        );
+
+        LinearLayout.LayoutParams statusParams =
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+
+        statusParams.topMargin = 6;
+
+        statusLine.setLayoutParams(
+                statusParams
+        );
+
+        paymentBox.addView(
+                statusLine
+        );
+
+        targetLayout.addView(
+                paymentBox
+        );
+    }
+
+    // =========================================================
+    // PAYOUT STATUS MESSAGE
+    // =========================================================
+
+    private String buildPayoutStatusMessage(
+            String paymentStatus,
+            String sellerPaymentStatus) {
+
+        String payment =
+                paymentStatus == null
+                        ? "pending"
+                        : paymentStatus
+                        .toLowerCase(Locale.getDefault())
+                        .trim();
+
+        String sellerPayment =
+                sellerPaymentStatus == null
+                        ? "pending"
+                        : sellerPaymentStatus
+                        .toLowerCase(Locale.getDefault())
+                        .trim();
+
+        if (sellerPayment.equals("paid")) {
+
+            return "Payment Status: Paid to You";
+        }
+
+        if (payment.equals("received")) {
+
+            return "Payment Status: Received by Admin (Payout Pending)";
+        }
+
+        return "Payment Status: Pending (Awaiting COD Collection)";
+    }
+
+    // =========================================================
+    // PAYOUT STATUS COLOR
+    // =========================================================
+
+    private int getPayoutStatusColor(
+            String paymentStatus,
+            String sellerPaymentStatus) {
+
+        String payment =
+                paymentStatus == null
+                        ? "pending"
+                        : paymentStatus
+                        .toLowerCase(Locale.getDefault())
+                        .trim();
+
+        String sellerPayment =
+                sellerPaymentStatus == null
+                        ? "pending"
+                        : sellerPaymentStatus
+                        .toLowerCase(Locale.getDefault())
+                        .trim();
+
+        if (sellerPayment.equals("paid")) {
+
+            return Color.rgb(46, 125, 50);
+        }
+
+        if (payment.equals("received")) {
+
+            return Color.rgb(21, 101, 192);
+        }
+
+        return Color.rgb(239, 108, 0);
     }
 
     // =========================================================
@@ -852,7 +1258,9 @@ public class SellerOrderFragment extends Fragment {
                                 showToast(
                                         getString(
                                                 R.string.order_already_status,
-                                                formatStatus(currentStatus)
+                                                formatStatus(
+                                                        currentStatus
+                                                )
                                         )
                                 );
 
@@ -1092,91 +1500,6 @@ public class SellerOrderFragment extends Fragment {
                             );
                         }
                 );
-    }
-
-    // =========================================================
-    // CANCEL BUTTON
-    // =========================================================
-
-    private void addCancelButton(
-            View orderView,
-            String orderId) {
-
-        if (!isAdded() ||
-                orderView == null) {
-            return;
-        }
-
-        LinearLayout targetLayout =
-                findFirstLinearLayout(orderView);
-
-        if (targetLayout == null) {
-            return;
-        }
-
-        TextView cancelButton =
-                new TextView(requireContext());
-
-        cancelButton.setText(
-                getString(R.string.cancel_order)
-        );
-
-        cancelButton.setTextSize(13);
-
-        cancelButton.setGravity(Gravity.CENTER);
-
-        cancelButton.setTextColor(
-                Color.rgb(198, 40, 40)
-        );
-
-        cancelButton.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-        GradientDrawable background =
-                new GradientDrawable();
-
-        background.setColor(
-                Color.rgb(255, 235, 235)
-        );
-
-        background.setCornerRadius(12);
-
-        background.setStroke(
-                1,
-                Color.rgb(229, 57, 53)
-        );
-
-        cancelButton.setBackground(background);
-
-        cancelButton.setPadding(
-                10,
-                8,
-                10,
-                8
-        );
-
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        44
-                );
-
-        params.setMargins(
-                16,
-                8,
-                16,
-                12
-        );
-
-        cancelButton.setLayoutParams(params);
-
-        cancelButton.setOnClickListener(
-                v -> cancelOrder(orderId)
-        );
-
-        targetLayout.addView(cancelButton);
     }
 
     // =========================================================
