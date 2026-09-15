@@ -41,6 +41,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938820309973:android:ff7af4ade61d0dea80635c",
+        "android_client_info": {
+          "package_name": "com.villagetocity.marketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCimAWJbGrxAK48rAr0LjzYBOzYzx8sc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
