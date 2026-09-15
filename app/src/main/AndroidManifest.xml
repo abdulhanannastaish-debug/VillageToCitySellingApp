@@ -13,35 +13,36 @@
         android:theme="@style/Theme.VillageToCityReseilingApp"
         tools:targetApi="31">
 
-        <!-- Logo pehle khulega -->
+        <!-- Logo -->
         <activity
-            android:name=".activity.LogoActivity"
+            android:name="com.example.marketplace.activity.LogoActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <!-- Splash -->
         <activity
-            android:name=".activity.Splash"
+            android:name="com.example.marketplace.activity.Splash"
             android:exported="false" />
 
-        <!-- Login/Signup -->
+        <!-- Login / Signup -->
         <activity
-            android:name=".activity.AuthActivity"
+            android:name="com.example.marketplace.activity.AuthActivity"
             android:exported="false" />
 
         <!-- Buyer -->
         <activity
-            android:name=".activity.buyer_MainActivity"
+            android:name="com.example.marketplace.activity.buyer_MainActivity"
             android:exported="false" />
 
         <!-- Seller -->
         <activity
-            android:name=".activity.seller_MainActivity"
+            android:name="com.example.marketplace.activity.seller_MainActivity"
             android:exported="false" />
 
     </application>
