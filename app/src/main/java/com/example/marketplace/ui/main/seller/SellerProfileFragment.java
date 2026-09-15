@@ -1,0 +1,406 @@
+package com.example.marketplace.ui.main.seller;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
+import com.example.marketplace.LocaleHelper;
+import com.villagetocity.marketplace.R;
+import com.example.marketplace.activity.AuthActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+public class SellerProfileFragment extends Fragment {
+
+    private TextView txtSellerName;
+    private TextView txtSellerStatus;
+    private TextView txtSellerPhone;
+    private TextView txtSellerEmail;
+    private TextView txtSellerAddress;
+    private TextView txtSellerCnic;
+    private TextView txtEditProfile;
+    private TextView txtLogout;
+
+    private View layoutTerms;
+    private View layoutEditProfile;
+    private View layoutChangeLanguage;
+
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
+
+    public SellerProfileFragment() {
+    }
+
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
+
+        return inflater.inflate(
+                R.layout.fragment_seller_profile,
+                container,
+                false
+        );
+    }
+
+    @Override
+    public void onViewCreated(
+            @NonNull View view,
+            @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        txtSellerName =
+                view.findViewById(R.id.txtSellerName);
+        txtSellerStatus =
+                view.findViewById(R.id.txtSellerStatus);
+        txtSellerPhone =
+                view.findViewById(R.id.txtSellerPhone);
+        txtSellerEmail =
+                view.findViewById(R.id.txtSellerEmail);
+        txtSellerAddress =
+                view.findViewById(R.id.txtSellerAddress);
+        txtSellerCnic =
+                view.findViewById(R.id.txtSellerCnic);
+        txtEditProfile =
+                view.findViewById(R.id.txtEditProfile);
+        layoutTerms =
+                view.findViewById(R.id.layoutTerms);
+        layoutEditProfile =
+                view.findViewById(R.id.layoutEditProfile);
+        layoutChangeLanguage =
+                view.findViewById(R.id.layoutChangeLanguage);
+        txtLogout =
+                view.findViewById(R.id.txtLogout);
+
+        clearProfileData();
+
+        // =====================================================
+        // TERMS & CONDITIONS
+        // =====================================================
+
+        layoutTerms.setOnClickListener(v -> {
+
+            if (!isAdded()) return;
+
+            blinkView(layoutTerms, () -> {
+
+                if (!isAdded()) return;
+
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(
+                                R.id.fragment_container,
+                                new SellerTermsFragment()
+                        )
+                        .addToBackStack(null)
+                        .commit();
+            });
+        });
+
+        // =====================================================
+        // EDIT PROFILE
+        // =====================================================
+
+        layoutEditProfile.setOnClickListener(v -> {
+
+            if (!isAdded()) return;
+
+            blinkView(layoutEditProfile, () -> {
+
+                if (!isAdded()) return;
+
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(
+                                R.id.fragment_container,
+                                new SellerEditProfileFragment()
+                        )
+                        .addToBackStack(null)
+                        .commit();
+            });
+        });
+
+        // =====================================================
+        // CHANGE LANGUAGE
+        // =====================================================
+
+        layoutChangeLanguage.setOnClickListener(v -> {
+
+            if (!isAdded()) return;
+
+            blinkView(layoutChangeLanguage, () -> {
+
+                if (!isAdded()) return;
+
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(
+                                R.id.fragment_container,
+                                new SellerChooseLanguageFragment()
+                        )
+                        .addToBackStack(null)
+                        .commit();
+            });
+        });
+
+        // =====================================================
+        // LOGOUT
+        // =====================================================
+
+        txtLogout.setOnClickListener(v -> {
+
+            if (!isAdded()) return;
+
+            showLogoutConfirmation();
+        });
+
+        loadSellerProfile();
+    }
+
+    // =========================================================
+    // BLINK VIEW
+    // =========================================================
+
+    private void blinkView(View view, Runnable afterBlink) {
+
+        if (view == null) return;
+
+        final int originalColor = Color.WHITE;
+        final int blinkColor = Color.parseColor("#E8F5E9");
+
+        view.setBackgroundColor(blinkColor);
+
+        view.postDelayed(() -> {
+
+            if (!isAdded()) return;
+
+            view.setBackgroundColor(originalColor);
+
+            view.postDelayed(() -> {
+
+                if (!isAdded()) return;
+
+                if (afterBlink != null) {
+                    afterBlink.run();
+                }
+
+            }, 100);
+
+        }, 180);
+    }
+
+    // =========================================================
+    // CLEAR PROFILE DATA
+    // =========================================================
+
+    private void clearProfileData() {
+
+        if (txtSellerName != null)
+            txtSellerName.setText("Loading...");
+        if (txtSellerStatus != null)
+            txtSellerStatus.setText("Loading...");
+        if (txtSellerPhone != null)
+            txtSellerPhone.setText("Loading...");
+        if (txtSellerEmail != null)
+            txtSellerEmail.setText("Loading...");
+        if (txtSellerAddress != null)
+            txtSellerAddress.setText("Loading...");
+        if (txtSellerCnic != null)
+            txtSellerCnic.setText("Loading...");
+    }
+
+    // =========================================================
+    // LOGOUT CONFIRMATION
+    // =========================================================
+
+    private void showLogoutConfirmation() {
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Logout",
+                        (dialog, which) -> logoutSeller())
+                .show();
+    }
+
+    // =========================================================
+    // LOGOUT SELLER
+    // =========================================================
+
+    private void logoutSeller() {
+
+        // =====================================================
+        // LANGUAGE RESET — ENGLISH
+        // =====================================================
+
+        LocaleHelper.resetLanguage(requireContext());
+
+        auth.signOut();
+
+        Toast.makeText(
+                requireContext(),
+                "Logged out successfully.",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        Intent intent = new Intent(
+                requireActivity(),
+                AuthActivity.class
+        );
+
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+
+        startActivity(intent);
+        requireActivity().finish();
+    }
+
+    // =========================================================
+    // LOAD SELLER PROFILE
+    // =========================================================
+
+    private void loadSellerProfile() {
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+
+        if (currentUser == null) {
+
+            if (!isAdded()) return;
+
+            txtSellerName.setText("Seller");
+            txtSellerStatus.setText("Not Logged In");
+            txtSellerPhone.setText("N/A");
+            txtSellerEmail.setText("N/A");
+            txtSellerAddress.setText("N/A");
+            txtSellerCnic.setText("N/A");
+
+            Toast.makeText(
+                    requireContext(),
+                    "Seller is not logged in.",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
+        String uid = currentUser.getUid();
+
+        db.collection("sellers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+
+                    if (!isAdded()) return;
+
+                    if (!documentSnapshot.exists()) {
+
+                        txtSellerName.setText("Seller");
+                        txtSellerStatus.setText("Verification Pending");
+                        txtSellerPhone.setText("N/A");
+
+                        if (currentUser.getEmail() != null) {
+                            txtSellerEmail.setText(currentUser.getEmail());
+                        } else {
+                            txtSellerEmail.setText("N/A");
+                        }
+
+                        txtSellerAddress.setText("N/A");
+                        txtSellerCnic.setText("N/A");
+                        return;
+                    }
+
+                    String name = documentSnapshot.getString("name");
+                    String phone = documentSnapshot.getString("phone");
+                    String email = documentSnapshot.getString("email");
+                    String address = documentSnapshot.getString("address");
+                    String cnic = documentSnapshot.getString("cnic");
+                    String status = documentSnapshot.getString("status");
+
+                    if (name != null && !name.trim().isEmpty()) {
+                        txtSellerName.setText(name);
+                    } else {
+                        txtSellerName.setText("Seller");
+                    }
+
+                    if (status != null &&
+                            status.equalsIgnoreCase("verified")) {
+                        txtSellerStatus.setText("Verified Seller");
+                    } else if (status != null &&
+                            status.equalsIgnoreCase("rejected")) {
+                        txtSellerStatus.setText("Verification Rejected");
+                    } else {
+                        txtSellerStatus.setText("Verification Pending");
+                    }
+
+                    if (phone != null && !phone.trim().isEmpty()) {
+                        txtSellerPhone.setText(phone);
+                    } else {
+                        txtSellerPhone.setText("N/A");
+                    }
+
+                    if (email != null && !email.trim().isEmpty()) {
+                        txtSellerEmail.setText(email);
+                    } else if (currentUser.getEmail() != null) {
+                        txtSellerEmail.setText(currentUser.getEmail());
+                    } else {
+                        txtSellerEmail.setText("N/A");
+                    }
+
+                    if (address != null && !address.trim().isEmpty()) {
+                        txtSellerAddress.setText(address);
+                    } else {
+                        txtSellerAddress.setText("N/A");
+                    }
+
+                    if (cnic != null && !cnic.trim().isEmpty()) {
+                        txtSellerCnic.setText(cnic);
+                    } else {
+                        txtSellerCnic.setText("N/A");
+                    }
+
+                })
+                .addOnFailureListener(e -> {
+
+                    if (!isAdded()) return;
+
+                    txtSellerName.setText("Seller");
+                    txtSellerStatus.setText("Unable to load profile");
+                    txtSellerPhone.setText("N/A");
+                    txtSellerEmail.setText("N/A");
+                    txtSellerAddress.setText("N/A");
+                    txtSellerCnic.setText("N/A");
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Failed to load seller profile: "
+                                    + e.getMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
+                });
+    }
+}
