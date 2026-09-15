@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/select_role_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.auth.SelectRoleFragment"
+        android:name="com.example.marketplace.ui.auth.SelectRoleFragment"
         android:label="Select Role"
         tools:layout="@layout/fragment_select_role">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.auth.Login_Fragment"
+        android:name="com.example.marketplace.ui.auth.Login_Fragment"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/forget_password_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.auth.ForgetPasswordFragment"
+        android:name="com.example.marketplace.ui.auth.ForgetPasswordFragment"
         android:label="Forget Password"
         tools:layout="@layout/fragment_forget_password">
         <action
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/signup_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.auth.SignUp_Fragment"
+        android:name="com.example.marketplace.ui.auth.SignUp_Fragment"
         android:label="SignUp"
         tools:layout="@layout/fragment_signup">
         <action
@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/seller_verification_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.main.seller.SellerVerificationFragment"
+        android:name="com.example.marketplace.ui.main.seller.SellerVerificationFragment"
         android:label="Seller Verification"
         tools:layout="@layout/fragment_seller_verification">
         <action
@@ -71,7 +71,7 @@
 
     <fragment
         android:id="@+id/choose_language_fragment"
-        android:name="com.example.villagetocityreseilingapp.ui.main.seller.SellerChooseLanguageFragment"
+        android:name="com.example.marketplace.ui.main.seller.SellerChooseLanguageFragment"
         android:label="Choose Language"
         tools:layout="@layout/fragment_seller_choose_language"/>
 
