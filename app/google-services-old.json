@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "938820309973",
+    "project_id": "admin-panel-383da",
+    "storage_bucket": "admin-panel-383da.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938820309973:android:69983598ceac8ae280635c",
+        "android_client_info": {
+          "package_name": "com.example.villagetocityreseilingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938820309973-alkqmn7vkl2t1fh8ctfr48e3d8s8o2b2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.villagetocityreseilingapp",
+            "certificate_hash": "4fc280f6a6f8e566f7b2094400ef9e2771759fcb"
+          }
+        },
+        {
+          "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCimAWJbGrxAK48rAr0LjzYBOzYzx8sc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
