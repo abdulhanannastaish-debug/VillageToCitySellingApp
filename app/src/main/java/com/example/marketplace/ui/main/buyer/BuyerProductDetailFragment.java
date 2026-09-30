@@ -373,12 +373,27 @@ public class BuyerProductDetailFragment extends Fragment {
 
         // =====================================================
         // STOCK
+        // -----------------------------------------------------
+        // FIX: some products only have "availableStock" set
+        // (e.g. after an order was accepted and only that field
+        // was decremented), while "totalStock" stays at 0.
+        // Read "totalStock" first, and if it's missing/zero,
+        // fall back to "availableStock" so the Add to Cart /
+        // Buy Now buttons don't get incorrectly disabled.
         // =====================================================
 
         availableStock =
                 getIntValue(
                         product.get("totalStock")
                 );
+
+        if (availableStock <= 0) {
+
+            availableStock =
+                    getIntValue(
+                            product.get("availableStock")
+                    );
+        }
 
         // =====================================================
         // MINIMUM ORDER

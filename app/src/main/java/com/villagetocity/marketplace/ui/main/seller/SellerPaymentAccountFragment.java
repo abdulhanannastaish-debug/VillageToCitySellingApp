@@ -1,4 +1,4 @@
-package com.example.marketplace.ui.main.seller;
+package com.villagetocity.marketplace.ui.main.seller;
 
 import android.os.Bundle;
 import android.text.TextUtils;

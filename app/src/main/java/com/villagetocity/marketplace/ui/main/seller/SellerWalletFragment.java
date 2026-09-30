@@ -1,4 +1,4 @@
-package com.example.villagetocityreseilingapp.ui.main.seller;
+package com.villagetocity.marketplace.ui.main.seller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.villagetocityreseilingapp.R;
+import com.villagetocity.marketplace.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -56,6 +56,7 @@ public class SellerWalletFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: replace fragment_seller_wallet with your actual layout file name (without .xml)
         return inflater.inflate(R.layout.fragment_seller_wallet, container, false);
     }
 
