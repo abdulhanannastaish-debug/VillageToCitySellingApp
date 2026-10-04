@@ -1,3 +1,4 @@
+
 package com.example.marketplace.ui.main.seller;
 
 import android.graphics.Color;
@@ -18,7 +19,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.villagetocity.marketplace.R;
-import com.example.marketplace.ui.main.buyer.BuyerNotificationHelper;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -390,30 +390,25 @@ public class SellerOrderFragment extends Fragment {
                         .toLowerCase(Locale.getDefault())
                         .trim();
 
-        if (currentFilter.equals("all")) {
+        switch (currentFilter) {
+            case "all":
 
-            return status.equals("new")
-                    || status.equals("pending");
-        }
+                return status.equals("new")
+                        || status.equals("pending");
+            case "active":
 
-        if (currentFilter.equals("active")) {
+                return status.equals("accepted")
+                        || status.equals("processing")
+                        || status.equals("shipped");
+            case "delivered":
 
-            return status.equals("accepted")
-                    || status.equals("processing")
-                    || status.equals("shipped");
-        }
+                return status.equals("delivered")
+                        || status.equals("completed");
+            case "cancelled":
 
-        if (currentFilter.equals("delivered")) {
-
-            return status.equals("delivered")
-                    || status.equals("completed");
-        }
-
-        if (currentFilter.equals("cancelled")) {
-
-            return status.equals("cancelled")
-                    || status.equals("canceled")
-                    || status.equals("rejected");
+                return status.equals("cancelled")
+                        || status.equals("canceled")
+                        || status.equals("rejected");
         }
 
         return false;
@@ -794,7 +789,7 @@ public class SellerOrderFragment extends Fragment {
                     0,
                     0,
                     0,
-                    16
+                    dpToPx(16)
             );
 
             orderView.setLayoutParams(params);
@@ -879,17 +874,6 @@ public class SellerOrderFragment extends Fragment {
 
                                                 if (!isAdded()) {
                                                     return;
-                                                }
-
-                                                if (!buyerId
-                                                        .trim()
-                                                        .isEmpty()) {
-
-                                                    BuyerNotificationHelper
-                                                            .createOrderAcceptedNotification(
-                                                                    buyerId,
-                                                                    orderId
-                                                            );
                                                 }
 
                                                 showToast(
@@ -1096,6 +1080,12 @@ public class SellerOrderFragment extends Fragment {
 
     // =========================================================
     // CANCEL BUTTON
+    // -----------------------------------------------------------
+    // FIX: height/padding/margins were previously given as raw
+    // pixel numbers (44, 10, 8, 16, 12...). On high-density
+    // screens that rendered as a tiny, clipped-looking button.
+    // Now everything is converted through dpToPx() so it matches
+    // the rest of the UI (which is defined in dp inside the XML).
     // =========================================================
 
     private void addCancelButton(
@@ -1141,33 +1131,35 @@ public class SellerOrderFragment extends Fragment {
                 Color.rgb(255, 235, 235)
         );
 
-        background.setCornerRadius(12);
+        background.setCornerRadius(
+                dpToPx(8)
+        );
 
         background.setStroke(
-                1,
+                dpToPx(1),
                 Color.rgb(229, 57, 53)
         );
 
         cancelButton.setBackground(background);
 
         cancelButton.setPadding(
-                10,
-                8,
-                10,
-                8
+                dpToPx(10),
+                dpToPx(8),
+                dpToPx(10),
+                dpToPx(8)
         );
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        44
+                        dpToPx(44)
                 );
 
         params.setMargins(
-                16,
-                8,
-                16,
-                12
+                dpToPx(16),
+                dpToPx(8),
+                dpToPx(16),
+                dpToPx(12)
         );
 
         cancelButton.setLayoutParams(params);
@@ -1177,6 +1169,24 @@ public class SellerOrderFragment extends Fragment {
         );
 
         targetLayout.addView(cancelButton);
+    }
+
+    // =========================================================
+    // DP TO PX
+    // =========================================================
+
+    private int dpToPx(int dp) {
+
+        if (getContext() == null) {
+            return dp;
+        }
+
+        float density =
+                getResources()
+                        .getDisplayMetrics()
+                        .density;
+
+        return Math.round(dp * density);
     }
 
     // =========================================================
@@ -1601,10 +1611,10 @@ public class SellerOrderFragment extends Fragment {
         noOrders.setGravity(Gravity.CENTER);
 
         noOrders.setPadding(
-                20,
-                60,
-                20,
-                60
+                dpToPx(20),
+                dpToPx(60),
+                dpToPx(20),
+                dpToPx(60)
         );
 
         LinearLayout.LayoutParams params =
