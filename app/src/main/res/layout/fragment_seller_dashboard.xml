@@ -39,16 +39,6 @@
 
             <!-- WELCOME -->
 
-            <TextView
-                android:id="@+id/txtWelcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-6dp"
-                android:text="@string/greeting"
-                android:textColor="#0B0B0B"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-
             <!-- VERIFICATION STATUS -->
 
             <androidx.cardview.widget.CardView
@@ -179,6 +169,15 @@
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
+                            <TextView
+                                android:id="@+id/txtWelcome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-6dp"
+                                android:textColor="#0B0B0B"
+                                android:textSize="26sp"
+                                android:textStyle="bold" />
+
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
@@ -297,8 +296,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="3dp">
+                        app:cardCornerRadius="16dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"

@@ -51,6 +51,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "938820309973-3q3o3dikdqppal6r7eatcbtbh7e3mo7k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.villagetocity.marketplace",
+            "certificate_hash": "503ca4515663c4c9865b980b4f97b87ebb847e33"
+          }
+        },
+        {
           "client_id": "938820309973-c9ncsghbh5tq8i84tb8or0re7pmuer18.apps.googleusercontent.com",
           "client_type": 3
         }

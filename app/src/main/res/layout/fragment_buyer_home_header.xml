@@ -48,37 +48,6 @@
         </LinearLayout>
 
 
-        <!-- ================= CART ================= -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cartCard"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginEnd="8dp"
-            app:cardCornerRadius="26dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white"
-            android:clickable="true"
-            android:focusable="true">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/cartIcon"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_cart"
-                    android:contentDescription="Shopping Cart"
-                    app:tint="@color/green"/>
-
-            </FrameLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
         <!-- ================= NOTIFICATION ================= -->
 
         <androidx.cardview.widget.CardView

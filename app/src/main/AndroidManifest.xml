@@ -15,7 +15,7 @@
 
         <!-- Logo -->
         <activity
-            android:name="com.example.marketplace.activity.LogoActivity"
+            android:name="com.villagetocity.marketplace.activity.LogoActivity"
             android:exported="true">
 
             <intent-filter>
@@ -27,22 +27,22 @@
 
         <!-- Splash -->
         <activity
-            android:name="com.example.marketplace.activity.Splash"
+            android:name="com.villagetocity.marketplace.activity.Splash"
             android:exported="false" />
 
         <!-- Login / Signup -->
         <activity
-            android:name="com.example.marketplace.activity.AuthActivity"
+            android:name="com.villagetocity.marketplace.activity.AuthActivity"
             android:exported="false" />
 
         <!-- Buyer -->
         <activity
-            android:name="com.example.marketplace.activity.buyer_MainActivity"
+            android:name="com.villagetocity.marketplace.activity.buyer_MainActivity"
             android:exported="false" />
 
         <!-- Seller -->
         <activity
-            android:name="com.example.marketplace.activity.seller_MainActivity"
+            android:name="com.villagetocity.marketplace.activity.seller_MainActivity"
             android:exported="false" />
 
     </application>

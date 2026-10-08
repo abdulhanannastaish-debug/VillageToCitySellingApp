@@ -249,39 +249,6 @@
 
                 </LinearLayout>
 
-
-                <!-- ================= WALLET ================= -->
-
-                <LinearLayout
-                    android:id="@+id/layoutWallet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="14dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:src="@drawable/ic_wallet"
-                        app:tint="@color/black"
-                        android:contentDescription="Wallet" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="10dp"
-                        android:padding="16dp"
-                        android:text="My Wallet"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
             </LinearLayout>
 
 

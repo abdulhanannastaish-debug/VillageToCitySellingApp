@@ -1,4 +1,4 @@
-package com.example.marketplace;
+package com.villagetocity.marketplace;
 
 import org.junit.Test;
 
